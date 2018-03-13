@@ -1,0 +1,124 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">CONSULTA CARTEIRA</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Pesquisa</li>
+		<li>/</li>
+		<li><p:link outcome="/ordens/ConsultaCarteira">Consulta Carteira</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+					<div class="card">
+						<h1>Consulta Carteira</h1>
+						<h:form id="frmBotoesCampos">
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton id="botaoPesquisar"
+									action="#{pesquisaCarteirasBean.consultaCarteira}"
+									value="Pesquisar" update="formTable:ordensTable"
+									process="@this 
+										frmBotoesCampos:contaCorretora
+										frmBotoesCampos:siglaAtivo"
+									icon="fa fa-search" />
+
+								<p:commandButton action="#{pesquisaCarteirasBean.limpar}"
+									value="Limpar" update="formTable:ordensTable frmBotoesCampos"
+									icon="fa fa-rotate-left" />
+
+							</p:panelGrid>
+
+							<p:spacer />
+
+							<p:panelGrid id="painelCampos" columns="1" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:inputText placeholder="Pesquisar por Conta de Corretora"
+									id="contaCorretora" size="100" maxlength="150"
+									value="#{pesquisaCarteirasBean.filtro.nomeContaCorretora}" />
+
+								<p:inputText placeholder="Pesquisar por Ativo" id="siglaAtivo"
+									size="20" maxlength="20"
+									value="#{pesquisaCarteirasBean.filtro.siglaAtivo}" />
+
+							</p:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h:form id="formTable">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<div class="card no-margin">
+						<p:dataTable id="ordensTable" var="ordem"
+							value="#{pesquisaCarteirasBean.odsConsultas}" reflow="true"
+							paginator="true" rows="25"
+							emptyMessage="NENHUMA ORDEM ENCONTRADA">
+							<f:facet name="header">
+                                Ordens
+                            </f:facet>
+							<p:column headerText="Ativo" sortBy="#{ordem.ativo.siglaAtivo}">
+								<h:outputText value="#{ordem.ativo}" />
+							</p:column>
+
+							<p:column headerText="Quantidade Total"
+								sortBy="#{ordem.qntTotal}">
+								<h:outputText value="#{ordem.qntTotal}" />
+							</p:column>
+
+							<p:column headerText="Valor Total" sortBy="#{ordem.vrTotal}">
+								<h:outputText value="#{ordem.vrTotal}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Preço médio" sortBy="#{ordem.vrMedio}">
+								<h:outputText value="#{ordem.vrMedio}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Preço BMF" sortBy="#{ordem.vrAtivo}">
+								<h:outputText value="#{ordem.vrAtivo}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

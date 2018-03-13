@@ -1,0 +1,122 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">CADASTRO DE ORDEM</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/ordens/CadastroOrdem">Cadastro de Ordem</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="ordem" value="#{cadastroOrdemBean.ordem}" />
+			<f:event listener="#{cadastroOrdemBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div id="div1" class="ui-g ui-fluid">
+			<h:form id="frmPainel">
+				<div id="div2" class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div class="card no-margin">
+						<h1>Cadastro de Ordem</h1>
+
+						<p:growl id="growl" autoUpdate="true" />
+
+						<p:panelGrid id="panelCampos" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:selectOneMenu id="contaCorretora" style="margin-bottom:10px;"
+								value="#{cadastroOrdemBean.ordem.contaCorretora}"
+								label="Conta de Corretora" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione uma Conta de Corretora" />
+								<f:selectItems
+									value="#{cadastroOrdemBean.todasContasCorretoras}"
+									var="todasContas" itemValue="#{todasContas}"
+									itemLabel="#{todasContas.nomeContaCorretora}" />
+							</p:selectOneMenu>
+
+							<p:calendar id="dataMovimento" label="Data da Ordem"
+								placeholder="Data da Ordem" pattern="dd/MM/yyyy" title="Data"
+								size="10" value="#{cadastroOrdemBean.ordem.dtMovimento}"
+								mask="99/99/9999" />
+
+							<p:selectOneRadio id="ordemDe" label="Tipo de Ordem"
+								value="#{cadastroOrdemBean.ordem.tpOrdem}">
+								<f:selectItem itemLabel="Compra" itemValue="COMPRA" />
+								<f:selectItem itemLabel="Venda" itemValue="VENDA" />
+							</p:selectOneRadio>
+
+							<p:selectOneMenu id="ativo" filter="true" label="Ativo"
+								filterMatchMode="contains" style="margin-bottom:10px;"
+								value="#{cadastroOrdemBean.ordem.ativo}">
+								<f:selectItem itemLabel="Selecione um Ativo" />
+								<f:selectItems value="#{cadastroOrdemBean.todosAtivos}"
+									var="todosAtivos" itemValue="#{todosAtivos}"
+									itemLabel="#{todosAtivos.siglaAtivo}" />
+							</p:selectOneMenu>
+
+							<p:inputText id="numOrdem" label="Número da Ordem"
+								placeholder="Número da Ordem" size="100" maxlength="20"
+								value="#{cadastroOrdemBean.ordem.numeroOrdem}" />
+
+							<p:inputMask id="quantidade" label="Quantidade" size="20" maxlength="20"
+								mask="9?999999999999999" placeHolder="Quantidade" title="Quantidade"
+								value="#{cadastroOrdemBean.ordem.qtMovimentada}" />
+
+							<p:inputText id="valorOperacao" label="Valor Unitário"
+								placeholder="Valor Unitário" size="20" maxlength="20"
+								value="#{cadastroOrdemBean.ordem.vrOperacao}"
+								styleClass="moedaTresDecimais">
+								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+							</p:inputText>
+
+						</p:panelGrid>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+						<div class="card">
+
+							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton id="botaoSalvar" value="Salvar"
+									icon="fa fa-check" action="#{cadastroOrdemBean.salvar}"
+									process="@this panelCampos growl" update="panelCampos growl"
+									onclick="/ordens/CadastroOrdem.xhtml" />
+
+								<p:button type="button" value="Limpar"
+									outcome="/ordens/CadastroOrdem" icon="fa fa-rotate-left" />
+
+								<p:button type="button" value="Pesquisar"
+									outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

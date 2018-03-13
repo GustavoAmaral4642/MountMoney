@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<faces-config version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd">
+
+	<name>primefaces_apollo</name>
+
+	<application>
+		<message-bundle>com.mount.money.Messages</message-bundle>
+
+		<locale-config>
+			<default-locale>pt_BR</default-locale>
+		</locale-config>
+	</application>
+
+	<factory>
+		<exception-handler-factory>
+			com.mount.money.util.jsf.JsfExceptionHandlerFactory</exception-handler-factory>
+	</factory>
+
+	<component>
+		<component-type>org.primefaces.component.ApolloMenu</component-type>
+		<component-class>org.primefaces.apollo.component.menu.ApolloMenu</component-class>
+	</component>
+
+	<render-kit>
+		<renderer>
+			<component-family>org.primefaces.component</component-family>
+			<renderer-type>org.primefaces.component.ApolloMenuRenderer</renderer-type>
+			<renderer-class>org.primefaces.apollo.component.menu.ApolloMenuRenderer</renderer-class>
+		</renderer>
+	</render-kit>
+
+</faces-config>

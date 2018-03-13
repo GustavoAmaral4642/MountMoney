@@ -1,0 +1,135 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">CADASTRO DE CONTA DE CORRETORA</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/contasCorretoras/CadastroContaCorretora">Cadastro de Conta de Corretora</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="contaCorretora" value="#{cadastroContaCorretoraBean.contaCorretora}" />
+			<f:event listener="#{cadastroContaCorretoraBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div id="div1" class="ui-g ui-fluid">
+
+			<h:form id="frmPainel">
+				<div id="div2" class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div id="div3" class="card no-margin">
+					
+						<p:growl id="growl" autoUpdate="true" />
+						
+						<h1>Cadastro de Conta de Corretora</h1>
+						<p:panelGrid id="painelCampos1" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:selectOneRadio id="tipoConta" layout="responsive" columns="2"
+								value="#{cadastroContaCorretoraBean.contaCorretora.tipoContaCorretora}">
+								<f:selectItem itemLabel="Real" itemValue="REAL" />
+								<f:selectItem itemLabel="Simulada" itemValue="SIMULADA" />
+							</p:selectOneRadio>
+
+							<p:inputText id="nomeContaCorretora"
+								placeholder="Nome da Corretora" size="100" maxlength="100"
+								label="Nome da Conta"
+								value="#{cadastroContaCorretoraBean.contaCorretora.nomeContaCorretora}" />
+							<p:inputText id="numeroContaCorretora"
+								placeholder="Número da Conta" size="20" maxlength="20"
+								label="Número da Conta"
+								value="#{cadastroContaCorretoraBean.contaCorretora.numeroContaCorretora}" />
+
+						</p:panelGrid>
+
+						<p:spacer />
+						<p:spacer />
+						
+						<h1>Taxas e Valores</h1>
+
+						<p:panelGrid id="painelCampos2" columns="2" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:inputText id="taxaLiquidacao" label="Taxa de Liquidação (%)"
+								styleClass="moedaQuatroDecimais"
+								placeholder="Taxa de Liquidação (%)" size="10" maxlength="10"
+								value="#{cadastroContaCorretoraBean.contaCorretora.taxaLiquidacao}">
+								<f:convertNumber maxFractionDigits="4" minFractionDigits="4" />
+							</p:inputText>
+
+							<p:inputText id="taxaEmolumentos" label="Taxa de Emolumentos (%)"
+								styleClass="moedaQuatroDecimais"
+								placeholder="Taxa de Emolumentos (%)" size="10" maxlength="10"
+								value="#{cadastroContaCorretoraBean.contaCorretora.taxaEmolumento}">
+								<f:convertNumber maxFractionDigits="4" minFractionDigits="4" />
+							</p:inputText>
+
+							<p:inputText id="valorCorretagem"
+								label="Valor de Corregatem (R$)" size="10" maxlength="10"
+								styleClass="moeda" placeholder="Valor de Corretagem (R$)"
+								value="#{cadastroContaCorretoraBean.contaCorretora.valorCorretagem}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</p:inputText>
+
+							<p:inputText id="valorCustodia" label="Valor de Custódia (R$)"
+								size="10" maxlength="10" styleClass="moeda"
+								placeholder="Valor de Custódia (R$)"
+								value="#{cadastroContaCorretoraBean.contaCorretora.valorCustodia}">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</p:inputText>
+
+						</p:panelGrid>
+					</div>
+				</div>
+
+				<div id="div4" class="ui-g-12 ui-g-nopad">
+					<div id="div5" class="ui-g-12 ui-lg-6" style="padding-top: 0">
+						<div id="div6" class="card">
+
+							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton id="botaoSalvar" value="Salvar"
+									icon="fa fa-check"
+									action="#{cadastroContaCorretoraBean.salvar}"
+									process="@this frmPainel:panelBotoes growl" update="frmPainel:panelBotoes growl"
+									onclick="/contasCorretoras/CadastroContaCorretora.xhtml" />
+
+								<p:button type="button" value="Limpar"
+									outcome="/contasCorretoras/CadastroContaCorretora"
+									icon="fa fa-rotate-left" />
+
+								<p:button type="button" value="Pesquisar"
+									outcome="/contasCorretoras/PesquisaContasCorretoras" icon="fa fa-search" />
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

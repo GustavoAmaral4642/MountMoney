@@ -1,0 +1,112 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">CADASTRO MOVIMENTOS BANCÁRIOS</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/movimentosBancos/CadastroMovimentoBanco">Cadastro Movimentos Bancários</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="movimento"
+				value="#{cadastroMovimentoBancoBean.movimentoBanco}" />
+			<f:event listener="#{cadastroMovimentoBancoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div id="div1" class="ui-g ui-fluid">
+			<h:form id="frmPainel">
+				<div id="div2" class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div class="card no-margin">
+						<h1>Cadastro Movimentos Bancários</h1>
+
+						<p:growl id="growl" autoUpdate="true" />
+
+						<p:panelGrid id="panelCampos" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:calendar id="dataMovimento" label="Data do Movimento"
+								placeholder="Data da Movimento" pattern="dd/MM/yyyy"
+								title="Data" size="10"
+								value="#{cadastroMovimentoBancoBean.movimentoBanco.dataMovimento}"
+								mask="99/99/9999" />
+
+							<p:selectOneRadio id="movimentoDe" label="Tipo de Movimento"
+								value="#{cadastroMovimentoBancoBean.movimentoBanco.tipoMovimento}"
+								layout="responsive" columns="2">
+								<f:selectItem itemLabel="Entrada" itemValue="E" />
+								<f:selectItem itemLabel="Saída" itemValue="S" />
+							</p:selectOneRadio>
+
+							<p:selectOneMenu id="banco" style="margin-bottom:10px;"
+								value="#{cadastroMovimentoBancoBean.movimentoBanco.banco}"
+								label="Banco" filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione um Banco" />
+								<f:selectItems value="#{cadastroMovimentoBancoBean.todosBancos}"
+									var="todosBancos" itemValue="#{todosBancos}"
+									itemLabel="#{todosBancos.nomeBanco} - #{todosBancos.numeroConta}" />
+							</p:selectOneMenu>
+
+							<p:inputText id="valorMovimento" label="Valor do Movimento"
+								placeholder="Valor do Movimento" size="10" maxlength="10"
+								value="#{cadastroMovimentoBancoBean.movimentoBanco.valorMovimento}"
+								styleClass="moeda">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</p:inputText>
+
+
+							<p:inputText id="historico" label="Histórico"
+								placeholder="Histórico" size="100" maxlength="150"
+								value="#{cadastroMovimentoBancoBean.movimentoBanco.historico}" />
+
+
+						</p:panelGrid>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+						<div class="card">
+
+							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton id="botaoSalvar" value="Salvar"
+									icon="fa fa-check" action="#{cadastroMovimentoBancoBean.salvar}"
+									process="@this panelCampos growl" update="panelCampos growl"
+									onclick="/movimentosBancos/CadastroMovimentoBanco.xhtml" />
+
+								<p:button type="button" value="Limpar"
+									outcome="/movimentosBancos/CadastroMovimentoBanco" icon="fa fa-rotate-left" />
+
+								<p:button type="button" value="Pesquisar"
+									outcome="/movimentosBancos/PesquisaMovimentosBancos" icon="fa fa-search" />
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

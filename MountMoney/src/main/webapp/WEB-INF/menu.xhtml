@@ -1,0 +1,62 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pa="http://primefaces.org/apollo">
+
+    <div class="layout-menu-container">
+        <div class="nano">
+            <div class="nano-content menu-scroll-content">
+                <div class="layout-menu-title">MENU</div>
+                <h:form id="menuform">
+                    <pa:menu id="paMenu">
+                        <p:menuitem id="apl_dashboard" value="Dashboard" icon="fa fa-dashboard" outcome="/dashboard"/>
+                        <p:submenu id="sub_mov" label="Movimentos" icon="fa fa-sitemap">
+                            <p:menuitem id="men_mov_ordens" value="Registrar Ordens" icon="fa fa-shopping-cart" outcome="/ordens/PesquisaOrdens" />
+                            <p:menuitem id="men_mov_nota_corretagem" value="Notas de Corretagem" icon="fa fa-file-text-o" outcome="/notasCorretagens/PesquisaNotasCorretagens" />
+                            <p:menuitem id="men_mov_movimento_banco" value="Bancários" icon="fa fa-dollar" outcome="/movimentosBancos/PesquisaMovimentosBancos" />
+                            <p:menuitem id="men_mov_conta_corretora" value="Contas de Corretora" icon="fa fa-bar-chart-o" outcome="/panel" />                           
+                        </p:submenu>
+                        
+						<p:submenu id="sub_cad" label="Cadastros" icon="fa fa-edit">
+                            <p:menuitem id="men_cad_conta_corretora" value="Contas de Corretoras" icon="fa fa-suitcase" outcome="/contasCorretoras/PesquisaContasCorretoras"/>
+                            <p:menuitem id="men_cad_ativo" value="Ativos" icon="fa fa-sitemap" outcome="/ativos/PesquisaAtivos" />
+                            <p:menuitem id="men_cad_banco" value="Bancos" icon="fa fa-bank" outcome="/bancos/PesquisaBancos" />
+                            <p:menuitem id="men_cad_grupo_investidor" value="Grupo de Investidores" icon="fa fa-users" outcome="/404" />                                                        
+                        </p:submenu>
+                        
+                        <p:submenu id="sub_con" label="Consulta" icon="fa fa-search">
+                            <p:menuitem id="men_con_" value="Lucros e Prejuízos" icon="fa fa-thumbs-o-up" outcome="/ordens/ConsultaLucrosPrejuizos" />
+                            <p:menuitem id="men_con_carteira" value="Consulta de Carteira" icon="fa fa-list-alt" outcome="/ordens/ConsultaCarteira" />                                                                                    
+                        </p:submenu>
+                        
+                        <p:submenu id="sub_conf" label="Configurações" icon="fa fa-wrench">
+                            <p:menuitem id="men_conf_usuario" value="Usuários" icon="fa fa-users" outcome="/usuarios/CadastroUsuario" />
+                            <p:menuitem id="men_conf_permissoes_acesso" value="Permissões de Acesso" icon="fa fa-table" />                                                                                    
+                        </p:submenu>
+                        
+                    </pa:menu>
+
+                    <div class="layout-menu-footer">
+                        <div class="layout-menu-footer-title">TASKS</div>
+
+                        <div class="layout-menu-footer-content">
+                            <p:progressBar value="50" labelTemplate="" displayOnly="true"/>
+                            Today
+
+                            <p:progressBar value="80" labelTemplate=""  displayOnly="true"/>
+                            Overall
+                        </div>
+                    </div>
+
+                </h:form>
+                
+                <div class="nano-scroll-footer" />
+            </div>
+        </div>
+    </div>
+
+
+</ui:composition>

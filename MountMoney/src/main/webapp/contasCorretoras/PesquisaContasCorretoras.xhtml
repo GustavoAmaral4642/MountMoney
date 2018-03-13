@@ -1,0 +1,144 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">PESQUISA DE CONTAS DE CORRETORAS</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Pesquisa</li>
+		<li>/</li>
+		<li><p:link outcome="/contasCorretoras/PesquisaContasCorretoras">Pesquisa de Contas de Corretoras</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+					<div class="card">
+						<h1>Pesquisa de Contas de Corretoras</h1>
+						<h:form id="frmBotoesCampos">
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:button outcome="/contasCorretoras/CadastroContaCorretora"
+									type="button" value="Incluir" icon="fa fa-plus" />
+
+								<p:commandButton action="#{pesquisaContasCorretorasBean.limpar}"
+									value="Limpar"
+									update="formTable:contasCorretorasTable frmBotoesCampos"
+									icon="fa fa-rotate-left" />
+
+								<p:commandButton id="botaoPesquisar"
+									action="#{pesquisaContasCorretorasBean.pesquisar}"
+									value="Pesquisar"
+									update="formTable:contasCorretorasTable frmBotoesCampos:nomeContaCorretora"
+									process="@this" icon="fa fa-search" />
+
+							</p:panelGrid>
+
+							<p:spacer />
+
+							<p:panelGrid id="painelCampos" columns="1" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:inputText
+									placeholder="Pesquisar por Nome de Conta de Corretora"
+									id="nomeContaCorretora" size="60"
+									value="#{pesquisaContasCorretorasBean.filtro.nomeContaCorretora}" />
+
+								<p:inputText placeholder="Pesquisar por Número da Conta"
+									id="numeroConta" size="60"
+									value="#{pesquisaContasCorretorasBean.filtro.numeroContaCorretora}" />
+
+							</p:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:form id="formTable">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<div class="card no-margin">
+						<p:dataTable id="contasCorretorasTable" var="contaCorretora"
+							value="#{pesquisaContasCorretorasBean.contasFiltradas}"
+							reflow="true" paginator="true" rows="25"
+							emptyMessage="NENHUM CONTA DE CORRETORA ENCONTRADA">
+							<f:facet name="header">
+                                Bancos
+                            </f:facet>
+							<p:column headerText="Tipo da Conta" sortBy="#{contaCorretora.tipoContaCorretora}">
+								<h:outputText value="#{contaCorretora.tipoContaCorretora}" />
+							</p:column>
+
+							<p:column headerText="Nome da Conta" sortBy="#{contaCorretora.nomeContaCorretora}">
+								<h:outputText value="#{contaCorretora.nomeContaCorretora}" />
+							</p:column>
+
+							<p:column headerText="Número da Conta" sortBy="#{contaCorretora.numeroContaCorretora}">
+								<h:outputText value="#{contaCorretora.numeroContaCorretora}" />
+							</p:column>
+
+							<p:column headerText="Liquidacao(%)" sortBy="#{contaCorretora.taxaLiquidacao}">
+								<h:outputText value="#{contaCorretora.taxaLiquidacao}"
+									styleClass="moedaQuatroDecimais" />
+							</p:column>
+
+							<p:column headerText="Emolumento(%)" sortBy="#{contaCorretora.taxaEmolumento}">
+								<h:outputText value="#{contaCorretora.taxaEmolumento}"
+									styleClass="moedaQuatroDecimais" />
+							</p:column>
+
+							<p:column headerText="Corretagem(R$)" sortBy="#{contaCorretora.valorCorretagem}">
+								<h:outputText value="#{contaCorretora.valorCorretagem}" />
+							</p:column>
+
+							<p:column headerText="Custódia(R$)" sortBy="#{contaCorretora.valorCustodia}">
+								<h:outputText value="#{contaCorretora.valorCustodia}" />
+							</p:column>
+
+							<p:column>
+								<p:button icon="ui-icon-pencil" outcome="/contasCorretoras/CadastroContaCorretora"
+									title="Editar">
+									<f:param name="contaCorretora" value="#{contaCorretora.id}" />
+								</p:button>
+
+								<p:commandButton icon="ui-icon-trash" title="Excluir"
+									id="botaoExcluirContaCorretora" update="contasCorretorasTable"
+									actionListener="#{pesquisaContasCorretorasBean.excluir(contaCorretora)}">
+									<p:confirm header="Exclusão de Conta de Corretora"
+										message="Tem certeza que deseja excluir a conta #{contaCorretora.nomeContaCorretora} - #{contaCorretora.numeroContaCorretora}?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

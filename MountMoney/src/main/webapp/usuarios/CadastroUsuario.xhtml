@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">CADASTRO DE USUÁRIO</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/usuarios/CadastroUsuario">Cadastro de Usuário</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12 ui-lg-6">
+				<!-- Left Side -->
+				<div class="card no-margin">
+					<h1>Cadastro de Usuário</h1>
+					<p:panelGrid columns="1" layout="grid"
+						style="border:0px !important; background:none;"
+						styleClass="ui-panelgrid-blank">
+
+						<p:inputText placeholder="Nome do Usuário" />
+						<p:inputText placeholder="E-mail" />
+						<p:password placeholder="Senha"/>
+
+					</p:panelGrid>
+				</div>
+			</div>
+			
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+					<div class="card">
+						<h:form>
+							<p:panelGrid columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton type="button" value="Salvar" icon="fa fa-check" />
+
+								<p:commandButton type="button" value="Limpar"
+									icon="fa fa-rotate-left" />
+
+								<p:commandButton type="button" value="Pesquisar"
+									icon="fa fa-search" />
+
+							</p:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

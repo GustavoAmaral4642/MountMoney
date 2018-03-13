@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">CADASTRO DE BANCO</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/bancos/CadastroBanco">Cadastro de Banco</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="banco" value="#{cadastroBancoBean.banco}" />
+			<f:event listener="#{cadastroBancoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div id="div1" class="ui-g ui-fluid">
+			<h:form id="frmPainel">
+				<div id="div2" class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div class="card no-margin">
+						<h1>Cadastro de Banco</h1>
+
+						<p:growl id="growl" autoUpdate="true" />
+
+						<p:panelGrid id="panelCampos" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:selectOneRadio id="tipoBanco" label="Tipo do Banco"
+								value="#{cadastroBancoBean.banco.tipoBanco}" layout="responsive"
+								columns="2">
+								<f:selectItem itemLabel="Financeiro" itemValue="FINANCEIRO" />
+								<f:selectItem itemLabel="Caixa" itemValue="CAIXA" />								
+							</p:selectOneRadio>
+
+							<p:inputText id="nomeBanco" label="Nome do Banco" placeholder="Nome do Banco" size="60"
+								maxlength="80" value="#{cadastroBancoBean.banco.nomeBanco}" />
+
+							<p:inputText id="numeroAgencia" label="Número da Agência" placeholder="Número da Agência"
+								size="20" maxlength="20"
+								value="#{cadastroBancoBean.banco.numeroAgencia}" />
+
+							<p:inputText id="numeroConta" label="Número da Conta" placeholder="Número da Conta"
+								size="20" maxlength="20"
+								value="#{cadastroBancoBean.banco.numeroConta}" />
+
+							<p:inputText id="valorInicial" label="Valor Inicial" placeholder="Valor Inicial"
+								size="10" maxlength="10"
+								value="#{cadastroBancoBean.banco.valorInicial}"
+								styleClass="moeda">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</p:inputText>
+
+						</p:panelGrid>
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-g-nopad">
+					<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+						<div class="card">
+
+							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton id="botaoSalvar" value="Salvar"
+									icon="fa fa-check" action="#{cadastroBancoBean.salvar}"
+									process="@this panelCampos growl" update="panelCampos growl"
+									onclick="/bancos/CadastroBanco.xhtml" />
+
+								<p:button type="button" value="Limpar"
+									outcome="/bancos/CadastroBanco" icon="fa fa-rotate-left" />
+
+								<p:button type="button" value="Pesquisar"
+									outcome="/bancos/PesquisaBancos" icon="fa fa-search" />
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
