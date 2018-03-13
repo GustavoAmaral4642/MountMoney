@@ -1,0 +1,74 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroBancoBean.editando ? 'Edição de bancos' : 'Novo banco'}</ui:define>
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<o:viewParam name="banco" value="#{cadastroBancoBean.banco}" />
+			<f:event listener="#{cadastroBancoBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frmCadastroBanco">
+			<h1>#{cadastroBancoBean.editando ? 'Edição de bancos' : 'Novo
+				banco'}</h1>
+
+			<p:growl autoUpdate="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/bancos/CadastroBanco"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+					<p:commandButton value="Salvar" id="botaoSalvar"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;"
+						action="#{cadastroBancoBean.salvar}" update="@form"
+						process="@form" />
+					<p:button value="Pesquisa" outcome="/bancos/PesquisaBancos"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painelCadastroBanco"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Tipo do banco" for="tipoBanco" />
+				<p:selectOneRadio id="tipoBanco" styleClass="sem-bordas"
+					layout="lineDirection" value="#{cadastroBancoBean.banco.tipoBanco}">
+					<f:selectItem itemLabel="Financeiro" itemValue="FINANCEIRO" />
+					<f:selectItem itemLabel="Caixa" itemValue="CAIXA" />
+				</p:selectOneRadio>
+
+				<p:outputLabel value="Nome do banco" for="nomeBanco" />
+				<p:inputText id="nomeBanco" size="60" maxlength="80"
+					value="#{cadastroBancoBean.banco.nomeBanco}" />
+
+				<p:outputLabel value="Número da agência" for="numeroAgencia" />
+				<p:inputText id="numeroAgencia" size="20" maxlength="20"
+					value="#{cadastroBancoBean.banco.numeroAgencia}" />
+
+				<p:outputLabel value="Número da conta" for="numeroConta" />
+				<p:inputText id="numeroConta" size="20" maxlength="20"
+					value="#{cadastroBancoBean.banco.numeroConta}" />
+
+				<p:outputLabel value="Valor inicial" for="valorInicial" />
+				<p:inputText id="valorInicial" size="10" maxlength="10"
+					value="#{cadastroBancoBean.banco.valorInicial}" styleClass="moeda">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+
+			</p:panelGrid>
+			<style>
+.sem-bordas td {
+	border: none;
+	padding: 5px;
+}
+</style>
+		</h:form>
+	</ui:define>
+</ui:composition>

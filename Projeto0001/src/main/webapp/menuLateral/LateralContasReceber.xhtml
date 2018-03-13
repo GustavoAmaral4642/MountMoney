@@ -1,0 +1,27 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="westMenu">
+
+		<h:form >
+			<p:growl autoUpdate="true" />
+
+			<p:panelMenu style="width:190px" stateful="true" >
+				<p:submenu label="Digitação" >
+					<p:menuitem value="Digitar títulos" icon="fa fa-file"  />
+					<p:menuitem value="Recebimento de títulos" icon="fa fa-dollar"  />
+					<p:menuitem value="Alteração de títulos" icon="fa fa-edit" />
+					<p:menuitem value="Exclusão de títulos" icon="fa fa-trash-o"  />					
+				</p:submenu>
+				<p:submenu label="Consultas">
+					<p:menuitem value="Consulta de títulos" icon="fa fa-search"  />							
+				</p:submenu>				
+			</p:panelMenu>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>

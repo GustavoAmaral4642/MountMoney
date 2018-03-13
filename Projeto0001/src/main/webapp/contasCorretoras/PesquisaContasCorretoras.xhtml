@@ -1,0 +1,95 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa contas de corretoras</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="frmPesquisa">
+			<h1>Pesquisa contas</h1>
+
+			<p:toolbar style="margin-top: 20px; margin-bottom:15px">
+				<p:toolbarGroup>
+					<p:button value="Cadastrar" outcome="/contasCorretoras/CadastroContaCorretora"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Limpar"
+						action="#{pesquisaContasCorretorasBean.limpar}" update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Pesquisar"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;"
+						action="#{pesquisaContasCorretorasBean.pesquisar}" update="@form"
+						process="@form" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Nome da corretora" for="nomeContaCorretora" />
+				<p:inputText id="nomeContaCorretora" size="100"
+					value="#{pesquisaContasCorretorasBean.filtro.nomeContaCorretora}" />
+
+				<p:outputLabel value="Número da conta" for="numeroContaCorretora" />
+				<p:inputText id="numeroContaCorretora" size="20"
+					value="#{pesquisaContasCorretorasBean.filtro.numeroContaCorretora}" />
+			</p:panelGrid>
+
+			<p:dataTable id="contasTable"
+				value="#{pesquisaContasCorretorasBean.contasFiltradas}" var="conta"
+				style="margin-top: 20px" emptyMessage="Nenhuma conta encontrada."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+				<f:facet name="header">
+					Contas de corretoras
+				</f:facet>
+				<p:column headerText="Tipo da conta"
+					style="width: 100px; text-align: center">
+					<h:outputText value="#{conta.tipoContaCorretora}" />
+				</p:column>
+				<p:column headerText="Nome da corretora" style="text-align: center">
+					<h:outputText value="#{conta.nomeContaCorretora}" />
+				</p:column>
+				<p:column headerText="Número da conta" style="text-align: center">
+					<h:outputText value="#{conta.numeroContaCorretora}" />
+				</p:column>
+				<p:column headerText="Emolumento(%)" style="text-align: center">
+					<h:outputText value="#{conta.taxaEmolumento}" styleClass="moedaQuatroDecimais"/>
+				</p:column>
+				<p:column headerText="ISS(%)" style="text-align: center">
+					<h:outputText value="#{conta.taxaLiquidacao}" />
+				</p:column>
+				<p:column headerText="Corretagem(R$)" style="text-align: center">
+					<h:outputText value="#{conta.valorCorretagem}" />
+				</p:column>
+				<p:column headerText="Custódia(R$)" style="text-align: center">
+					<h:outputText value="#{conta.valorCustodia}" />
+				</p:column>
+				<p:column style="width: 100px; text-align: center">
+					<p:button outcome="/contasCorretoras/CadastroContaCorretora" icon="ui-icon-pencil"
+						title="Editar">
+						<f:param name="conta" value="#{conta.id}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						update="contasTable" id="botaoExcluirConta"
+						actionListener="#{pesquisaContasCorretorasBean.excluir(conta)}">
+						<p:confirm header="Exclusão de contas de corretoras"
+							message="Tem certeza que deseja excluir a conta`#{conta.nomeContaCorretora}`?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>			
+		</h:form>
+	</ui:define>
+</ui:composition>

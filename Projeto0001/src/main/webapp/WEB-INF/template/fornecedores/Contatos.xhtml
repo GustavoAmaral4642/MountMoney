@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" columnClasses="rotulo, campo"
+		style="margin-top: 20px">
+		<p:commandButton value="Adicionar contato" style="margin-top: 20px"
+			onclick="inclusaoContatoDialog.show(); return false;"/>
+	</p:panelGrid>
+
+	<p:dataTable value="#{cadastroFornecedorBean.contatos}" var="contatoFornecedor" 
+		id="telefonesTable" style="margin-top: 5px" emptyMessage="Nenhum contato encontrado.">
+		
+		<p:column headerText="Tipo do contato">
+			<h:outputText value="#{contatoFornecedor.contato}" />
+		</p:column>
+
+		<p:column headerText="Número/endereço">
+			<h:outputText value="#{contatoFornecedor.endereco}" />
+		</p:column>
+
+		<p:column headerText="Nome do contato">
+			<h:outputText value="#{contatoFornecedor.nomeContato}" />
+		</p:column>
+
+		<p:column style="text-align: center; width: 50px">
+			<p:commandButton icon="ui-icon-trash" update="telefonesTable"
+				process="@this" action="#{cadastroFornecedorBean.removeContato}">
+				<f:setPropertyActionListener value="#{contatoFornecedor}" target="#{cadastroFornecedorBean.contato}"/>
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>
+	
+	<p:dialog header="Inclusão de contatos"
+		widgetVar="inclusaoContatoDialog" resizable="false" modal="true"
+		minimizable="true" maximizable="true" id="contatoDialog">
+
+		<h:panelGrid columns="2" id="panelContato">
+			<p:outputLabel value="Tipo do contato" />
+			<p:inputText size="40" maxlength="60"
+				value="#{cadastroFornecedorBean.contato.contato}" />
+
+			<p:outputLabel value="Endereço" />
+			<p:inputText size="40" maxlength="60" value="#{cadastroFornecedorBean.contato.endereco}" />
+
+			<p:outputLabel value="Nome do contato" />
+			<p:inputText size="60" maxlength="60" 
+			value="#{cadastroFornecedorBean.contato.nomeContato}"/>
+			
+			<p:spacer />
+			<h:panelGroup>
+				<p:commandButton value="Incluir" action="#{cadastroFornecedorBean.adicionaContato}"  
+					update="telefonesTable contatoDialog panelContato" oncomplete="inclusaoContatoDialog.hide()" />
+				<p:commandButton value="Cancelar" action="#{cadastroFornecedorBean.limparContato}" oncomplete="inclusaoContatoDialog.hide()"
+					update="contatoDialog"/>			
+			</h:panelGroup>
+		</h:panelGrid>
+	</p:dialog>
+
+	<p:confirmDialog header="Exclusão de Contato"
+		message="Tem certeza que deseja excluir este contato"
+		widgetVar="confirmacao">
+
+		<p:button value="Não" onclick="confirmacao.hide(); return false;" />
+		<p:commandButton value="Sim" update="telefonesTable"
+			oncomplete="confirmacao.hide()" />
+
+	</p:confirmDialog>
+
+</ui:composition>

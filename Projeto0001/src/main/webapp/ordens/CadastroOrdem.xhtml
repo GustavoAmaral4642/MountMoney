@@ -1,0 +1,146 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroOrdemBean.editando ? 'Edição de ordem' : 'Nova ordem'}</ui:define>
+
+	<ui:define name="corpo" class="ui-g-12 ui-md-6 ui-lg-3 ui-sm-6">
+		<div class="ui-g-12">
+
+			<f:metadata>
+				<o:viewParam name="ordem" value="#{cadastroOrdemBean.ordem}" />
+				<f:event listener="#{cadastroOrdemBean.inicializar}"
+					type="preRenderView" />
+			</f:metadata>
+
+			<h:form id="frmCadastroOrdem">
+
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" style="width: 70%" id="painalBotoes"
+						columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid"
+						styleClass="ui-panelgrid-blank">
+
+						<h1>#{cadastroOrdemBean.editando ? 'Edição de compra' : 'Nova
+							compra'}</h1>
+
+						<h:panelGroup style="float: right" id="painelEsquerdo">
+							<p:commandButton id="botaoSalvar" icon="fa fa-check"
+								title="Salvar" action="#{cadastroOrdemBean.salvar}"
+								style="margin-left: 10px; width: 35px; height: 35px"
+								process="@form" update="@form"
+								onclick="/ordens/CadastroOrdem.xhtml" />
+
+							<p:button outcome="/ordens/CadastroOrdem" icon="fa fa-recycle"
+								title="Limpar"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+							<p:button outcome="/ordens/PesquisaOrdens" icon="fa fa-search"
+								style="margin-left: 10px; width: 35px; height: 35px"
+								title="Pesquisar" />
+
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</div>
+
+				<p:growl autoUpdate="true" />
+
+				<div class="ui-fluid">
+
+					<p:panelGrid columns="2" id="painelCadastroOrdemCompra"
+						styleClass="ui-panelgrid-blank" layout="grid"
+						style="width: 70%; margin-top: 20px"
+						columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+						<p:spacer />
+						<p:spacer />
+
+						<p:spacer />
+						<p:spacer />
+
+						<p:outputLabel value="Conta de corretora" for="contaCorretora" />
+						<p:selectOneMenu id="contaCorretora"
+							value="#{cadastroOrdemBean.ordem.contaCorretora}">
+							<f:selectItem itemLabel="Selecione uma conta" />
+							<f:selectItems value="#{cadastroOrdemBean.todasContasCorretoras}"
+								var="todasContas" itemValue="#{todasContas}"
+								itemLabel="#{todasContas.nomeContaCorretora}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Data do movimento" for="dataMovimento" />
+						<p:calendar id="dataMovimento" size="10" pattern="dd/MM/yyyy"
+							value="#{cadastroOrdemBean.ordem.dtMovimento}" mask="99/99/9999" />
+
+						<p:outputLabel value="Ordem de " for="ordemDe" />
+						<p:selectOneRadio id="ordemDe" styleClass="sem-bordas"
+							layout="lineDirection" value="#{cadastroOrdemBean.ordem.tpOrdem}">
+							<f:selectItem itemLabel="Compra" itemValue="COMPRA" />
+							<f:selectItem itemLabel="Venda" itemValue="VENDA" />
+							<p:ajax event="change"
+								update="grupoLabelValor, grupoLabelQnt"
+								process="@this" />
+						</p:selectOneRadio>
+
+						<p:outputLabel value="Selecione o ativo" for="ativo" />
+						<p:selectOneMenu id="ativo"
+							value="#{cadastroOrdemBean.ordem.ativo}">
+							<f:selectItem itemLabel="Selecione um ativo" />
+							<f:selectItems value="#{cadastroOrdemBean.todosAtivos}"
+								var="todosAtivos" itemValue="#{todosAtivos}"
+								itemLabel="#{todosAtivos.siglaAtivo}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Número da ordem" for="numOrdem" />
+						<p:inputText id="numOrdem" size="20" maxlength="20"
+							value="#{cadastroOrdemBean.ordem.numeroOrdem}" />
+
+						<h:panelGroup id="grupoLabelQnt">
+							<p:outputLabel value="Quantidade comprada" for="quantidade"
+								rendered="#{cadastroOrdemBean.ordem.tpOrdem eq 'COMPRA'}" />
+							<p:outputLabel value="Quantidade vendida" for="quantidade"
+								rendered="#{cadastroOrdemBean.ordem.tpOrdem eq 'VENDA'}" />
+						</h:panelGroup>
+
+						<p:inputMask id="quantidade" size="20" maxlength="20"
+							mask="9?999999999999999" placeHolder=""
+							value="#{cadastroOrdemBean.ordem.qtMovimentada}" />
+
+						<h:panelGroup id="grupoLabelValor">
+							<p:outputLabel value="Valor compra" for="valorOperacao"
+								rendered="#{cadastroOrdemBean.ordem.tpOrdem eq 'COMPRA'}" />
+							<p:outputLabel value="Valor venda" for="valorOperacao"
+								rendered="#{cadastroOrdemBean.ordem.tpOrdem eq 'VENDA'}" />
+						</h:panelGroup>
+
+						<p:inputText id="valorOperacao" size="20" maxlength="20"
+							value="#{cadastroOrdemBean.ordem.vrOperacao}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Vendido" />
+
+						<h:panelGroup id="grupoMarcacaoVenda">
+							<p:selectBooleanCheckbox id="checkHabilitado"
+								value="#{cadastroOrdemBean.ordem.bVendido}"
+								rendered="#{cadastroOrdemBean.ordem.tpOrdem eq 'COMPRA'}" />
+							<p:selectBooleanCheckbox id="checkDesabilitado"
+								value="#{cadastroOrdemBean.ordem.bVendido}"
+								rendered="#{cadastroOrdemBean.ordem.tpOrdem eq 'VENDA'}" />
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</h:form>
+		</div>
+		<style>
+.sem-bordas td {
+	border: none;
+	padding: 5px;
+}
+</style>
+	</ui:define>
+</ui:composition>
+

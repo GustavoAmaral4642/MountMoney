@@ -1,0 +1,150 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa Movimentações de Contas de Corretoras</ui:define>
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<f:event listener="#{pesquisaMovimentosBolsasBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frmPesquisa">
+			<h1>Pesquisa Movimentações de Contas de Corretoras</h1>
+
+			<p:growl autoUpdate="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Cadastrar"
+						outcome="/movimentosBolsas/CadastroMovimentoBolsa"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Limpar"
+						action="#{pesquisaMovimentosBolsasBean.limpar}" update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Pesquisa"
+						action="#{pesquisaMovimentosBolsasBean.pesquisar}"
+						update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Conta da corretora" for="contaCorretora" />
+				<p:selectOneMenu id="contaCorretora"
+					value="#{pesquisaMovimentosBovespasBean.filtro.contaCorretora}">
+					<f:selectItem itemLabel="Selecione uma conta" />
+					<f:selectItems
+						value="#{pesquisaMovimentosBovespasBean.todasContasCorretoras}"
+						var="todasContasCorretoras" itemValue="#{todasContasCorretoras}"
+						itemLabel="#{todasContasCorretoras.nomeContaCorretora}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Data do movimento" />
+				<h:panelGroup>
+					<p:calendar size="10" pattern="dd/MM/yyyy"
+						value="#{pesquisaMovimentosBovespasBean.filtro.dataMovimentoDe}" />
+						a
+					<p:calendar size="10" pattern="dd/MM/yyyy"
+						value="#{pesquisaMovimentosBovespasBean.filtro.dataMovimentoAte}" />
+				</h:panelGroup>
+			</p:panelGrid>
+
+			<p:panelGrid columns="6" id="painelTotal"
+				style="width: 100%; margin-top: 20px"
+				columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+
+				<p:outputLabel value="Valores debitados" for="debito" />
+				<p:inputText id="debito" size="20" maxlength="20" readonly="true"
+					style="color: red" styleClass="moeda"
+					value="#{pesquisaMovimentosBovespasBean.valoresDebitados}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+
+				<p:outputLabel value="Valores creditados" for="credito" />
+				<p:inputText id="credito" size="20" maxlength="20" readonly="true"
+					style="color: blue" styleClass="moeda"
+					value="#{pesquisaMovimentosBovespasBean.valoresCreditados}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+
+				<p:outputLabel value="Valores totais" for="total" />
+				<p:inputText id="total" size="20" maxlength="20" readonly="true"
+					value="#{pesquisaMovimentosBovespasBean.valoresTotais}"
+					styleClass="moeda">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+			</p:panelGrid>
+
+			<p:dataTable id="movimentosTable"
+				value="#{pesquisaMovimentosBovespasBean.movimentosFiltrados}"
+				var="movimento" style="margin-top: 20px"
+				emptyMessage="Nenhum movimento encontrado." rows="20"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Conta da corretora"
+					style="text-align: center; width: 150px">
+					<h:outputText
+						value="#{movimento.contaCorretora.nomeContaCorretora}" />
+				</p:column>
+				<p:column headerText="Movimento de"
+					style="text-align: center; width: 100px">
+					<h:outputText rendered="#{movimento.tipoMovimento eq 'S'}"
+						value="Saída" />
+					<h:outputText rendered="#{movimento.tipoMovimento eq 'E'}"
+						value="Entrada" />
+				</p:column>
+				<p:column headerText="Data" style="text-align: center; width: 100px">
+					<h:outputText value="#{movimento.dataMovimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Valor do movimento"
+					style="text-align: center; width: 150px">
+					<h:outputText value="#{movimento.valorMovimento}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Histórico" style="text-align: center">
+					<h:outputText value="#{movimento.historico}" />
+				</p:column>
+
+				<p:column style="text-align: center; width: 100px">
+					<p:button outcome="/movimentosBolsas/CadastroMovimentoBolsa"
+						icon="ui-icon-pencil" title="Editar">
+						<f:param name="movimento" value="#{movimento.id}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						update="movimentosTable" id="botaoExcluirMovimento"
+						actionListener="#{pesquisaMovimentosBolsasBean.excluir(movimento)}">
+						<p:confirm header="Exclusão de movimentos"
+							message="Tem certeza que deseja excluir o movimento da conta `#{movimento.contaCorretora.nomeContaCorretora}`, 
+							valor `#{movimento.valorMovimento}`?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

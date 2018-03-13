@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">Mount Money</ui:insert></title>
+
+	<h:outputStylesheet library="css" name="sistema.css" />
+	<h:outputScript library="js" name="jquery.maskMoney.js" />
+</h:head>
+
+<h:body>
+
+	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+		<f:facet name="start">
+			<h:graphicImage library="images" name="loading.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+	<header>
+
+	<div style="float: left" class="ui-g ui-lg-2 ui-md-2 ui-sm-2">
+
+		<h:form style="display: inline-block; margin-left:10% ">
+			<p:menubar styleClass="menu-sistema">
+				<p:submenu  icon="fa fa-navicon">
+					<p:submenu label="Movimentos">
+						<p:menuitem value="Registrar ordens"
+							outcome="/ordens/PesquisaOrdens" />
+						<p:menuitem value="Notas de Corretagem"
+							outcome="/notasCorretagens/PesquisaNotasCorretagens" />
+						<p:menuitem value="Banco"
+							outcome="/movimentosBancos/PesquisaMovimentosBancos" />
+						<p:menuitem value="Contas de corretora(Bolsa)"
+							outcome="/movimentosBolsas/CadastroMovimentoBolsa" />
+					</p:submenu>
+
+					<p:separator />
+
+					<p:submenu label="Cadastro">
+						<p:menuitem value="Usuários" outcome="/usuarios/PesquisaUsuarios" />
+						<p:menuitem value="Contas de corretoras"
+							outcome="/contasCorretoras/PesquisaContasCorretoras" />
+						<p:menuitem value="Ativos" outcome="/ativos/PesquisaAtivos" />
+						<p:menuitem value="Bancos" outcome="/bancos/PesquisaBancos" />
+						<p:menuitem value="Grupos de investidores"
+							outcome="/gruposInvestidores/PesquisaGruposInvestidores" />
+					</p:submenu>
+
+					<p:separator />
+
+					<p:submenu label="Consultas">
+						<p:menuitem value="Ocorrências"
+							outcome="/ocorrencias/PesquisaOcorrencias" />
+						<p:menuitem value="Ativos"
+							outcome="/ordens/ConsultaAtivosComprados" />
+						<p:menuitem value="Carteira" outcome="/ordens/ConsultaCarteira" />
+						<p:menuitem value="Movimentações Bancárias"
+							outcome="/movimentosBancos/PesquisaMovimentosBancos" />
+						<p:menuitem value="Movimentações Bolsa(Bovespa)"
+							outcome="/movimentosBolsas/PesquisaMovimentosBolsas" />
+					</p:submenu>
+
+					<p:separator />
+
+					<p:menuitem value="Mobile" outcome="/mobile/menuMobile" />
+
+					<p:menuitem value="Sair" url="/j_spring_security_logout" />
+				</p:submenu>
+			</p:menubar>
+		</h:form>
+	</div>
+
+	<div style="float: right;" class="ui-g-2 ui-lg-2 ui-md-2 ui-sm-2">
+		<span style="float: left; height: 30px; line-height: 30px"> Olá
+			#{seguranca.nomeUsuario}! </span>
+		<h:link outcome="/Home">
+			<h:graphicImage library="images" name="Logotipo.png" />
+
+		</h:link>
+	</div>
+
+	<div style="clear: both" class="ui-g ui-md-12 ui-lg-12 ui-sm-12"></div>
+	</header>
+
+	<div id="conteudo" class="ui-g ui-md-12 ui-lg-12 ui-sm-12">
+		<ui:insert name="corpo" />
+	</div>
+
+	<p:separator style="margin-top 20px" />
+
+	<!-- 
+	<footer> Gustavo Amaral <a href="" target="_blank">www.guti.com</a>
+	</footer>
+ 	 -->
+	<script>
+		function configurarMoeda() {
+			$(".moeda").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true,
+				precision : 2
+			});
+		}
+
+		$(document).ready(function() {
+			configurarMoeda();
+		});
+	</script>
+	<script>
+		function configurarMoedaTresDecimais() {
+			$(".moedaTresDecimais").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true,
+				precision : 3
+			});
+		}
+
+		$(document).ready(function() {
+			configurarMoedaTresDecimais();
+		});
+	</script>
+	<script>
+		function configurarMoedaQuatroDecimais() {
+			$(".moedaQuatroDecimais").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true,
+				precision : 4
+			});
+		}
+
+		$(document).ready(function() {
+			configurarMoedaQuatroDecimais();
+		});
+	</script>
+</h:body>
+
+</html>

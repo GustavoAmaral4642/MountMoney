@@ -1,0 +1,91 @@
+s<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Consulta Carteira</ui:define>
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<f:event listener="#{pesquisaCarteirasBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frmPesquisa">
+			<h1>Consulta Carteira</h1>
+
+			<p:growl autoUpdate="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisa"
+						action="#{pesquisaCarteirasBean.consultaCarteira}" update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Limpar"
+						action="#{pesquisaCarteirasBean.limpar}" update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Conta da corretora" for="contaCorretora" />
+				<p:inputText id="contaCorretora" size="100" maxlength="150"
+					value="#{pesquisaCarteirasBean.filtro.nomeContaCorretora}" />
+
+				<p:outputLabel value="Sigla do ativo" for="siglaAtivo" />
+				<p:inputText id="siglaAtivo" size="20" maxlength="20"
+					value="#{pesquisaCarteirasBean.filtro.siglaAtivo}" />
+
+			</p:panelGrid>
+
+			<p:dataTable id="ordensTable"
+				value="#{pesquisaCarteirasBean.odsConsultas}" var="ativo"
+				style="margin-top: 20px" emptyMessage="Nenhuma ordem encontrada."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<f:facet name="header">
+					Ordens 
+				</f:facet>
+				<p:column headerText="Ativo" sortBy="#{ativo.ativo.siglaAtivo}"
+					style="text-align: center">
+					<h:outputText value="#{ativo.ativo}" />
+				</p:column>
+
+				<p:column headerText="Quantidade Total" sortBy="#{ativo.qntTotal}"
+					style="text-align: center">
+					<h:outputText value="#{ativo.qntTotal}" />
+				</p:column>
+
+				<p:column headerText="Valor Total" sortBy="#{ativo.vrTotal}"
+					style="text-align: center">
+					<h:outputText value="#{ativo.vrTotal}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Preço médio" sortBy="#{ativo.vrMedio}"
+					style="text-align: center">
+					<h:outputText value="#{ativo.vrMedio}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Preço BMF" sortBy="#{ativo.vrAtivo}"
+					style="text-align: center">
+					<h:outputText value="#{ativo.vrAtivo}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

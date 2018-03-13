@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" id="painelEndereco"
+		style="width: 70%; margin-top: 40px" columnClasses="rotulo, campo">
+
+		<p:outputLabel value="Logradouro" />
+		<p:inputText size="50"
+			value="#{cadastroClienteBean.endereco.logradouro}" />
+
+		<p:outputLabel value="Número" />
+		<p:inputText size="10" value="#{cadastroClienteBean.endereco.numero}" />
+
+		<p:outputLabel value="Complemento" />
+		<p:inputText size="20"
+			value="#{cadastroClienteBean.endereco.complemento}" />
+
+		<p:outputLabel value="CEP" />
+		<p:inputText size="10" value="#{cadastroClienteBean.endereco.cep}" />
+
+		<p:outputLabel value="Cidade" />
+		<p:inputText size="30" value="#{cadastroClienteBean.endereco.cidade}" />
+
+		<p:outputLabel value="UF" />
+		<p:inputText size="10" value="#{cadastroClienteBean.endereco.uf}" />
+
+	</p:panelGrid>
+
+	<p:commandButton value="Adicionar endereço"
+		style="margin-top: 20px; margin-left: 05px;"
+		update="enderecosTable painelEndereco"
+		action="#{cadastroClienteBean.adicionaEndereco}" process="@form" />
+
+	<p:dataTable value="#{cadastroClienteBean.cliente.enderecos}"
+		var="enderecoCliente" id="enderecosTable"
+		emptyMessage="Nenhum endereço encontrado." rows="5" paginator="true"
+		paginatorAlwaysVisible="false" paginatorPosition="bottom"
+		style="margin-top: 20px">
+		<f:facet name="header">
+				Endereços
+		</f:facet>
+		<p:column headerText="Logradouro">
+			<h:outputText value="#{enderecoCliente.logradouro}" />
+		</p:column>
+		<p:column headerText="Número" style="width: 100px">
+			<h:outputText value="#{enderecoCliente.numero}" />
+		</p:column>
+		<p:column headerText="Complemento" style="width: 200px">
+			<h:outputText value="#{enderecoCliente.complemento}" />
+		</p:column>
+		<p:column headerText="CEP" style="width: 100px">
+			<h:outputText value="#{enderecoCliente.cep}" />
+		</p:column>
+		<p:column headerText="Cidade/UF" style="width: 200px">
+			<h:outputText
+				value="#{enderecoCliente.cidade} - #{enderecoCliente.uf}" />
+		</p:column>
+		<p:column style="width: 50px; text-align: center" id="coluna">
+			<p:commandButton icon="ui-icon-trash" title="Excluir" update="enderecosTable"
+				id="botaoExcluirEndereco" actionListener="#{cadastroClienteBean.excluirEndereco(enderecoCliente)}">
+				<p:confirm header="Exclusão de endereço" 
+					message="Tem certeza que deseja excluir o endereço '#{enderecoCliente.logradouro}'?"
+					icon="ui-icon-alert" />
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+	 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"  />
+        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+    </p:confirmDialog>
+
+</ui:composition>

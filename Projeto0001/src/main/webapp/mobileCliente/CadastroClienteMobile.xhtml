@@ -1,0 +1,79 @@
+<ui:composition template="/WEB-INF/template/LayoutPadraoMobile.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+	<ui:define name="menuMobile">
+		<h:form>
+			<pm:header title="Novo cliente">
+				<p:growl autoUpdate="true" />
+				<p:toolbar>
+					<f:facet name="left">
+						<p:commandButton type="button" value="Novo" icon="ui-icon-plus" />
+						<p:commandButton  value="Salvar"
+							icon="ui-icon-check"  action="#{cadastroClienteBean.salvar}" process="@form"
+							update="@form" />
+						<p:commandButton type="button" value="Pesquisa"
+							icon="ui-icon-bullets" />
+						<p:commandButton type="button" value="Excluir"
+							icon="ui-icon-minus" />
+					</f:facet>
+					<f:facet name="right">
+						<p:button value="Menu principal" icon="ui-icon-back" 
+							outcome="/mobile/menuMobile"/>						
+					</f:facet>
+				</p:toolbar>
+
+				<p:tabView>
+					<p:tab title="Dados">
+						<pm:field>
+							<p:outputLabel for="nome" value="Nome:" />
+							<p:inputText id="nome"
+								value="#{cadastroClienteBean.cliente.nome}" />
+						</pm:field>
+						<pm:field>
+							<p:outputLabel for="tipo" value="Tipo" />
+							<p:selectOneRadio id="tipo"
+								value="#{cadastroClienteBean.cliente.tipo}">
+								<f:selectItem itemLabel="Física" itemValue="FISICA" />
+								<f:selectItem itemLabel="Jurídica" itemValue="JURIDICA" />
+								<p:ajax event="change" update="grupoInput"
+									process="@this" />
+							</p:selectOneRadio>
+						</pm:field>
+
+						<h:panelGroup id="grupoInput">
+							<pm:field
+								rendered="#{cadastroClienteBean.cliente.tipo eq 'FISICA'}">
+								<p:outputLabel for="cpf" value="CPF:" />
+								<p:inputText id="cpf" value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"/>
+							</pm:field>
+
+							<pm:field
+								rendered="#{cadastroClienteBean.cliente.tipo eq 'JURIDICA'}">
+								<p:outputLabel for="cnpj" value="CNPJ:" />
+								<p:inputText id="cnpj" value="#{cadastroClienteBean.cliente.documentoReceitaFederal}"/>
+							</pm:field>
+						</h:panelGroup>
+						
+						<pm:field>
+							<p:outputLabel for="email" value="E-mail:" />
+							<p:inputText id="email"
+								value="#{cadastroClienteBean.cliente.email}" />
+						</pm:field>
+					</p:tab>
+
+					<p:tab title="Endereço">
+						
+					</p:tab>
+					<p:tab title="Contatos">
+						
+					</p:tab>
+				</p:tabView>
+			</pm:header>
+		</h:form>
+	</ui:define>
+</ui:composition>

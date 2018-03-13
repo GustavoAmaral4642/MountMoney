@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" columnClasses="rotulo, campo"
+		style="margin-top: 20px">
+		<p:selectOneMenu id="usuarioTipo"
+			value="#{cadastroGrupoInvestidorBean.usuario}">
+			<f:selectItem itemLabel="Selecione o usuário" />
+			<f:selectItems value="#{cadastroGrupoInvestidorBean.usuariosTodos}"
+				var="usuario" itemValue="#{usuario}" itemLabel="#{usuario.nome}" />
+		</p:selectOneMenu>
+
+		<p:commandButton value="Adicionar usuário"
+			action="#{cadastroGrupoInvestidorBean.adicionaUsuario}"
+			update="usuariosTable usuarioTipo" />
+	</p:panelGrid>
+
+	<p:dataTable value="#{cadastroGrupoInvestidorBean.incluidos}"
+		var="usuarioSelecionado" id="usuariosTable" style="margin-top: 5px"
+		emptyMessage="Nenhum usuário encontrado.">
+		<p:column headerText="Usuário">
+			<h:outputText value="#{usuarioSelecionado.nome}" />
+		</p:column>
+
+		<p:column style="text-align: center; width: 50px">
+			<p:commandButton icon="ui-icon-trash" title="Excluir"
+				update="usuariosTable" id="botaoExcluirUsuario"
+				actionListener="#{cadastroGrupoInvestidorBean.removeUsuario(usuarioSelecionado)}">
+				<p:confirm header="Exclusão de usuário"
+					message="Tem certeza que deseja remover o usuário `#{usuarioSelecionado.nome}`?"
+					icon="ui-icon-alert" />
+			</p:commandButton>
+		</p:column>
+
+	</p:dataTable>
+
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		<p:commandButton value="Sim" type="button"
+			styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		<p:commandButton value="Não" type="button"
+			styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+	</p:confirmDialog>
+
+
+</ui:composition>

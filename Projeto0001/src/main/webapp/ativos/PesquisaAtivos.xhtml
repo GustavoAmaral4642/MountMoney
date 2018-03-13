@@ -1,0 +1,107 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">PESQUISA ATIVOS</ui:define>
+
+	<ui:define name="corpo" class="ui-g ui-md-3 ui-lg-3 ui-sm-3">
+		<div class="ui-g-12">
+
+			<h:form id="frmPesquisa">
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" style="width: 99%"
+						columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid"
+						styleClass="ui-panelgrid-blank">
+
+						<h1 style="width: 300px">PESQUISA ATIVOS</h1>
+
+						<h:panelGroup style="float: right">
+							<p:button outcome="/ativos/CadastroAtivo" icon="fa fa-plus"
+								style="margin-left: 10px; width: 35px; height: 35px"
+								title="Incluir" />
+
+							<p:commandButton action="#{pesquisaAtivosBean.limpar}"
+								title="Limpar" update="@form" icon="fa fa-recycle" type="button"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+							<p:commandButton action="#{pesquisaAtivosBean.pesquisar}"
+								update="@form" icon="fa fa-search" title="Pesquisar"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+
+				<p:growl autoUpdate="true" />
+
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" id="painel"
+						styleClass="ui-panelgrid-blank"
+						style="width: 99%; margin-top: 20px"
+						columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid">
+
+						<p:outputLabel value="Sigla do ativo" for="siglaAtivo" />
+						<p:inputText id="siglaAtivo" size="60"
+							value="#{pesquisaAtivosBean.filtro.siglaAtivo}" />
+
+						<p:outputLabel value="Nome do ativo" for="nomeAtivo" />
+						<p:inputText id="nomeAtivo" size="60"
+							value="#{pesquisaAtivosBean.filtro.nomeAtivo}" />
+
+					</p:panelGrid>
+				</div>
+
+				<div class="ui-fluid">
+					<p:dataTable id="ativosTable"
+						value="#{pesquisaAtivosBean.ativosFiltrados}" reflow="true"
+						var="ativo" style="margin-top: 20px; width: 99%"
+						emptyMessage="Nenhum ativo encontrado." rows="20" paginator="true"
+						paginatorAlwaysVisible="false" paginatorPosition="bottom">
+
+						<f:facet name="header">
+							Ativos
+						</f:facet>
+
+						<p:column headerText="Sigla do ativo" sortBy="#{ativo.siglaAtivo}"
+							style="text-align: center; width: 200px">
+							<h:outputText value="#{ativo.siglaAtivo}" />
+						</p:column>
+
+						<p:column headerText="Nome do ativo" sortBy="#{ativo.nomeAtivo}"
+							style="text-align: center">
+							<h:outputText value="#{ativo.nomeAtivo}" />
+						</p:column>
+
+						<p:column style="width: 40px">
+							<p:button outcome="/ativos/CadastroAtivo" icon="ui-icon-pencil"
+								title="Editar">
+								<f:param name="ativo" value="#{ativo.id}" />
+							</p:button>
+						</p:column>
+
+						<p:column style="width: 40px">
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								update="ativosTable" id="botaoExcluirAtivo"
+								actionListener="#{pesquisaAtivosBean.excluir(ativo)}">
+								<p:confirm header="Exclusão de Ativo"
+									message="Tem certeza que deseja excluir o ativo `#{ativo.siglaAtivo}`?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

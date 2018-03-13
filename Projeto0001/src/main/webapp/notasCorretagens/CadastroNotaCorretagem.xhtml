@@ -1,0 +1,220 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroNotaCorretagemBean.editando ? 'Edição de Nota de Corretagem' : 'Lançamento de Nota de Corretagem'}</ui:define>
+
+	<ui:define name="corpo" class="ui-g-12 ui-md-6 ui-lg-3 ui-sm-6">
+		<div class="ui-g-12">
+
+			<f:metadata>
+				<o:viewParam name="nota" value="#{cadastroNotaCorretagemBean.nota}" />
+				<f:event listener="#{cadastroNotaCorretagemBean.inicializar}"
+					type="preRenderView" />
+			</f:metadata>
+
+			<h:form id="frmCadastroNotaCorretagem">
+
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" style="width: 70%" id="painalBotoes"
+						columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid"
+						styleClass="ui-panelgrid-blank">
+
+						<p:spacer />
+						<h1>#{cadastroNotaCorretagemBean.editando ? 'Edição de de
+							Nota de Corretagem' : 'Lançamento de Nota de Corretagem'}</h1>
+
+						<h:panelGroup style="float: right" id="painelEsquerdo">
+							<p:commandButton id="botaoSalvar" icon="fa fa-check"
+								title="Salvar" action="#{cadastroNotaCorretagemBean.salvar}"
+								style="margin-left: 10px; width: 35px; height: 35px"
+								process="@form" update="@form"
+								onclick="/notasCorretagens/CadastroNotaCorretagem.xhtml" />
+
+							<p:button outcome="/notasCorretagens/CadastroNotaCorretagem"
+								icon="fa fa-recycle" title="Limpar"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+							<p:button outcome="/notasCorretagens/PesquisaNotasCorretagens"
+								icon="fa fa-search"
+								style="margin-left: 10px; width: 35px; height: 35px"
+								title="Pesquisar" />
+
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</div>
+
+				<p:growl autoUpdate="true" />
+
+				<div class="ui-fluid">
+
+					<p:panelGrid columns="2" id="painelCadastroOrdemCompra"
+						styleClass="ui-panelgrid-blank" layout="grid"
+						style="width: 70%; margin-top: 20px"
+						columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+						<p:spacer />
+						<p:spacer />
+
+						<p:spacer />
+						<p:spacer />
+
+
+						<p:outputLabel value="Nº da nota" for="numeroNota" />
+						<p:inputText id="numeroNota" size="25" maxlength="25"
+							value="#{cadastroNotaCorretagemBean.nota.numeroNota}" />
+
+						<p:outputLabel value="Data do Pregão" for="dataPregao" />
+						<p:calendar id="dataPregao" size="10" pattern="dd/MM/yyyy"
+							value="#{cadastroNotaCorretagemBean.nota.dataPregao}"
+							mask="99/99/9999" />
+
+						<p:outputLabel value="Conta de Corretora" for="contaCorretora" />
+						<p:selectOneMenu id="contaCorretora"
+							value="#{cadastroNotaCorretagemBean.nota.contaCorretora}">
+							<f:selectItem itemLabel="Selecione uma conta" />
+							<f:selectItems
+								value="#{cadastroNotaCorretagemBean.todasContasCorretoras}"
+								var="todasContas" itemValue="#{todasContas}"
+								itemLabel="#{todasContas.nomeContaCorretora}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel value="Conta Bancária" for="contaBanco" />
+						<p:inputText id="contaBanco" size="25" maxlength="25"
+							value="#{cadastroNotaCorretagemBean.nota.contaBancaria}" />
+
+						<p:separator />
+						<p:separator />
+
+						<p:outputLabel value="Valor Líquido das Operações"
+							for="valorLiqOperacao" />
+						<p:inputText id="valorLiqOperacao" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrLiquidoOperacoes}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Taxa de Liquidação" for="taxaLiquidacao" />
+						<p:inputText id="taxaLiquidacao" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTaxaLiquidacao}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Taxa de Registro" for="taxaRegistro" />
+						<p:inputText id="taxaRegistro" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTaxaRegistro}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Valor Total CBLC" for="vlrTotalCblc" />
+						<p:inputText id="vlrTotalCblc" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTotalCblc}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:separator />
+						<p:separator />
+
+						<p:outputLabel value="Taxa de Termo/Opções" for="taxaTermoOpoes" />
+						<p:inputText id="taxaTermoOpoes" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTaxaTermoOpcoes}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Taxa A.N.A." for="taxaAna" />
+						<p:inputText id="taxaAna" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTaxaAna}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Taxa Emolumentos" for="taxaEmolumentos" />
+						<p:inputText id="taxaEmolumentos" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTaxaEmolumentos}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Valor Total Bovespa/Soma"
+							for="vlrTotalBovespaSoma" />
+						<p:inputText id="vlrTotalBovespaSoma" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTotalBovespaSoma}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:separator />
+						<p:separator />
+
+						<p:outputLabel value="Valor de Corretagem" for="valorCorretagem" />
+						<p:inputText id="valorCorretagem" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrCorretagem}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Valor de ISS" for="valorIss" />
+						<p:inputText id="valorIss" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrIss}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Valor de IRRF" for="vlrIrrf" />
+						<p:inputText id="vlrIrrf" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrIrrf}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Valor Outras" for="valorOutras" />
+						<p:inputText id="valorOutras" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrOutras}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:outputLabel value="Valor Total Corretagem e Despesas"
+							for="vlrTotalCorretagemDesp" />
+						<p:inputText id="vlrTotalCorretagemDesp" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTotalCorretagemDespesas}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:separator />
+						<p:separator />
+
+						<p:outputLabel value="Valor Total Líquido" for="vlrTotalLiquido" />
+						<p:inputText id="vlrTotalLiquido" size="20" maxlength="20"
+							value="#{cadastroNotaCorretagemBean.nota.vlrTotalLiquido}"
+							styleClass="moedaTresDecimais">
+							<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+						</p:inputText>
+
+						<p:separator />
+						<p:separator />
+
+					</p:panelGrid>
+
+					<ui:include src="/WEB-INF/template/notas/OrdensNota.xhtml" />
+				</div>
+			</h:form>
+		</div>
+		<style>
+.sem-bordas td {
+	border: none;
+	padding: 5px;
+}
+</style>
+	</ui:define>
+</ui:composition>
+

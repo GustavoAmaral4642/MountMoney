@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" columnClasses="rotulo, campo" style="margin-top: 20px">
+		<p:selectOneMenu id="ordemNumero" value="#{cadastroNotaCorretagemBean.ordem}">
+			<f:selectItem itemLabel="Selecione a ordem" />
+			<f:selectItems value="#{cadastroNotaCorretagemBean.ordensTodas}" var="ordem"
+				itemValue="#{ordem}" itemLabel="#{ordem.numeroOrdem} - #{ordem.contaCorretora.nomeContaCorretora}"/>
+		</p:selectOneMenu>
+		
+		<p:commandButton value="Adicionar Ordem" action="#{cadastroNotaCorretagemBean.adicionaOrdem}"
+			update="ordensTable ordemNumero"/>		
+	</p:panelGrid>
+
+	<p:dataTable value="#{cadastroNotaCorretagemBean.incluidas}" var="ordemSelecionada" id="ordensTable" 
+		style="margin-top: 5px" emptyMessage="Nenhum ordem encontrada.">
+		
+		<p:column headerText="TP" >			
+			<h:outputText value="#{ordemSelecionada.tpOrdem}"/>
+		</p:column>
+		
+		<p:column headerText="Número ordem" >			
+			<h:outputText value="#{ordemSelecionada.numeroOrdem}"/>
+		</p:column>
+		
+		<p:column headerText="Conta Corretora" >			
+			<h:outputText value="#{ordemSelecionada.contaCorretora.nomeContaCorretora}"/>
+		</p:column>
+		
+		<p:column headerText="Ativo" >			
+			<h:outputText value="#{ordemSelecionada.ativo.siglaAtivo}"/>
+		</p:column>
+		
+		<p:column headerText="Quantidade" >			
+			<h:outputText value="#{ordemSelecionada.qtMovimentada}"/>
+		</p:column>
+		
+		<p:column headerText="Vlr.Unitário" >			
+			<h:outputText value="#{ordemSelecionada.vrOperacao}"/>
+		</p:column>
+		
+		<p:column style="text-align: center; width: 50px">			
+			<p:commandButton icon="ui-icon-trash" action="#{cadastroNotaCorretagemBean.removeOrdem}"
+				update="ordensTable" process="@this">
+				<f:setPropertyActionListener
+							target="#{cadastroNotaCorretagemBean.ordemSelecionada}"
+							value="#{ordemSelecionada}" />
+		    </p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+</ui:composition>

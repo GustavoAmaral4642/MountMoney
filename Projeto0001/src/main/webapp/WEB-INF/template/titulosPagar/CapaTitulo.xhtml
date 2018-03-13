@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="4" style="width: 100%; margin-top: 20px"
+		columnClasses="rotulo, campo, rotulo, campo">
+
+		<p:outputLabel value="Número"
+			rendered="#{cadastroTituloPagarBean.titulo.existente}" />
+		<h:outputText value="#{cadastroTituloPagarBean.titulo.id}"
+			rendered="#{cadastroTituloPagarBean.titulo.existente}" />
+
+		<p:outputLabel value="Data de criação"
+			rendered="#{cadastroTituloPagarBean.titulo.existente}" />
+		<h:outputText value="#{cadastroTituloPagarBean.titulo.dataCriacao}"
+			rendered="#{cadastroTituloPagarBean.titulo.existente}">
+			<f:convertDateTime pattern="dd/MM/yyyy" />
+		</h:outputText>
+
+		<p:outputLabel value="Fornecedor" for="fornecedor" />
+		<p:selectOneMenu id="fornecedor" disabled="#{cadastroTituloPagarBean.titulo.pagavel}"
+			value="#{cadastroTituloPagarBean.titulo.fornecedor}">
+			<f:selectItem itemLabel="Selecione um fornecedor" />
+			<f:selectItems value="#{cadastroTituloPagarBean.listaFornecedores}"
+				var="fornecedor" itemValue="#{fornecedor}"
+				itemLabel="#{fornecedor.nome}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Status" for="statusTitulo"/>
+		<h:outputText id="statusTitulo"
+			value="#{cadastroTituloPagarBean.titulo.statusTituloPagar.descricao}" />
+
+		<p:outputLabel value="Quantidade de parcelas" for="parcelas" />
+		<p:inputText size="3" maxlength="2" id="parcelas" readonly="true"
+			value="#{cadastroTituloPagarBean.titulo.quantidadeParcelas}">
+		</p:inputText>
+
+		<p:outputLabel value="Forma de pagamento" for="formaPagamento" />
+		<p:selectOneMenu id="formaPagamento" 
+			value="#{cadastroTituloPagarBean.titulo.formaPagamento}">
+			<f:selectItem itemLabel="Selecione uma forma de pagamento" />
+			<f:selectItems value="#{cadastroTituloPagarBean.formasPagamento}"
+				var="formaPagamento" itemValue="#{formaPagamento}"
+				itemLabel="#{formaPagamento.descricao}" />
+		</p:selectOneMenu>
+
+		<p:outputLabel value="Valor do título" style="font-weight: bold; font-size: 1.1em" />
+		<h:outputText value="#{cadastroTituloPagarBean.titulo.valorTitulo}"
+			style="font-weight: bold; font-size: 1.1em"  id="valorTitulo">
+			<f:convertNumber type="currency" />
+		</h:outputText>
+		
+		<p:outputLabel value="Valor de juros" style="font-size: 1.1em" />
+		<h:outputText value="#{cadastroTituloPagarBean.titulo.valorJuros}"
+			style="font-size: 1.1em"  id="valorJuros">
+			<f:convertNumber type="currency" />
+		</h:outputText>
+		
+		<p:outputLabel value="Valor de desconto" style="font-size: 1.1em" />
+		<h:outputText value="#{cadastroTituloPagarBean.titulo.valorDesconto}"
+			style="font-size: 1.1em"  id="valorDesconto">
+			<f:convertNumber type="currency" />
+		</h:outputText>
+
+		<p:outputLabel value="Total do título" style="font-weight: bold; font-size: 1.1em" />
+		<h:outputText value="#{cadastroTituloPagarBean.titulo.valorTotal}"
+			style="font-weight: bold; font-size: 1.1em" id="totalTitulo">
+			<f:convertNumber type="currency" />
+		</h:outputText>
+
+		<p:outputLabel value="Histórico" for="historicoTitulo" />
+		<p:inputText value="#{cadastroTituloPagarBean.titulo.historico}" 
+			id="historicoTitulo" size="60" maxlength="100"/>
+		
+		<p:spacer/>
+		<p:spacer/>
+		
+	</p:panelGrid>
+</ui:composition>

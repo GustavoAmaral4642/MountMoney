@@ -1,0 +1,138 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Consulta Ativos Comprados</ui:define>
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<f:event listener="#{consultaAtivosCompradosBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frmPesquisa">
+			<h1>Consulta Ativos Comprados</h1>
+
+			<p:growl autoUpdate="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisa"
+						action="#{consultaAtivosCompradosBean.consultaCarteira}"
+						update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Limpar"
+						action="#{consultaAtivosCompradosBean.limpar}" update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Conta da corretora" for="contaCorretora" />
+				<p:inputText id="contaCorretora" size="100" maxlength="150"
+					value="#{consultaAtivosCompradosBean.filtro.nomeContaCorretora}" />
+
+				<p:outputLabel value="Sigla do ativo" for="siglaAtivo" />
+				<p:inputText id="siglaAtivo" size="20" maxlength="20"
+					value="#{consultaAtivosCompradosBean.filtro.siglaAtivo}" />
+
+			</p:panelGrid>
+
+			<p:dataTable id="ordensTable"
+				value="#{consultaAtivosCompradosBean.odsTotais}" var="ordem"
+				style="margin-top: 20px" emptyMessage="Nenhuma ordem encontrada."
+				rows="20" paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<f:facet name="header">
+					Ordens 
+				</f:facet>
+
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column rowspan="7" headerText="Ativos" />
+						<p:column colspan="7" headerText="Valores" />
+					</p:row>
+					<p:row>
+						<p:column headerText="TP.Ordem" />
+						<p:column headerText="Vlr.Oper." />
+						<p:column headerText="Qnt.Mov." />
+						<p:column headerText="Qnt.Total" />
+						<p:column headerText="Vlr.Total" />
+						<p:column headerText="Vlr.Médio" />
+						<p:column headerText="Vlr.Lucro" />
+					</p:row>
+				</p:columnGroup>
+
+				<p:subTable var="totais" value="#{ordem.odConsultas}">
+					<f:facet name="header">
+						<h:outputText value="#{ordem.siglaAtivo}" />
+					</f:facet>
+
+					<p:column>
+						<h:outputText value="#{totais.dtMovimento}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+
+					<p:column>
+						<h:outputText value="#{totais.tpOrdem.descricao}" />
+					</p:column>
+					
+					<p:column>
+						<h:outputText value="#{totais.vrOperacao}">
+							<f:convertNumber type="currency" maxFractionDigits="3"
+								minFractionDigits="3" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<h:outputText value="#{totais.qntMovimentada}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{totais.qntTotal}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{totais.vrTotal}">
+							<f:convertNumber type="currency" maxFractionDigits="3"
+								minFractionDigits="3" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<h:outputText value="#{totais.vrMedio}">
+							<f:convertNumber type="currency" maxFractionDigits="3"
+								minFractionDigits="3" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<h:outputText value="#{totais.vrLucro}">
+							<f:convertNumber type="currency" maxFractionDigits="3"
+								minFractionDigits="3" />
+						</h:outputText>
+					</p:column>
+					<p:columnGroup type="footer">
+						<p:row>
+							<p:column footerText="Totals: " style="text-align:right" />
+							<p:column footerText="" />
+							<p:column footerText="" />
+							<p:column footerText="" />
+							<p:column footerText="" />
+							<p:column footerText="" />
+							<p:column footerText="" />
+							<p:column footerText="#{ordem.lucroTotal}" />
+						</p:row>
+					</p:columnGroup>
+				</p:subTable>
+
+			</p:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

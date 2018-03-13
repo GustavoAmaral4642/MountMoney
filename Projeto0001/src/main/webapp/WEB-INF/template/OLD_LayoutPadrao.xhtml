@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">Gerenciamento pessoal</ui:insert></title>
+
+	<h:outputStylesheet library="css" name="sistema.css" />
+	<h:outputScript library="js" name="jquery.maskMoney.js" />
+</h:head>
+
+<h:body>
+
+	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+		<f:facet name="start">
+			<h:graphicImage library="images" name="loading.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+	
+	<header>
+		<div style="float: left">
+			<h:link outcome="/Home">
+				<h:graphicImage library="images" name="Logotipo.png" />
+			</h:link>
+		</div>
+		
+		<div style="float: right; margin-right: 50px">
+			<h:form style="display: inline-block">
+				<p:menubar styleClass="menu-sistema">
+					
+					<p:submenu label="Contas a pagar">
+						<p:menuitem value="Digitar título" outcome="/titulosPagar/CadastroTituloPagar"/>
+						<p:menuitem value="Pagar título" />						
+					</p:submenu>
+					
+					<p:submenu label="Movimentos bancários">
+						<p:menuitem value="Digitar movimentos" outcome="/movimentos/CadastroMovimentoBancario"/>
+						<p:menuitem value="Visualizar movimentos" outcome="/movimentos/PesquisaMovimentosBancarios"/>						
+					</p:submenu>
+					
+					<p:submenu label="Ordens">
+						<p:menuitem value="Registrar ordens" outcome="/ordens/PesquisaOrdens"/>												
+					</p:submenu>
+					
+					<p:submenu label="Cadastros">
+						<p:menuitem value="Usuários" outcome="/usuarios/PesquisaUsuarios"/>
+						<p:menuitem value="Contas de corretoras" outcome="/contasCorretoras/PesquisaContasCorretoras"/>
+						<p:menuitem value="Ativos" outcome="/ativos/PesquisaAtivos"/>
+						<p:menuitem value="Fornecedores" outcome="/fornecedores/PesquisaFornecedores"/>						
+						<p:menuitem value="Clientes" outcome="/clientes/PesquisaClientes"/>
+						<p:menuitem value="Bancos" outcome="/bancos/PesquisaBancos"/>
+						<p:menuitem value="Traders" outcome="/traders/PesquisaTraders"/> 													
+					</p:submenu>
+						
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Movimentação bancária" />						
+					</p:submenu>
+					
+					<p:submenu label="Configurações">
+												
+					</p:submenu>
+				</p:menubar>
+			</h:form>
+		</div>
+		<div style="clear: both"></div>
+	</header>
+	 
+	<div id="conteudo">
+		<ui:insert name="corpo" />
+	</div>
+
+
+	<script>
+		function configurarMoeda() {
+			$(".moeda").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true
+			});
+		}
+
+		$(document).ready(function() {
+			configurarMoeda();
+		});
+	</script>
+</h:body>
+
+</html>

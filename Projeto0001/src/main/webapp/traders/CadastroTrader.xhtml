@@ -1,0 +1,50 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroTraderBean.editando ? 'Edição de traders' : 'Novo trader'}</ui:define>
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<o:viewParam name="trader" value="#{cadastroTraderBean.trader}" />
+			<f:event listener="#{cadastroTraderBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+		
+		<h:form id="frmCadastroTrader">
+			<h1>#{cadastroTraderBean.editando ? 'Edição de traders' : 'Novo trader'}</h1>
+			<p:messages autoUpdate="true" closable="true"/>
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/traders/CadastroTrader" />
+					<p:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastroTraderBean.salvar}" update="@form"
+						process=":frmCadastroTrader:painelCadastroTrader @this" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/traders/PesquisaTraders" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painelCadastroTrader"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Nome do trader" for="nomeTrader" />
+				<p:inputText id="nomeTrader" size="100" maxlength="200"
+					value="#{cadastroTraderBean.trader.nomeTrader}" />
+			</p:panelGrid>
+
+			<style>
+.sem-bordas td {
+	border: none;
+	padding: 5px;
+}
+</style>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" id="painelContaCorretoraDados"
+		style="width: 70%; margin-top: 40px" columnClasses="rotulo, campo">
+
+		<p:outputLabel value="Tipo da conta" for="tipoConta" />
+		<p:selectOneRadio id="tipoConta" styleClass="sem-bordas"
+			layout="lineDirection" value="#{cadastroContaCorretoraBean.contaCorretora.tipoContaCorretora}" >
+			<f:selectItem itemLabel="Real" itemValue="REAL" />
+			<f:selectItem itemLabel="Simulada" itemValue="SIMULADA" />			
+		</p:selectOneRadio>
+
+		<p:outputLabel value="Nome da corretora" for="nomeContaCorretora" />
+		<p:inputText id="nomeContaCorretora" size="100" maxlength="100"
+			value="#{cadastroContaCorretoraBean.contaCorretora.nomeContaCorretora}" />
+
+		<p:outputLabel value="Número da conta" for="numeroContaCorretora" />
+		<p:inputText id="numeroContaCorretora" size="20" maxlength="20"
+			value="#{cadastroContaCorretoraBean.contaCorretora.numeroContaCorretora}" />
+
+	</p:panelGrid>
+
+</ui:composition>

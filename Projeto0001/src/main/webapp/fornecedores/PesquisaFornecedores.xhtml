@@ -1,0 +1,88 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa fornecedores</ui:define>
+
+	<ui:define name="corpo">
+		<h:form id="frmPesquisa">
+			<h1>Pesquisa fornecedores</h1>
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisar"
+						action="#{pesquisaFornecedoresBean.pesquisar}" update="@form" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Novo" outcome="/fornecedores/CadastroFornecedor" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+				<p:outputLabel value="Nome do fornecedor" for="nomeFornecedor" />
+				<p:inputText id="nomeFornecedor" size="60"
+					value="#{pesquisaFornecedoresBean.filtro.nome}" />
+
+				<p:outputLabel value="Apelido/Razão social" for="razaoSocial" />
+				<p:inputText id="razaoSocial" size="60"
+					value="#{pesquisaFornecedoresBean.filtro.razaoSocial}" />
+			</p:panelGrid>
+
+			<p:dataTable id="fornecedoresTable"
+				value="#{pesquisaFornecedoresBean.fornecedoresFiltrados}"
+				var="fornecedor" style="margin-top: 20px"
+				emptyMessage="Nenhum fornecedor encontrado." rows="20"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Tipo de pessoa" style="width: 100px">
+					<h:panelGroup id="grupoLabelRazaoSocial">
+						<p:outputLabel value="Física" rendered="#{fornecedor.tipoPessoa eq 'F'}" />
+						<p:outputLabel value="Jurídica" rendered="#{fornecedor.tipoPessoa eq 'J'}" />
+					</h:panelGroup>
+				</p:column>
+				<p:column headerText="Nome">
+					<h:outputText value="#{fornecedor.nome}" />
+				</p:column>
+				<p:column headerText="Razão social"
+					style="width: 250px; text-align: left">
+					<h:outputText value="#{fornecedor.razaoSocial}" />
+				</p:column>
+				<p:column headerText="CGC(CNPJ/CPF)"
+					style="text-align: center; width: 120px">
+					<h:outputText value="#{fornecedor.cnpjCpf}" />
+				</p:column>
+				<p:column headerText="Documento(IE/RG)"
+					style="text-align: center; width: 120px">
+					<h:outputText value="#{fornecedor.documento}" />
+				</p:column>
+				<p:column style="width: 100px; text-align: center">
+					<p:button outcome="/fornecedores/CadastroFornecedor"
+						icon="ui-icon-pencil" title="Editar">
+						<f:param name="fornecedor" value="#{fornecedor.id}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						oncomplete="confirmacaoExclusao.show()" process="@this"
+						update=":frmPesquisa:confirmacaoExclusaoDialog">
+						<f:setPropertyActionListener value="#{fornecedor}"
+							target="#{pesquisaFornecedoresBean.fornecedorSelecionado}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog header="Exclusão de fornecedores"
+				message="Tem certeza que deseja excluir o cliente selecionado??"
+				widgetVar="confirmacaoExclusao" id="confirmacaoExclusaoDialog">
+				<p:button value="Não"
+					onclick="confirmacaoExclusao.hide(); return false;" />
+				<p:commandButton value="Sim" oncomplete="confirmacaoExclusao.hide()"
+					update="fornecedoresTable"
+					action="#{pesquisaFornecedoresBean.excluir}" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

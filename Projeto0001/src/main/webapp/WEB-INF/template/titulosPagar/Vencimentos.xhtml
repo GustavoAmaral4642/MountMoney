@@ -1,0 +1,161 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" columnClasses="rotulo, campo"
+		style="margin-top: 20px" id="panelGridteste">
+		<p:commandButton value="Adicionar parcela" styleClass="bordas" 
+			onclick="inclusaoParcelaDialog.show(); return false;"
+			disabled="#{cadastroTituloPagarBean.titulo.pagavel}"/>
+	</p:panelGrid>
+
+	<p:dataTable value="#{cadastroTituloPagarBean.titulo.parcelas}"
+		var="parcela" rowIndexVar="linha" id="parcelasTable"
+		emptyMessage="Nenhuma parcela informada.">
+		<p:column headerText="Parcela"
+			style="text-align: center; width: 50px">
+			<h:outputText value="#{parcela.numeroParcela}" />
+		</p:column>
+		<p:column headerText="Data de vencimento"
+			style="text-align: center; width: 100px">
+			<h:outputText value="#{parcela.dataVencimento}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+		</p:column>
+		<p:column headerText="Valor da parcela"
+			style="text-align: right; width: 100px">
+			<h:outputText value="#{parcela.valorParcela}" />
+		</p:column>
+		<p:column headerText="Valor pago"
+			style="text-align: right; width: 100px">
+			<h:outputText value="#{parcela.valorPagoParcela}"/>			
+		</p:column>
+		<p:column headerText="Data de pagamento"
+			style="text-align: center; width: 100px">
+			<h:outputText value="#{parcela.dataPagamento}">
+				<f:convertDateTime pattern="dd/MM/yyyy" />
+			</h:outputText>
+		</p:column>
+		<p:column headerText="Histórico" style="text-align: left=">
+			<h:outputText value="#{parcela.historico}" />
+		</p:column>
+		<p:column headerText="Pagar" style="text-align: center; width: 50px">
+			<p:commandButton title="Realizar pagamento" icon="ui-icon-check" update="@form" 
+			    action="#{cadastroTituloPagarBean.pagarParcela}" 
+				disabled="#{cadastroTituloPagarBean.titulo.naoPagavel or cadastroTituloPagarBean.tituloParcela.parcelaPago}"
+				oncomplete="inclusaoParcelaDialog.show()" >
+				<f:setPropertyActionListener value="#{parcela}" target="#{cadastroTituloPagarBean.tituloParcela}"/>				
+			</p:commandButton>
+		</p:column>
+		<p:column headerText="Baixar" style="text-align: center; width: 50px">
+			<p:commandButton title="Baixar parcela" icon="ui-icon-circle-arrow-s" update="parcelasTable"
+				process="@this" action="#{cadastroTituloPagarBean.removeParcela}"
+				disabled="#{cadastroTituloPagarBean.titulo.naoPagavel or cadastroTituloPagarBean.tituloParcela.parcelaPago}">
+				<f:setPropertyActionListener value="#{parcela}" target="#{cadastroTituloPagarBean.tituloParcela}"/>
+			</p:commandButton>
+		</p:column>
+		
+		<p:column style="text-align: center; width: 100px">
+			<p:commandButton title="Visualizar da parcela" icon="ui-icon-search" oncomplete="inclusaoParcelaDialog.show()"> 				
+				<f:setPropertyActionListener value="#{parcela}" target="#{cadastroTituloPagarBean.tituloParcela}"/>
+			</p:commandButton>
+			<p:commandButton title="Alterar da parcela" icon="ui-icon-pencil" update="parcelasTable"
+				process="@this" action="#{cadastroTituloPagarBean.removeParcela}"
+				disabled="#{cadastroTituloPagarBean.titulo.pagavel or cadastroTituloPagarBean.tituloParcela.parcelaPago}"> 	
+				<f:setPropertyActionListener value="#{parcela}" target="#{cadastroTituloPagarBean.tituloParcela}"/>
+			</p:commandButton>
+			<p:commandButton title="Cancelar da parcela" icon="ui-icon-trash" update="parcelasTable"
+				process="@this" action="#{cadastroTituloPagarBean.removeParcela}"
+				disabled="#{cadastroTituloPagarBean.titulo.pagavel or cadastroTituloPagarBean.tituloParcela.parcelaPago}"> 				
+				<f:setPropertyActionListener value="#{parcela}" target="#{cadastroTituloPagarBean.tituloParcela}"/>
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+	<p:dialog header="Parcelas" widgetVar="inclusaoParcelaDialog" 
+		resizable="false" modal="true" minimizable="true" id="parcelaDialog">
+		
+		<h:panelGrid columns="3" id="panelHistorico">		
+			<p:outputLabel value="Histórico" for="historicoParcela" />
+			<p:inputText id="historicoParcela" size="58" maxlength="100"
+				value="#{cadastroTituloPagarBean.tituloParcela.historico}" />
+				
+			<p:commandButton value="..." styleClass="bordas" update="historicoParcela"
+			   action="#{cadastroTituloPagarBean.carregarHistorico}"/>	
+		</h:panelGrid>
+		
+		<h:panelGrid columns="4" id="panelParcela">			
+			<p:outputLabel value="Valor da parcela" for="valorParcela" />
+			<p:inputText id="valorParcela" size="10" maxlength="10" styleClass="moeda"
+				value="#{cadastroTituloPagarBean.tituloParcela.valorParcela}"
+				disabled="#{cadastroTituloPagarBean.titulo.pagavel}">
+				<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+			</p:inputText>
+			
+			<p:outputLabel value="Data de vencimento" for="dataVencimento" />
+			<p:calendar id="dataVencimento" size="10" pattern="dd/MM/yyyy"
+				value="#{cadastroTituloPagarBean.tituloParcela.dataVencimento}"
+				disabled="#{cadastroTituloPagarBean.titulo.pagavel}">
+			</p:calendar>
+			
+			<p:outputLabel value="Valor a pagar" for="valorPagar" />
+			<p:inputText id="valorPagar" size="10" maxlength="10" styleClass="moeda"
+				value="#{cadastroTituloPagarBean.tituloParcela.valorPagoParcela}" 
+				disabled="#{cadastroTituloPagarBean.titulo.naoPagavel}">
+				<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+			</p:inputText>
+						
+			<p:outputLabel value="Data de pagamento" for="dataPagamento" />
+			<p:calendar id="dataPagamento" size="10" pattern="dd/MM/yyyy"
+				value="#{cadastroTituloPagarBean.tituloParcela.dataPagamento}"
+				disabled="#{cadastroTituloPagarBean.titulo.naoPagavel}">
+			</p:calendar>
+	
+			<p:outputLabel value="Juros da parcela" for="jurosParcela" />
+			<p:inputText id="jurosParcela" size="10" maxlength="10" styleClass="moeda"
+				value="#{cadastroTituloPagarBean.tituloParcela.jurosParcela}"
+				disabled="#{cadastroTituloPagarBean.titulo.naoPagavel}">
+				<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+			</p:inputText>
+						
+			<p:outputLabel value="Desconto da parcela" for="descontoParcela" />
+			<p:inputText id="descontoParcela" size="10" maxlength="10" styleClass="moeda"
+				value="#{cadastroTituloPagarBean.tituloParcela.descontoParcela}"
+				disabled="#{cadastroTituloPagarBean.titulo.naoPagavel}">
+				<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+			</p:inputText>
+			
+			<p:spacer/>
+			<p:spacer/>
+			
+			<h:panelGroup>
+				<p:commandButton value="Incluir"
+					action="#{cadastroTituloPagarBean.adicionarParcela}" 
+					update="parcelasTable parcelaDialog panelParcela :frmCadastro:parcelas :frmCadastro:valorTitulo
+							:frmCadastro:valorJuros :frmCadastro:valorDesconto :frmCadastro:totalTitulo"
+					oncomplete="inclusaoParcelaDialog.hide()" 
+					disabled="#{cadastroTituloPagarBean.titulo.pagavel or cadastroTituloPagarBean.tituloParcela.parcelaPago}"/>
+				
+				<p:commandButton value="Pagar"	action="#{cadastroTituloPagarBean.pagarParcela}"
+						update="parcelasTable parcelaDialog panelParcela :frmCadastro:parcelas :frmCadastro:valorTitulo
+								:frmCadastro:valorJuros :frmCadastro:valorDesconto :frmCadastro:totalTitulo"
+						oncomplete="inclusaoParcelaDialog.hide()" 
+						disabled="#{cadastroTituloPagarBean.titulo.naoPagavel or cadastroTituloPagarBean.tituloParcela.parcelaPago}"/>
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				<p:commandButton value="Cancelar"
+					action="#{cadastroTituloPagarBean.limparParcela}"
+					oncomplete="inclusaoParcelaDialog.hide()" update="parcelaDialog" />
+			</h:panelGroup>
+		</h:panelGrid>		
+	</p:dialog>
+
+	<style>
+.bordas tr {
+	border: none;
+}
+</style>
+</ui:composition>

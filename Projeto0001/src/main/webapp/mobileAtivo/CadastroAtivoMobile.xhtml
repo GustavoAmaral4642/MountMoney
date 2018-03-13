@@ -1,0 +1,50 @@
+<ui:composition template="/WEB-INF/template/LayoutPadraoMobile.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+
+	<ui:define name="menuMobile">
+		<h:form>
+			<pm:header title="Novo Ativo">
+				<p:growl autoUpdate="true" />
+				<p:toolbar>
+					<f:facet name="left">
+						<p:commandButton type="button" value="Novo" icon="ui-icon-plus" />
+						<p:commandButton value="Salvar" icon="ui-icon-check"
+							action="#{cadastroAtivoBean.salvar}" process="@form"
+							update="@form" />
+					</f:facet>
+				</p:toolbar>
+
+				<p:panelGrid columns="2">
+					<pm:field>
+						<p:outputLabel for="siglaAtivo" value="Sigla" />
+						<p:inputText id="siglaAtivo"
+							value="#{cadastroAtivoBean.ativo.siglaAtivo}" />
+					</pm:field>
+				</p:panelGrid>
+
+				<p:panelGrid columns="2">
+					<pm:field>
+						<p:outputLabel for="nomeAtivo" value="Nome" />
+						<p:inputText id="nomeAtivo"
+							value="#{cadastroAtivoBean.ativo.nomeAtivo}" />
+					</pm:field>
+				</p:panelGrid>
+
+
+				<p:toolbar>
+					<f:facet name="left">
+					<p:button value="Menu principal" icon="ui-icon-back"
+						outcome="/mobile/menuMobile" />
+					<p:commandButton type="button" value="Pesquisa"
+						icon="ui-icon-bullets" />
+					</f:facet>
+				</p:toolbar>
+			</pm:header>
+		</h:form>
+	</ui:define>
+</ui:composition>

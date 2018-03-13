@@ -1,0 +1,32 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="westMenu">
+		<h:form>
+			<p:panelMenu style="width:190px" stateful="true">
+				<p:submenu label="Clientes">
+					<p:menuitem value="Pesquisar clientes" icon="fa fa-search" url="/clientes/PesquisaClientes.xhtml" />
+					<p:menuitem value="Cadastrar clientes" icon="fa fa-user" url="/clientes/CadastroCliente.xhtml" />
+				</p:submenu>
+				<p:submenu label="Fornecedores">
+					<p:menuitem value="Pesquisar fornecedores" icon="fa fa-search"
+						url="#" />
+					<p:menuitem value="Cadastrar fornecedores" icon="fa fa-user" url="#" />
+				</p:submenu>				
+				<p:submenu label="Usuários">
+					<p:menuitem value="Pesquisar usuários" icon="fa fa-search"/>
+					<p:menuitem value="Cadastrar usuários" icon="fa fa-user" url="/usuarios/CadastroUsuario.xhtml"/>
+				</p:submenu>				
+				<p:submenu label="Bancos">
+					<p:menuitem value="Pesquisar bancos" icon="fa fa-search" url="/bancos/PesquisaBancos.xhtml" />
+					<p:menuitem value="Cadastrar bancos" icon="fa fa-bank" url="/bancos/CadastroBanco.xhtml"/>						
+				</p:submenu>
+			</p:panelMenu>
+		</h:form>
+	</ui:define>
+</ui:composition>

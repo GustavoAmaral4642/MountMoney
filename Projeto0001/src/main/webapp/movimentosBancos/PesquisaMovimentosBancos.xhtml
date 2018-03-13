@@ -1,0 +1,147 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa Movimentações Bancárias</ui:define>
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<f:event listener="#{pesquisaMovimentosBancosBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<h:form id="frmPesquisa">
+			<h1>Pesquisa Movimentações Bancárias</h1>
+
+			<p:growl autoUpdate="true" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Cadastrar"
+						outcome="/movimentosBancos/CadastroMovimentoBanco"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Limpar"
+						action="#{pesquisaMovimentosBancosBean.limpar}" update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+
+					<p:commandButton value="Pesquisa"
+						action="#{pesquisaMovimentosBancosBean.pesquisar}"
+						update="@form"
+						style="margin-top: 05px; margin-left: 05px; margin-bottom: 05px;" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Banco" for="banco" />
+				<p:selectOneMenu id="banco"
+					value="#{pesquisaMovimentosBancosBean.filtro.banco}">
+					<f:selectItem itemLabel="Selecione um Banco" />
+					<f:selectItems
+						value="#{pesquisaMovimentosBancosBean.todosBancos}"
+						var="todosBancos" itemValue="#{todosBancos}"
+						itemLabel="#{todosBancos.nomeBanco}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Data do movimento" />
+				<h:panelGroup>
+					<p:calendar size="10" pattern="dd/MM/yyyy"
+						value="#{pesquisaMovimentosBancosBean.filtro.dataMovimentoDe}" />
+						a
+					<p:calendar size="10" pattern="dd/MM/yyyy"
+						value="#{pesquisaMovimentosBancosBean.filtro.dataMovimentoAte}" />
+				</h:panelGroup>
+			</p:panelGrid>
+
+			<p:panelGrid columns="6" id="painelTotal"
+				style="width: 100%; margin-top: 20px"
+				columnClasses="rotulo, campo, rotulo, campo, rotulo, campo">
+
+				<p:outputLabel value="Valores debitados" for="debito" />
+				<p:inputText id="debito" size="20" maxlength="20" readonly="true"
+					style="color: red" styleClass="moeda"
+					value="#{pesquisaMovimentosBancosBean.valoresDebitados}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+
+				<p:outputLabel value="Valores creditados" for="credito" />
+				<p:inputText id="credito" size="20" maxlength="20" readonly="true"
+					style="color: blue" styleClass="moeda"
+					value="#{pesquisaMovimentosBancosBean.valoresCreditados}">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+
+				<p:outputLabel value="Valores totais" for="total" />
+				<p:inputText id="total" size="20" maxlength="20" readonly="true"
+					value="#{pesquisaMovimentosBancosBean.valoresTotais}"
+					styleClass="moeda">
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+				</p:inputText>
+			</p:panelGrid>
+
+			<p:dataTable id="movimentosTable"
+				value="#{pesquisaMovimentosBancosBean.movimentosFiltrados}"
+				var="movimento" style="margin-top: 20px"
+				emptyMessage="Nenhum movimento encontrado." rows="20"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom">
+
+				<p:column headerText="Banco"
+					style="text-align: center; width: 150px">
+					<h:outputText
+						value="#{movimento.banco.nomeBanco}" />
+				</p:column>
+				<p:column headerText="Movimento de"
+					style="text-align: center; width: 100px">
+					<h:outputText rendered="#{movimento.tipoMovimento eq 'S'}"
+						value="Saída" />
+					<h:outputText rendered="#{movimento.tipoMovimento eq 'E'}"
+						value="Entrada" />
+				</p:column>
+				<p:column headerText="Data" style="text-align: center; width: 100px">
+					<h:outputText value="#{movimento.dataMovimento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Valor do movimento"
+					style="text-align: center; width: 150px">
+					<h:outputText value="#{movimento.valorMovimento}">
+						<f:convertNumber type="currency" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Histórico" style="text-align: center">
+					<h:outputText value="#{movimento.historico}" />
+				</p:column>
+
+				<p:column style="text-align: center; width: 100px">
+					<p:button outcome="/movimentosBancos/CadastroMovimentoBanco"
+						icon="ui-icon-pencil" title="Editar">
+						<f:param name="movimento" value="#{movimento.id}" />
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						update="movimentosTable" id="botaoExcluirMovimento"
+						actionListener="#{pesquisaMovimentosBancosBean.excluir(movimento)}">
+						<p:confirm header="Exclusão de movimentos"
+							message="Tem certeza que deseja excluir o movimento do banco`#{movimento.banco.nomeBanco}`, 
+							valor `#{movimento.valorMovimento}`?"
+							icon="ui-icon-alert" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

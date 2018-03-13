@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="frmContatoCliente">
+		<p:panelGrid columns="2" id="painelContatos"
+			style="width: 70%; margin-top: 40px" columnClasses="rotulo, campo">
+
+			<p:outputLabel value="Tipo do contato" for="tipoContato" />
+			<p:selectOneRadio id="tipoContato" styleClass="sem-bordas"
+				layout="lineDirection"
+				value="#{cadastroClienteBean.contato.contato}">
+				<f:selectItem itemLabel="Celular" itemValue="celular" />
+				<f:selectItem itemLabel="Telefone" itemValue="telefone" />
+				<f:selectItem itemLabel="E-mail" itemValue="email" />
+				<f:selectItem itemLabel="Facebook" itemValue="facebook" />
+				<f:selectItem itemLabel="Twitter" itemValue="twitter" />
+				<f:selectItem itemLabel="WhatsApp" itemValue="whatsapp" />
+			</p:selectOneRadio>
+
+			<p:outputLabel value="Nome do contato" />
+			<p:inputText size="60"
+				value="#{cadastroClienteBean.contato.nomeContato}" />
+
+			<p:outputLabel value="Endereço para contato" />
+			<p:inputText size="60"
+				value="#{cadastroClienteBean.contato.endereco}" />
+
+		</p:panelGrid>
+
+		<p:commandButton value="Adicionar contato"
+			style="margin-top: 20px; margin-left: 05px;"
+			update="contatosTable painelContatos"
+			action="#{cadastroClienteBean.adicionaContato}" process="@form" />
+
+
+		<p:dataTable value="#{cadastroClienteBean.cliente.contatos}"
+			var="contatoCliente" id="contatosTable" rows="5" paginator="true"
+			emptyMessage="Nenhum contato encontrado."
+			paginatorAlwaysVisible="false" paginatorPosition="bottom"
+			style="margin-top: 20px">
+
+			<f:facet name="header">
+				Contatos
+			</f:facet>
+			<p:column headerText="Tipo do contato" style="text-align: center">
+				<h:outputText value="#{contatoCliente.contato}" />
+			</p:column>
+			<p:column headerText="Nome do contato" style="text-align: center">
+				<h:outputText value="#{contatoCliente.nomeContato}" />
+			</p:column>
+			<p:column headerText="Endereço do contato" style="text-align: center">
+				<h:outputText value="#{contatoCliente.endereco}" />
+			</p:column>
+			<p:column style="width: 50px; text-align: center" id="coluna">
+				<p:commandButton icon="ui-icon-trash" title="Excluir"
+					update="contatosTable" id="botaoExcluirContato"
+					actionListener="#{cadastroClienteBean.excluirContato(contatoCliente)}">
+					<p:confirm header="Exclusão de contatos"
+						message="Tem certeza que deseja excluir o contato?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</p:column>
+
+		</p:dataTable>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		</p:confirmDialog>
+
+	</h:form>
+</ui:composition>

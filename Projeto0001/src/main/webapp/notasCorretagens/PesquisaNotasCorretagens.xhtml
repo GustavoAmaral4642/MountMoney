@@ -1,0 +1,131 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">PESQUISA NOTAS DE CORRETAGEM</ui:define>
+
+	<ui:define name="corpo" class="ui-g ui-md-3 ui-lg-3 ui-sm-3">
+		<div class="ui-g-12">
+
+			<h:form id="frmPesquisa">
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" style="width: 70%"
+						columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid"
+						styleClass="ui-panelgrid-blank">
+
+						<h1 style="width: 300px">PESQUISA NOTAS DE CORRETAGEM</h1>
+
+						<h:panelGroup style="float: right">
+							<p:button outcome="/notasCorretagens/CadastroNotaCorretagem"
+								icon="fa fa-plus"
+								style="margin-left: 10px; width: 35px; height: 35px"
+								title="Incluir" />
+
+							<p:commandButton action="#{pesquisaNotasCorretagensBean.limpar}"
+								title="Limpar" update="@form" icon="fa fa-recycle" type="button"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+							<p:commandButton
+								action="#{pesquisaNotasCorretagensBean.pesquisar}"
+								update="@form" icon="fa fa-search" title="Pesquisar"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+
+				<p:growl autoUpdate="true" />
+
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" id="painel"
+						styleClass="ui-panelgrid-blank"
+						style="width: 70%; margin-top: 20px"
+						columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid">
+
+						<p:outputLabel value="Numero da nota" for="numeroNota" />
+						<p:inputText id="numeroNota" size="25" maxlength="25"
+							value="#{pesquisaNotasCorretagensBean.filtro.numeroNota}" />
+
+						<p:outputLabel value="Conta da corretora" for="contaCorretora" />
+						<p:inputText id="contaCorretora" size="100" maxlength="150"
+							value="#{pesquisaNotasCorretagensBean.filtro.nomeContaCorretora}" />
+
+						<p:outputLabel value="Data do Pregão Inicial" />
+						<p:calendar size="10" pattern="dd/MM/yyyy" mask="99/99/9999"
+							value="#{pesquisaNotasCorretagensBean.filtro.dtMovimentoDe}" />
+
+						<p:outputLabel value="Data do Pregão Final" />
+						<p:calendar size="10" pattern="dd/MM/yyyy" mask="99/99/9999"
+							value="#{pesquisaNotasCorretagensBean.filtro.dtMovimentoAte}" />
+
+					</p:panelGrid>
+				</div>
+
+				<div class="ui-fluid">
+					<p:dataTable id="notasTable"
+						value="#{pesquisaNotasCorretagensBean.notasFiltradas}"
+						reflow="true" var="nota" style="margin-top: 20px"
+						emptyMessage="Nenhuma nota de corretagem encontrada." rows="10"
+						paginator="true" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom">
+
+						<f:facet name="header">
+							Notas de Corretagem							
+						</f:facet>
+
+						<p:column headerText="Número da Nota" sortBy="#{nota.numeroNota}">
+							<h:outputText value="#{nota.numeroNota}" />
+						</p:column>
+
+						<p:column headerText="Conta da Corretora"
+							sortBy="#{nota.contaCorretora}">
+							<h:outputText value="#{nota.contaCorretora.nomeContaCorretora}" />
+						</p:column>
+
+						<p:column headerText="Data do Pregão" sortBy="#{nota.dataPregao}">
+							<h:outputText value="#{nota.dataPregao}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Vlr.Total Líquido"
+							sortBy="#{nota.vlrTotalLiquido}">
+							<h:outputText value="#{nota.vlrTotalLiquido}">
+								<f:convertNumber type="currency" maxFractionDigits="3"
+									minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+
+						<p:column style="width: 40px">
+							<p:button outcome="/notasCorretagens/CadastroNotaCorretagem"
+								icon="ui-icon-pencil" title="Editar">
+								<f:param name="nota" value="#{nota.id}" />
+							</p:button>
+						</p:column>
+
+						<p:column style="width: 40px">
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								update="notasTable" id="botaoExcluirNota"
+								actionListener="#{pesquisaNotasCorretagensBean.excluir(nota)}">
+								<p:confirm header="Exclusão de Nota de Corretagem"
+									message="Tem certeza que deseja excluir a nota`#{nota.numeroNota}`?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>

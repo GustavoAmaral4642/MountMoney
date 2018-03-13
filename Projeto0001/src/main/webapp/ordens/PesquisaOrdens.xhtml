@@ -1,0 +1,183 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">PESQUISA DE ORDENS</ui:define>
+
+	<ui:define name="corpo" class="ui-g ui-md-3 ui-lg-3 ui-sm-3">
+		<div class="ui-g-12">
+			<f:metadata>
+				<f:event listener="#{pesquisaOrdensBean.inicializar}"
+					type="preRenderView" />
+			</f:metadata>
+
+			<h:form id="frmPesquisa">
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" style="width: 99%"
+						columnClasses="ui-grid-col-2,ui-grid-col-10" layout="grid"
+						styleClass="ui-panelgrid-blank">
+
+						<h1 style="width: 300px">PESQUISA ORDENS</h1>
+
+						<h:panelGroup style="float: right">
+							<p:button outcome="/ordens/CadastroOrdem" icon="fa fa-plus"
+								style="margin-left: 10px; width: 35px; height: 35px"
+								title="Incluir" />
+
+							<p:commandButton action="#{pesquisaOrdensBean.limpar}"
+								title="Limpar" update="@form" icon="fa fa-recycle" type="button"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+							<p:commandButton action="#{pesquisaOrdensBean.pesquisar}"
+								update="@form" icon="fa fa-search" title="Pesquisar"
+								style="margin-left: 10px; width: 35px; height: 35px" />
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+
+				<p:growl autoUpdate="true" />
+
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" id="painel"
+						styleClass="ui-panelgrid-blank"
+						style="width: 99%; margin-top: 20px"
+						columnClasses="ui-grid-col-2,ui-grid-col-4" layout="grid">
+
+						<p:outputLabel value="Conta da corretora" for="contaCorretora" />
+						<p:inputText id="contaCorretora" size="100" maxlength="150"
+							value="#{pesquisaOrdensBean.filtro.nomeContaCorretora}" />
+
+						<p:outputLabel value="Sigla do ativo" for="siglaAtivo" />
+						<p:inputText id="siglaAtivo" size="20" maxlength="20"
+							value="#{pesquisaOrdensBean.filtro.siglaAtivo}" />
+
+						<p:outputLabel value="Data do movimento inicial" />
+						<p:calendar size="10" pattern="dd/MM/yyyy" mask="99/99/9999"
+							value="#{pesquisaOrdensBean.filtro.dtMovimentoDe}" />
+
+						<p:outputLabel value="Data do movimento final" />
+						<p:calendar size="10" pattern="dd/MM/yyyy" mask="99/99/9999"
+							value="#{pesquisaOrdensBean.filtro.dtMovimentoAte}" />
+
+						<p:outputLabel value="Tipo de ordem" for="tipoOrdem" />
+						<p:selectManyCheckbox id="tipoOrdem"
+							value="#{pesquisaOrdensBean.filtro.tpOrdem}">
+							<f:selectItems value="#{pesquisaOrdensBean.tipoOrdem}"
+								var="tpOrdem" itemValue="#{tpOrdem}"
+								itemLabe="#{tpOrdem.descricao}" />
+						</p:selectManyCheckbox>
+
+					</p:panelGrid>
+				</div>
+
+				<div class="ui-fluid">
+					<p:dataTable id="ordensTable"
+						value="#{pesquisaOrdensBean.ordensFiltradas}" reflow="true"
+						var="ordem" style="margin-top: 20px; width: 99%"
+						emptyMessage="Nenhuma ordem encontrada." rows="10"
+						paginator="true" paginatorAlwaysVisible="false"
+						paginatorPosition="bottom">
+
+						<f:facet name="header">
+							Ordens							
+						</f:facet>
+
+						<p:column headerText="TP" sortBy="#{ordem.tpOrdem}"
+							style="width: 50px">
+							<h:outputText rendered="#{ordem.tpOrdem eq 'COMPRA'}" value="C" />
+							<h:outputText rendered="#{ordem.tpOrdem eq 'VENDA'}" value="V" />
+						</p:column>
+
+						<p:column headerText="Corretora"
+							sortBy="#{ordem.contaCorretora.nomeContaCorretora}">
+							<h:outputText value="#{ordem.contaCorretora.nomeContaCorretora}" />
+						</p:column>
+
+						<p:column headerText="Ativo" sortBy="#{ordem.ativo.siglaAtivo}">
+							<h:outputText value="#{ordem.ativo.siglaAtivo}" />
+						</p:column>
+
+						<p:column headerText="Data da operação"
+							sortBy="#{ordem.dtMovimento}">
+							<h:outputText value="#{ordem.dtMovimento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Quantidade de lotes"
+							sortBy="#{ordem.qtMovimentada}">
+							<h:outputText value="#{ordem.qtMovimentada}" />
+						</p:column>
+
+						<p:column headerText="Valor unitário da operação"
+							sortBy="#{ordem.vrOperacao}">
+							<h:outputText value="#{ordem.vrOperacao}">
+								<f:convertNumber type="currency" maxFractionDigits="3"
+									minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Valor total" sortBy="#{ordem.vrTotal}">
+							<h:outputText value="#{ordem.vrTotal}">
+								<f:convertNumber type="currency" maxFractionDigits="3"
+									minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Corretagem" sortBy="#{ordem.vrCorretagem}">
+							<h:outputText value="#{ordem.vrCorretagem}">
+								<f:convertNumber type="currency" maxFractionDigits="3"
+									minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Tx.Liquidação" sortBy="#{ordem.vrTaxaLiquidacao}">
+							<h:outputText value="#{ordem.vrTaxaLiquidacao}">
+								<f:convertNumber type="currency" maxFractionDigits="3"
+									minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column headerText="Emolumentos" sortBy="#{ordem.vrEmolumentos}">
+							<h:outputText value="#{ordem.vrEmolumentos}">
+								<f:convertNumber type="currency" maxFractionDigits="3"
+									minFractionDigits="3" />
+							</h:outputText>
+						</p:column>
+						
+						<p:column style="width: 40px">
+							<p:button outcome="/ordens/CadastroOrdem" icon="ui-icon-pencil"
+								title="Editar">
+								<f:param name="ordem" value="#{ordem.id}" />
+							</p:button>
+						</p:column>
+
+						<p:column style="width: 40px">
+							<p:commandButton icon="ui-icon-trash" title="Excluir"
+								update="ordensTable" id="botaoExcluirOrdem"
+								actionListener="#{pesquisaOrdensBean.excluir(ordem)}">
+								<p:confirm header="Exclusão de Ordem"
+									message="Tem certeza que deseja excluir a ordem `#{ordem.id}`?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+				</div>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+

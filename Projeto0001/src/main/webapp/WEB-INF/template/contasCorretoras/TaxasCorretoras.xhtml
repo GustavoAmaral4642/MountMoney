@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" id="painelContaCorretoraTaxas"
+		style="width: 70%; margin-top: 40px" columnClasses="rotulo, campo">
+
+		<p:outputLabel value="Taxa emolumento (%)" for="taxaEmolumento" />
+		<p:inputText id="taxaEmolumento" size="10" maxlength="10"
+			value="#{cadastroContaCorretoraBean.contaCorretora.taxaEmolumento}" styleClass="moedaQuatroDecimais">
+			<f:convertNumber maxFractionDigits="4" minFractionDigits="4" />
+		</p:inputText>
+
+		<p:outputLabel value="Taxa de Liquidação (%)" for="taxaLiquidacao" />
+		<p:inputText id="taxaLiquidacao" size="10" maxlength="10"
+			value="#{cadastroContaCorretoraBean.contaCorretora.taxaLiquidacao}" styleClass="moedaQuatroDecimais">
+			<f:convertNumber maxFractionDigits="4" minFractionDigits="4" />
+		</p:inputText>
+
+		<p:outputLabel value="Valor corretagem (R$)" for="valorCorretagem" />
+		<p:inputText id="valorCorretagem" size="10" maxlength="10"
+			value="#{cadastroContaCorretoraBean.contaCorretora.valorCorretagem}" styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+		
+		<p:outputLabel value="Valor custódia (R$)" for="valorCustodia" />
+		<p:inputText id="valorCustodia" size="10" maxlength="10"
+			value="#{cadastroContaCorretoraBean.contaCorretora.valorCustodia}" styleClass="moeda">
+			<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+		</p:inputText>
+	</p:panelGrid>
+
+</ui:composition>

@@ -1,0 +1,132 @@
+@charset "utf-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+	background-color: rgb(240, 240, 238)
+}
+
+header {
+	padding: 5px 0px;
+	margin-bottom: 0px;
+	height: 40px;
+	background-color: #00a796;
+	color: #fff;
+	box-shadow: 0px 2px 2px #ccc;
+}
+
+header>div {
+	margin-left: 8px
+}
+
+#conteudo {
+	padding: 0px 8px
+}
+
+footer {
+	padding: 0px 8px;
+	margin-bottom: 10px
+}
+
+h4 {
+	font-size: 24px;
+	font-weight: 500;
+	padding: 0px;
+	margin: 0 40%;
+	margin-top: 10px;
+	color: #00a796;
+}
+
+h1 {
+	font-size: 18px;	
+}
+
+#j_idt13 {
+	background-color: #00a796;
+	color: #00a796;
+}
+
+#j_idt13>div.ui-widget-content{
+	background-color: #00a796;
+}
+
+#login-dialog {
+	width: 290px;
+	margin-left: 40%;
+	margin-top: 200px;
+}
+
+.grid-login {
+	background-color: #f2f2f2;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	margin-top: 8px;
+	padding: 10px;
+}
+
+.rotulo {
+	width: 150px
+}
+
+.ui-panelgrid td {
+	height: 34px
+}
+
+.ajax-status {
+	position: fixed;
+	top: 55px;
+	right: 10px;
+	width: 35px;
+	height: 35px
+}
+
+/* referente aos botões*/
+.ui-button, button.ui-button.ui-state-default, .ui-button.ui-state-default
+	{
+	border: 1px solid #00a796;
+	background: #00a796;
+}
+
+/* referente aos botões*/
+.button.ui-button.ui-state-default, .ui-button.ui-state-default {
+	border: 1px solid #00a796;
+	background: #00a796;
+}
+
+/* referente aos botões*/
+.ui-button.ui-state-default {
+	border: 1px solid #00a796;
+	background: #00a796;
+}
+
+
+
+/* Menu sistema inicio */
+.menu-sistema {
+	border: 0px !important;
+	padding: 0px !important;
+	background: none !important;
+}
+
+.ui-menuitem-text
+	{
+	color: #000000 !important;
+}
+
+.menu-sistema .ui-menu-parent>a, .menu-sistema>.ui-menu-list>.ui-menuitem>a>
+	{
+	color: #ffffff !important;
+}
+
+.menu-sistema .ui-menuitem-icon.ui-icon.fa.fa-navicon{
+	color: #ffffff;
+}
+
+/* tem que existir se não aparece a setinha*/
+.menu-sistema .ui-icon-triangle-1-s {
+	background: none;
+	no-repeat;
+}
+/* Menu sistema fim  taquidentro*/

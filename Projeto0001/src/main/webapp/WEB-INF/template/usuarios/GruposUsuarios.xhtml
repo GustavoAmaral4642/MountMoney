@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" columnClasses="rotulo, campo" style="margin-top: 20px">
+		<p:selectOneMenu id="grupoTipo" value="#{cadastroUsuarioBean.grupo}">
+			<f:selectItem itemLabel="Selecione o grupo" />
+			<f:selectItems value="#{cadastroUsuarioBean.gruposTodos}" var="grupo"
+				itemValue="#{grupo}" itemLabel="#{grupo.descricao}"/>
+		</p:selectOneMenu>
+		
+		<p:commandButton value="Adicionar grupo" action="#{cadastroUsuarioBean.adicionaGrupo}"
+			update="gruposTable grupoTipo"/>		
+	</p:panelGrid>
+
+	<p:dataTable value="#{cadastroUsuarioBean.incluidos}" var="grupoSelecionado" id="gruposTable" 
+		style="margin-top: 5px" emptyMessage="Nenhum grupo encontrado.">
+		<p:column headerText="Grupo" >			
+			<h:outputText value="#{grupoSelecionado.descricao}"/>
+		</p:column>
+		
+		<p:column style="text-align: center; width: 50px">			
+			<p:commandButton icon="ui-icon-trash" action="#{cadastroUsuarioBean.removeGrupo}"
+				update="gruposTable" process="@this">
+				<f:setPropertyActionListener
+							target="#{cadastroUsuarioBean.grupoSelecionado}"
+							value="#{grupoSelecionado}" />
+		    </p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+</ui:composition>

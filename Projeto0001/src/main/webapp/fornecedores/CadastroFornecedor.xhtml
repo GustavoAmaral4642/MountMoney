@@ -1,0 +1,112 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">#{cadastroFornecedorBean.editando ? 'Edição de fornecedores' : 'Novo fornecedor'}</ui:define>
+
+	<ui:define name="corpo">
+
+		<f:metadata>
+			<o:viewParam name="fornecedor" value="#{cadastroFornecedorBean.fornecedor}" />
+			<f:event listener="#{cadastroFornecedorBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+		
+		<h:form id="frmCadastroFornecedor">
+			<h1>#{cadastroFornecedorBean.editando ? 'Edição de fornecedores' : 'Novo fornecedor'}</h1>
+			<p:messages autoUpdate="true" closable="true"/>
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:button value="Novo" outcome="/fornecedores/CadastroFornecedor" />
+					<p:commandButton value="Salvar" id="botaoSalvar"
+						action="#{cadastroFornecedorBean.salvar}" update="@form"
+						process=":frmCadastroFornecedor:painelCadastroFornecedor @this" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Pesquisa" outcome="/fornecedores/PesquisaFornecedores"/>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid columns="2" id="painelCadastroFornecedor"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Tipo de pessoa" for="tipoPessoa" />
+				<p:selectOneRadio id="tipoPessoa" styleClass="sem-bordas"
+					layout="lineDirection"
+					value="#{cadastroFornecedorBean.fornecedor.tipoPessoa}">
+					<f:selectItem itemLabel="Jurídica" itemValue="J" />
+					<f:selectItem itemLabel="Física" itemValue="F" />
+					<p:ajax event="change"
+						update="grupoLabelCpfCnpj, grupoInputCpfCnpj, 
+								grupoLabelDocumento, grupoInputDocumento,
+								grupoLabelRazaoSocial" 
+								process="@this" />
+				</p:selectOneRadio>
+
+				<p:outputLabel value="Nome" for="nome" />
+				<p:inputText id="nome" size="80" maxlength="100"
+					value="#{cadastroFornecedorBean.fornecedor.nome}" />
+					
+				<h:panelGroup id="grupoLabelRazaoSocial">
+					<p:outputLabel value="Apelido" for="razaoSocial"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'F'}" />
+					<p:outputLabel value="Razão Social" for="razaoSocial"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'J'}" />
+				</h:panelGroup>
+				<p:inputText id="razaoSocial" size="80" maxlength="100"
+					value="#{cadastroFornecedorBean.fornecedor.razaoSocial}" />
+
+				<h:panelGroup id="grupoLabelCpfCnpj">
+					<p:outputLabel value="CPF" for="cpf"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'F'}" />
+					<p:outputLabel value="CNPJ" for="cnpj"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'J'}" />
+				</h:panelGroup>
+
+				<h:panelGroup id="grupoInputCpfCnpj">
+					<p:inputMask mask="999.999.999-99" id="cpf"
+						value="#{cadastroFornecedorBean.fornecedor.cnpjCpf}"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'F'}" />
+					<p:inputMask mask="99.999.999/9999-99" id="cnpj"
+						value="#{cadastroFornecedorBean.fornecedor.cnpjCpf}"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'J'}" />
+				</h:panelGroup>
+
+				<h:panelGroup id="grupoLabelDocumento">
+					<p:outputLabel value="RG" for="rg"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'F'}" />
+					<p:outputLabel value="Inscrição Estadual" for="ie"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'J'}" />
+				</h:panelGroup>
+
+				<h:panelGroup id="grupoInputDocumento">
+					<p:inputMask mask="99.999.999-9" id="rg"
+						value="#{cadastroFornecedorBean.fornecedor.documento}"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'F'}" />
+					<p:inputMask mask="999.999.999.999" id="ie"
+						value="#{cadastroFornecedorBean.fornecedor.documento}"
+						rendered="#{cadastroFornecedorBean.fornecedor.tipoPessoa eq 'J'}" />
+				</h:panelGroup>
+			</p:panelGrid>
+
+			<p:tabView style="margin-top: 20px">
+				<p:tab title="Contatos">
+					<ui:include src="/WEB-INF/template/fornecedores/Contatos.xhtml" />
+				</p:tab>
+				<p:tab title="Endereços">
+					<ui:include src="/WEB-INF/template/fornecedores/Enderecos.xhtml" />
+				</p:tab>
+			</p:tabView>
+
+			<style>
+.sem-bordas td {
+	border: none;
+	padding: 5px;
+}
+</style>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><ui:insert name="titulo">Mount Money</ui:insert></title>
+
+	<h:outputStylesheet library="css" name="sistema.css" />
+	<h:outputScript library="js" name="jquery.maskMoney.js" />
+</h:head>
+
+<h:body>
+
+	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+		<f:facet name="start">
+			<h:graphicImage library="images" name="loading.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+	<header>
+
+	<div style="float: left">
+		<h:link outcome="/Home">
+			<h:graphicImage library="images" name="Logotipo.png" />
+		</h:link>
+	</div>
+
+	<div style="float: right; margin-right: 50px"
+		class="ui-g-12 ui-md-6 ui-lg-5 ui-sm-6 ">
+		<span
+			style="float: left; height: 30px; line-height: 30px; margin-right: 60px">
+			Olá #{seguranca.nomeUsuario}! </span>
+
+
+		<h:form style="display: inline-block">
+			<p:menubar styleClass="menu-sistema">
+
+				<p:submenu label="Movimentações">
+					<p:menuitem value="Banco"
+						outcome="/movimentosBancos/CadastroMovimentoBanco" />
+					<p:menuitem value="Contas de corretora(Bolsa)"
+						outcome="/movimentosBolsas/CadastroMovimentoBolsa" />
+
+				</p:submenu>
+
+				<p:submenu label="Ordens">
+					<p:menuitem value="Registrar ordens"
+						outcome="/ordens/PesquisaOrdens" />
+				</p:submenu>
+
+				<p:submenu label="Cadastros">
+					<p:menuitem value="Usuários" outcome="/usuarios/PesquisaUsuarios" />
+					<p:menuitem value="Contas de corretoras"
+						outcome="/contasCorretoras/PesquisaContasCorretoras" />
+					<p:menuitem value="Ativos" outcome="/ativos/PesquisaAtivos" />
+					<p:menuitem value="Bancos" outcome="/bancos/PesquisaBancos" />
+					<p:menuitem value="Grupos de investidores"
+						outcome="/gruposInvestidores/PesquisaGruposInvestidores" />
+				</p:submenu>
+
+				<p:submenu label="Consultas">
+					<p:menuitem value="Ocorrências"
+						outcome="/ocorrencias/PesquisaOcorrencias" />
+					<p:menuitem value="Ativos"
+						outcome="/ordens/ConsultaAtivosComprados" />
+					<p:menuitem value="Carteira" outcome="/ordens/ConsultaCarteira" />
+					<p:menuitem value="Movimentações Bancárias"
+						outcome="/movimentosBancos/PesquisaMovimentosBancos" />
+					<p:menuitem value="Movimentações Bolsa(Bovespa)"
+						outcome="/movimentosBolsas/PesquisaMovimentosBolsas" />
+				</p:submenu>
+
+				<p:submenu label="Mobile">
+					<p:menuitem value="Mobile" outcome="/mobile/menuMobile" />
+				</p:submenu>
+
+				<p:menuitem value="Sair" url="/j_spring_security_logout" />
+
+			</p:menubar>
+		</h:form>
+	</div>
+
+	<div class="ui-g" style="clear: both"></div>
+	</header>
+
+	<div id="conteudo" class="ui-g">
+		<ui:insert name="corpo" />
+	</div>
+
+	<p:separator style="margin-top 20px" />
+	<!-- 
+	<footer> Gustavo Amaral <a href="" target="_blank">www.guti.com</a>
+	</footer>
+ 	 -->
+	<script>
+		function configurarMoeda() {
+			$(".moeda").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true,
+				precision : 2
+			});
+		}
+
+		$(document).ready(function() {
+			configurarMoeda();
+		});
+	</script>
+
+	<script>
+		function configurarMoedaTresDecimais() {
+			$(".moedaTresDecimais").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true,
+				precision : 3
+			});
+		}
+
+		$(document).ready(function() {
+			configurarMoedaTresDecimais();
+		});
+	</script>
+
+	<script>
+		function configurarMoedaQuatroDecimais() {
+			$(".moedaQuatroDecimais").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true,
+				precision : 4
+			});
+		}
+
+		$(document).ready(function() {
+			configurarMoedaQuatroDecimais();
+		});
+	</script>
+
+
+</h:body>
+
+</html>

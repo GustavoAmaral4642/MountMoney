@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:panelGrid columns="2" columnClasses="rotulo, campo"
+		style="margin-top: 20px">
+		<p:commandButton value="Adicionar endereço" style="margin-top: 20px" styleClass="bordas"
+			onclick="inclusaoEnderecoDialog.show(); return false;"/>
+	</p:panelGrid>
+
+	<p:dataTable value="#{cadastroFornecedorBean.enderecos}" var="enderecoFornecedor" id="enderecosTable"
+		style="margin-top: 5px" emptyMessage="Nenhum endereço encontrado.">
+		
+		<p:column headerText="CEP" style="width: 120px; text-align: center;">
+			<h:outputText value="#{enderecoFornecedor.cep}" />
+		</p:column>
+		
+		<p:column headerText="Logradouro">
+			<h:outputText value="#{enderecoFornecedor.logradouro}" />
+		</p:column>
+
+		<p:column headerText="Nº" style="width: 100px; text-align: center;">
+			<h:outputText value="#{enderecoFornecedor.numero}" />
+		</p:column>
+
+		<p:column headerText="Bairro" >
+			<h:outputText value="#{enderecoFornecedor.bairro}" />
+		</p:column>
+		
+		<p:column headerText="Cidade" style="width: 200px; text-align: left;">
+			<h:outputText value="#{enderecoFornecedor.cidade}" />
+		</p:column>
+		
+		<p:column headerText="UF" style="width: 50px; text-align: center;">
+			<h:outputText value="#{enderecoFornecedor.uf}" />
+		</p:column>
+		
+		<p:column headerText="País" style="width: 200px; text-align: left;">
+			<h:outputText value="#{enderecoFornecedor.pais}" />
+		</p:column>
+		
+		<p:column style="text-align: center; width: 50px">
+			<p:commandButton icon="ui-icon-trash" update="enderecosTable"
+				process="@this" action="#{cadastroFornecedorBean.removeEndereco}">
+				<f:setPropertyActionListener value="#{enderecoFornecedor}" target="#{cadastroFornecedorBean.endereco}"/>
+			</p:commandButton>
+		</p:column>
+	</p:dataTable>
+
+	<p:dialog header="Inclusão de endereços"
+		widgetVar="inclusaoEnderecoDialog" resizable="false" modal="true"
+		minimizable="true" maximizable="true" id="enderecoDialog">
+
+		<h:panelGrid columns="2" id="panelEndereco">
+			<p:outputLabel value="CEP" />
+			<p:inputText size="20" maxlength="9"
+				value="#{cadastroFornecedorBean.endereco.cep}" />
+
+			<p:outputLabel value="Logradouro" />
+			<p:inputText size="60" maxlength="150" value="#{cadastroFornecedorBean.endereco.logradouro}" />
+
+			<p:outputLabel value="Número" />
+			<p:inputText size="20" maxlength="20" 
+			value="#{cadastroFornecedorBean.endereco.numero}"/>
+			
+			<p:outputLabel value="Bairro" />
+			<p:inputText size="60" maxlength="60" 
+			value="#{cadastroFornecedorBean.endereco.bairro}"/>
+			
+			<p:outputLabel value="Cidade" />
+			<p:inputText size="60" maxlength="60" 
+			value="#{cadastroFornecedorBean.endereco.cidade}"/>
+			
+			<p:outputLabel value="UF" />
+			<p:inputText size="5" maxlength="5" 
+			value="#{cadastroFornecedorBean.endereco.uf}"/>
+			
+			<p:outputLabel value="País" />
+			<p:inputText size="60" maxlength="60" 
+			value="#{cadastroFornecedorBean.endereco.pais}"/>
+			
+			<p:spacer />
+			<h:panelGroup>
+				<p:commandButton value="Incluir" action="#{cadastroFornecedorBean.adicionaEndereco}"  
+					update="enderecosTable enderecoDialog panelEndereco" oncomplete="inclusaoEnderecoDialog.hide()" />
+				<p:commandButton value="Cancelar" action="#{cadastroFornecedorBean.limparEndereco}" oncomplete="inclusaoEnderecoDialog.hide()"
+					update="enderecoDialog"/>			
+			</h:panelGroup>
+		</h:panelGrid>
+	</p:dialog>
+	
+	<style>
+.bordas tr {
+	border: none;
+}
+</style>
+</ui:composition>

@@ -1,0 +1,40 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+	<f:metadata>
+		<o:viewParam name="titulo" value="#{cadastroTituloPagarBean.titulo}"/>
+		<f:event listener="#{cadastroTituloPagarBean.inicializar}"
+			type="preRenderView" />
+	</f:metadata>
+		
+    <ui:define name="titulo">Novo título</ui:define>
+    
+    <ui:define name="corpo">
+    	
+    	<h:form id="frmCadastro">
+	    	<h1>Novo título</h1>
+
+			<!-- <p:growl autoUpdate="true" life="50000"/> -->
+			<p:messages autoUpdate="true" closable="true"/>
+			
+			<ui:include src="/WEB-INF/template/titulosPagar/BotoesTitulo.xhtml"/>
+			
+			<ui:include src="/WEB-INF/template/titulosPagar/CapaTitulo.xhtml"/>
+			
+			<p:tabView style="margin-top: 20px" id="tabViewCadastro">
+				<p:tab title="Vencimentos">
+					<ui:include src="/WEB-INF/template/titulosPagar/Vencimentos.xhtml"/>
+				</p:tab>
+				<p:tab title="Observação">
+					<ui:include src="/WEB-INF/template/titulosPagar/Observacao.xhtml"/>
+				</p:tab>
+			</p:tabView> 
+		</h:form>	
+    </ui:define>
+</ui:composition>
+    
