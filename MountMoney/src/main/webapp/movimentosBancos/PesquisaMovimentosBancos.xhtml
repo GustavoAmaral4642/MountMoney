@@ -131,29 +131,33 @@
                                 Movimentos Bancários
                             </f:facet>
 							<p:column headerText="Banco"
+								sortBy="#{movimento.banco.nomeBanco}"
 								style="text-align: center; width: 150px">
 								<h:outputText value="#{movimento.banco.nomeBanco}" />
 							</p:column>
-							<p:column headerText="Movimento de"
+							<p:column headerText="Tipo de Movimento"
+								sortBy="#{movimento.tipoMovimento}"
 								style="text-align: center; width: 100px">
 								<h:outputText rendered="#{movimento.tipoMovimento eq 'S'}"
 									value="Saída" />
 								<h:outputText rendered="#{movimento.tipoMovimento eq 'E'}"
 									value="Entrada" />
 							</p:column>
-							<p:column headerText="Data"
+							<p:column headerText="Data" sortBy="#{movimento.dataMovimento}"
 								style="text-align: center; width: 100px">
 								<h:outputText value="#{movimento.dataMovimento}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Valor do movimento"
+								sortBy="#{movimento.valorMovimento}"
 								style="text-align: center; width: 150px">
 								<h:outputText value="#{movimento.valorMovimento}">
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Histórico" style="text-align: center">
+							<p:column headerText="Histórico" style="text-align: center"
+								sortBy="#{movimento.historico}">
 								<h:outputText value="#{movimento.historico}" />
 							</p:column>
 
