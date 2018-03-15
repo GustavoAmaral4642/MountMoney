@@ -87,7 +87,7 @@ public class PesquisaMovimentosBancosBean implements Serializable {
 
 				// faz a saída e entrada de dinheiro
 				if (calc.getTipoMovimento().equals("S")) {
-					valoresDebitados = valoresDebitados.subtract(calc.getValorMovimento());
+					valoresDebitados = valoresDebitados.add(calc.getValorMovimento());
 					valoresTotais = valoresTotais.subtract(calc.getValorMovimento());
 				} else if (calc.getTipoMovimento().equals("E")) {
 					valoresCreditados = valoresCreditados.add(calc.getValorMovimento());
@@ -95,6 +95,7 @@ public class PesquisaMovimentosBancosBean implements Serializable {
 				}
 			}
 		}
+		
 	}
 
 	public List<MovimentoBanco> getMovimentosFiltrados() {
