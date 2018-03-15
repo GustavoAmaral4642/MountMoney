@@ -69,6 +69,8 @@ public class CadastroOrdemBean implements Serializable {
 
 	public void salvar() {
 		
+		cadastroOrdemService.pesquisaOrdemCadastrada(ordem);
+		
 		// alimenta Ordem
 		this.ordem = cadastroOrdemService.calcularValorTotal(ordem);
 		this.ordem = cadastroOrdemService.ordemMovimento(ordem);

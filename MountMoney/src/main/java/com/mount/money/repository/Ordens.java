@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +15,6 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
-import com.mount.money.model.Ativo;
 import com.mount.money.model.Ordem;
 import com.mount.money.repository.filter.OrdemFilter;
 import com.mount.money.security.Seguranca;
@@ -112,4 +112,16 @@ public class Ordens implements Serializable {
 	public List<Ordem> todasOrdens() {
 		return manager.createQuery("from Ordem", Ordem.class).getResultList();
 	}
+	
+	//Buscar ordem por número
+	public Ordem porNumero(String od){
+		
+		try {
+			return manager.createQuery("from Ordem where upper(numeroOrdem) = :numOrdem", Ordem.class)
+					.setParameter("numOrdem", od.toUpperCase()).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}		
+	}	
+	
 }

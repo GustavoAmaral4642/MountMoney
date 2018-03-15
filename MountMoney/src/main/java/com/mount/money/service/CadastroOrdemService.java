@@ -78,5 +78,17 @@ public class CadastroOrdemService implements Serializable {
 
 		return ordem;
 	}
-	
+
+	// pesquisar se a ordem já foi cadastrada
+	public Ordem pesquisaOrdemCadastrada(Ordem ordem) {
+
+		ordem = ordens.porNumero(ordem.getNumeroOrdem());
+
+		if (ordem != null) {
+			throw new NegocioException("Já existe uma ordem com esta numeração cadastrada!");
+		}
+
+		return ordem;
+	}
+
 }
