@@ -1131,6 +1131,8 @@ body {
   }
   .login-body .left-side img {
     padding: 60px 0 60px 0;
+    width: 315px;
+  	height: 51px;
   }
   .login-body .left-side h1 {
     font-size: 40px;

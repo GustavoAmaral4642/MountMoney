@@ -149,6 +149,13 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:inputText id="valorIrrf" label="Valor de IRRF"
+								placeholder="Valor de IRRF" size="20" maxlength="20"
+								value="#{cadastroNotaCorretagemBean.nota.vlrIrrf}"
+								styleClass="moedaTresDecimais">
+								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
+							</p:inputText>
+
 							<p:inputText id="valorOutras" label="Valor Outras"
 								placeholder="Valor Outras" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrOutras}"
@@ -179,7 +186,7 @@
 							<p:separator />
 
 						</p:panelGrid>
-						
+
 						<ui:include src="/WEB-INF/template/notas/OrdensNota.xhtml" />
 					</div>
 				</div>
@@ -192,12 +199,14 @@
 								styleClass="ui-panelgrid-blank grid-pad">
 
 								<p:commandButton id="botaoSalvar" value="Salvar"
-									icon="fa fa-check" action="#{cadastroNotaCorretagemBean.salvar}"
+									icon="fa fa-check"
+									action="#{cadastroNotaCorretagemBean.salvar}"
 									process="@this panelCampos growl" update="panelCampos growl"
 									onclick="/ordens/CadastroOrdem.xhtml" />
 
 								<p:button type="button" value="Limpar"
-									outcome="/notasCorretagens/CadastroNotaCorretagem" icon="fa fa-rotate-left" />
+									outcome="/notasCorretagens/CadastroNotaCorretagem"
+									icon="fa fa-rotate-left" />
 
 								<p:button type="button" value="Pesquisar"
 									outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
