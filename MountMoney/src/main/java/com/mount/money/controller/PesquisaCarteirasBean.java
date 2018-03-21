@@ -2,6 +2,7 @@ package com.mount.money.controller;
 
 import java.io.IOException;	 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,8 @@ public class PesquisaCarteirasBean implements Serializable{
 	
 	private CarteiraFilter filtro; // variavel para usar campos no filtro
 
+	private OrdemConsulta ordemConsulta;
+	
 	private List<String> ativosFiltrados; 
 	private List<ContaCorretora> todasContasCorretoras; 
 	private List<OrdemConsulta> odsConsultas;
@@ -52,6 +55,7 @@ public class PesquisaCarteirasBean implements Serializable{
 		ativosFiltrados = new ArrayList<>(); // receber ordens listados
 		todasContasCorretoras = new ArrayList<>(); // receber contas
 		odsConsultas = new ArrayList<>();
+		ordemConsulta = new OrdemConsulta();
 	}
 
 	// realizar consulta detalhada .
@@ -71,7 +75,7 @@ public class PesquisaCarteirasBean implements Serializable{
 					+ "Erro: " + e.getMessage());
 		}
 	}
-
+	
 	public List<ContaCorretora> getTodasContasCorretoras() {
 		return todasContasCorretoras;
 	}

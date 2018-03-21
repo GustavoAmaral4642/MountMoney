@@ -19,6 +19,8 @@ public class OrdemConsulta implements Serializable {
 	private BigDecimal vrMedio = BigDecimal.ZERO;
 	private BigDecimal vrAtivo = BigDecimal.ZERO;
 	private BigDecimal vrLucro = BigDecimal.ZERO;
+	private BigDecimal vrBmfQnt = BigDecimal.ZERO;
+	private BigDecimal vrPercentual = BigDecimal.ZERO;
 
 	public String getAtivo() {
 		return ativo;
@@ -98,6 +100,22 @@ public class OrdemConsulta implements Serializable {
 
 	public void setVrLucro(BigDecimal vrLucro) {
 		this.vrLucro = vrLucro;
+	}
+
+	public BigDecimal getVrBmfQnt() {
+		return vrBmfQnt;
+	}
+
+	public void setVrBmfQnt(BigDecimal vrBmfQnt) {
+		this.vrBmfQnt = vrBmfQnt;
+	}
+
+	public BigDecimal getVrPercentual() {
+		return vrPercentual;
+	}
+
+	public void setVrPercentual(BigDecimal vrPercentual) {
+		this.vrPercentual = vrPercentual;
 	}
 
 }

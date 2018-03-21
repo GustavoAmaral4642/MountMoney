@@ -74,7 +74,8 @@
 					<div class="card no-margin">
 						<p:dataTable id="ordensTable" var="ordem"
 							value="#{pesquisaCarteirasBean.odsConsultas}" reflow="true"
-							paginator="true" rows="25"
+							paginator="true" rows="25" rowStyleClass="#{ordem.vrPercentual gt 0 ? 'verde' : 
+								ordem.vrPercentual le 0 ? 'vermelho' : 'preto'}" 
 							emptyMessage="NENHUMA ORDEM ENCONTRADA">
 							<f:facet name="header">
                                 Ordens
@@ -105,7 +106,10 @@
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</p:column>
-
+							
+							<p:column headerText="Percentual" sortBy="#{ordem.vrPercentual}">
+								<h:outputText value="#{ordem.vrPercentual}"/>									
+							</p:column>
 						</p:dataTable>
 					</div>
 				</div>

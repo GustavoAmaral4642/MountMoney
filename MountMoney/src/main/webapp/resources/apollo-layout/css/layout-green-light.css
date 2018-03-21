@@ -1256,6 +1256,22 @@ h2 {
   margin-top: 0;
 }
 
+.verde {
+    color: #134700;
+    background-color: #000000;
+    background-image: none;
+}
+.preto {
+    color: #000000;
+    background-color: #000000;
+    background-image: none;
+}
+.vermelho {
+    color: #FF0000;
+    background-color: #000000;
+    background-image: none;
+}
+
 .nopad {
   padding: 0;
 }
