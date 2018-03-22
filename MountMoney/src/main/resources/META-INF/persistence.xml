@@ -7,17 +7,17 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
 		<properties>			  
-<!--		
+	
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/mountmoney" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="4642941" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
--->
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://sistemaguti-mysql.c6tunvwfrvjf.us-west-2.rds.amazonaws.com:3306/projeto0001"/>
+<!--	
+		    <property name="javax.persistence.jdbc.url" value="jdbc:mysql://sistemaguti-mysql.c6tunvwfrvjf.us-west-2.rds.amazonaws.com:3306/projeto0001"/>
 			<property name="javax.persistence.jdbc.user" value="malunia1"/>
 			<property name="javax.persistence.jdbc.password" value="Na4642941"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-
+	-->
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
