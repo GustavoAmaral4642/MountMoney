@@ -18,6 +18,7 @@ import org.hibernate.criterion.Restrictions;
 import com.mount.money.model.Banco;
 import com.mount.money.model.TipoBanco;
 import com.mount.money.repository.filter.BancoFilter;
+import com.mount.money.security.Seguranca;
 import com.mount.money.service.NegocioException;
 import com.mount.money.util.jpa.Transactional;
 
@@ -28,14 +29,27 @@ public class Bancos implements Serializable {
 	@Inject
 	private EntityManager manager;
 
+	private Seguranca segUsuario = new Seguranca();
+
 	// grava registros de bancos
 	public Banco guardar(Banco banco) {
+
+		// registra o usuario
+		banco.setUsuario(segUsuario.getUsuario());
+
 		return banco = manager.merge(banco);
 	}
 
 	// busca banco por id
 	public Banco porId(Long id) {
-		return manager.find(Banco.class, id);
+
+		Banco banco = manager.find(Banco.class, id);
+
+		// apenas pode ver registros do proprio usuario
+		if (banco.getUsuario().equals(segUsuario.getUsuario())) {
+			return banco;
+		}
+		return null;
 	}
 
 	// busca tipoBanco por id
@@ -50,10 +64,15 @@ public class Bancos implements Serializable {
 					.createQuery(
 							"from Banco where upper(numeroConta) = :numeroConta" + " and "
 									+ "upper(numeroAgencia) = :numeroAgencia" + " and "
-									+ "upper(tipoBanco) = :tipoBanco" + " and " + "upper(nomeBanco) = :nomeBanco",
+									+ "upper(tipoBanco) = :tipoBanco" + " and " 
+									+ "upper(nomeBanco) = :nomeBanco" + " AND "
+									+ "usuario = :usuario",
 							Banco.class)
-					.setParameter("numeroConta", numeroConta.toUpperCase()).setParameter("numeroAgencia", numeroAgencia)
-					.setParameter("tipoBanco", tipoBanco).setParameter("nomeBanco", nomeBanco).getSingleResult();
+					.setParameter("numeroConta", numeroConta.toUpperCase())
+					.setParameter("numeroAgencia", numeroAgencia)
+					.setParameter("tipoBanco", tipoBanco)
+					.setParameter("nomeBanco", nomeBanco)
+					.setParameter("usuario", segUsuario.getUsuario()).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
@@ -64,14 +83,16 @@ public class Bancos implements Serializable {
 		try {
 			return manager
 					.createQuery("from Banco where upper(nomeBanco) = :nomeBanco" + " AND "
-							+ "upper(tipoBanco) = :tipoBanco", Banco.class)
-					.setParameter("nomeBanco", nomeBanco.toUpperCase()).setParameter("tipoBanco", tipoBanco)
+							+ "upper(tipoBanco) = :tipoBanco" + " AND "
+							+ "usuario = :usuario" , Banco.class)
+					.setParameter("nomeBanco", nomeBanco.toUpperCase())
+					.setParameter("tipoBanco", tipoBanco)
+					.setParameter("usuario", segUsuario.getUsuario())
 					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
-
 	// remove registros de banco
 	@Transactional
 	public void remover(Banco banco) {
@@ -95,22 +116,21 @@ public class Bancos implements Serializable {
 	// buscar todos os bancos
 	public List<Banco> todosBancos() {
 		try {
-			return manager.createQuery("from Banco", Banco.class).getResultList();
+			return manager.createQuery("from Banco where "
+					+ "usuario = :usuario", Banco.class)
+					.setParameter("usuario", segUsuario.getUsuario()).getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}
 	}
-/*
-	// buscar bancos por movimento
-	public List<Banco> bancosPorMovimento(MovimentoBancario movimento) {
-		try {
-			return manager.createQuery("from Banco where id = :id", Banco.class)
-					.setParameter("id", movimento.getBanco()).getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
-	}
-*/
+
+	/*
+	 * // buscar bancos por movimento public List<Banco>
+	 * bancosPorMovimento(MovimentoBancario movimento) { try { return
+	 * manager.createQuery("from Banco where id = :id", Banco.class)
+	 * .setParameter("id", movimento.getBanco()).getResultList(); } catch
+	 * (NoResultException e) { return null; } }
+	 */
 	// busca os bancos por filtro usando criteria
 	@SuppressWarnings("unchecked")
 	public List<Banco> filtrados(BancoFilter filtro) {
@@ -136,12 +156,18 @@ public class Bancos implements Serializable {
 
 		// se o descricao não estiver vazio. Importacao da ferramenta pelo
 		// pom.xml
-		if (filtro.getTipoBanco() != null & filtro.getTipoBanco().length >0) {
+		if (filtro.getTipoBanco() != null & filtro.getTipoBanco().length > 0) {
 			// adicionando restricao de igualdade 'ilike' é case insensitive
 			// MATCHMODE é para colocar o % utilizado no like.
 			criteria.add(Restrictions.in("tipoBanco", filtro.getTipoBanco()));
 		}
-		
+
+		// apenas pode ver registros do proprio usuario
+		if (StringUtils.isNotBlank(segUsuario.getUsuario().getNome())) {
+
+			criteria.add(Restrictions.eq("usuario", segUsuario.getUsuario()));
+		}
+
 		return criteria.addOrder(Order.asc("nomeBanco")).list();
 	}
 
