@@ -30,6 +30,7 @@ public class MovimentoBanco implements Serializable {
 	private Banco banco;
 	private BigDecimal valorMovimento = BigDecimal.ZERO;
 	private String historico;
+	private Usuario usuario;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -91,6 +92,16 @@ public class MovimentoBanco implements Serializable {
 		this.historico = historico;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

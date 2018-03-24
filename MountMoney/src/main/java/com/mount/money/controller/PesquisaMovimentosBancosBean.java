@@ -14,7 +14,7 @@ import com.mount.money.model.MovimentoBanco;
 import com.mount.money.repository.Bancos;
 import com.mount.money.repository.MovimentosBancos;
 import com.mount.money.repository.filter.MovimentoBancoFilter;
-import com.mount.money.service.NegocioException;
+import com.mount.money.security.Seguranca;
 import com.mount.money.util.jsf.FacesUtil;
 
 @Named

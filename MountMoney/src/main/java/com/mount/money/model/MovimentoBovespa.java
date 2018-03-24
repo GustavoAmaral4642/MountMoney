@@ -30,7 +30,8 @@ public class MovimentoBovespa implements Serializable {
 	private ContaCorretora contaCorretora;
 	private BigDecimal valorMovimento = BigDecimal.ZERO;
 	private String historico;
-	
+	private Usuario usuario;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
@@ -89,6 +90,16 @@ public class MovimentoBovespa implements Serializable {
 
 	public void setHistorico(String historico) {
 		this.historico = historico;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override
