@@ -15,6 +15,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.mount.money.model.ContaCorretora;
 import com.mount.money.model.NotaCorretagem;
 import com.mount.money.repository.filter.NotaCorretagemFilter;
 import com.mount.money.security.Seguranca;
@@ -75,7 +76,8 @@ public class NotasCorretagens implements Serializable {
 	// buscar todos as notas de corretagens
 	public List<NotaCorretagem> todasNotas() {
 		try {
-			return manager.createQuery("from NotaCorretagem", NotaCorretagem.class).getResultList();
+			return manager.createQuery("from NotaCorretagem nt " + "where nt.usuario = :us", NotaCorretagem.class)
+					.setParameter("us", segUsuario.getUsuario()).getResultList();
 		} catch (NoResultException e) {
 			return null;
 		}
