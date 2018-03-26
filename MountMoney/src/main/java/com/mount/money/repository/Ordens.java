@@ -117,8 +117,11 @@ public class Ordens implements Serializable {
 	public Ordem porNumero(String od){
 		
 		try {
-			return manager.createQuery("from Ordem where upper(numeroOrdem) = :numOrdem", Ordem.class)
-					.setParameter("numOrdem", od.toUpperCase()).getSingleResult();
+			return manager.createQuery("from Ordem where upper(numeroOrdem) = :numOrdem"
+					+ " and usuario = :us", Ordem.class)
+					.setParameter("numOrdem", od.toUpperCase())
+					.setParameter("us", segUsuario.getUsuario())
+					.getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}		
