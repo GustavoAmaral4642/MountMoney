@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,6 +30,7 @@ public class Ocorrencia implements Serializable {
 	private String tipo;
 	private String descricao;
 	private Date dtOcorrencia;
+	private Usuario usuario;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -70,6 +73,16 @@ public class Ocorrencia implements Serializable {
 
 	public void setDtOcorrencia(Date dtOcorrencia) {
 		this.dtOcorrencia = dtOcorrencia;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "id_usuario")
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override
