@@ -21,7 +21,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "ordem")

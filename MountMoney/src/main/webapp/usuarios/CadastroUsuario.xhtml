@@ -2,7 +2,8 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
 
 	<ui:define name="title">CADASTRO DE USUÁRIO</ui:define>
 
@@ -22,44 +23,73 @@
 
 	<ui:define name="content">
 
-		<div class="ui-g ui-fluid">
-			<div class="ui-g-12 ui-lg-6">
-				<!-- Left Side -->
-				<div class="card no-margin">
-					<h1>Cadastro de Usuário</h1>
-					<p:panelGrid columns="1" layout="grid"
-						style="border:0px !important; background:none;"
-						styleClass="ui-panelgrid-blank">
+		<f:metadata>
+			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.usuario}" />
+			<f:event listener="#{cadastroUsuarioBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
 
-						<p:inputText placeholder="Nome do Usuário" />
-						<p:inputText placeholder="E-mail" />
-						<p:password placeholder="Senha"/>
+		<div id="div1" class="ui-g ui-fluid">
+			<h:form id="frmPainel">
+				<div id="div2" class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div id="div3" class="card no-margin">
 
-					</p:panelGrid>
-				</div>
-			</div>
-			
-			<div class="ui-g-12 ui-g-nopad">
-				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
-					<div class="card">
-						<h:form>
-							<p:panelGrid columns="3" layout="grid"
-								styleClass="ui-panelgrid-blank grid-pad">
+						<h1>Cadastro de Usuário</h1>
 
-								<p:commandButton type="button" value="Salvar" icon="fa fa-check" />
+						<p:growl id="growl" autoUpdate="true" />
 
-								<p:commandButton type="button" value="Limpar"
-									icon="fa fa-rotate-left" />
+						<p:panelGrid id="painelCampos" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
 
-								<p:commandButton type="button" value="Pesquisar"
-									icon="fa fa-search" />
+							<p:inputText id="nomeUsuario" label="Nome do Usuário"
+								placeholder="Nome do Usuário" size="60" maxlength="80"
+								value="#{cadastroUsuarioBean.usuario.nome}" />
 
-							</p:panelGrid>
-						</h:form>
+							<p:inputText id="email" label="E-Mail" placeholder="E-Mail"
+								size="60" maxlength="255"
+								value="#{cadastroUsuarioBean.usuario.email}" />
+
+							<p:password id="senha" label="Senha" placeholder="Senha"
+								size="60" maxlength="20"
+								value="#{cadastroUsuarioBean.usuario.senha}" />
+
+							<p:inputText id="apelido" label="Apelido"
+								placeholder="Apelido" size="60" maxlength="60"
+								value="#{cadastroUsuarioBean.usuario.pessoa.apelido}" />
+
+							<p:inputText id="nome" label="Nome Completo"
+								placeholder="Nome Completo" size="60" maxlength="200"
+								value="#{cadastroUsuarioBean.usuario.pessoa.nome}" />
+
+
+						</p:panelGrid>
 					</div>
 				</div>
-			</div>
 
+				<div id="div4" class="ui-g-12 ui-g-nopad">
+					<div id="div5" class="ui-g-12 ui-lg-6" style="padding-top: 0">
+						<div id="div6" class="card">
+
+							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton id="botaoSalvar" value="Salvar"
+									icon="fa fa-check" action="#{cadastroUsuarioBean.salvar}"
+									process="@this painelCampos growl" update="painelCampos growl" />
+
+								<p:button type="button" value="Limpar"
+									outcome="/usuarios/CadastroUsuario" icon="fa fa-rotate-left" />
+
+								<p:button type="button" value="Pesquisar" icon="fa fa-search" />
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</h:form>
 		</div>
 
 

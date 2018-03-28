@@ -24,8 +24,9 @@ public class GrupoInvestidor implements Serializable {
 
 	private Long id;
 	private String nomeGrupo;
-	private List<Usuario> usuarios = new ArrayList<>(); 
-
+	private String descricao;
+	private List<Usuario> usuarios = new ArrayList<>();
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "grpinv_id")
@@ -46,8 +47,17 @@ public class GrupoInvestidor implements Serializable {
 		this.nomeGrupo = nomeGrupo;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "grpinv_investidores", joinColumns = @JoinColumn(name = "grpinv_id") , inverseJoinColumns = @JoinColumn(name = "us_id") )
+	@Column(name = "grpinv_descricao", length = 255)
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "grpinv_usuario", joinColumns = @JoinColumn(name = "grpinv_id") , inverseJoinColumns = @JoinColumn(name = "usuario_id") )
 	public List<Usuario> getUsuarios() {
 		return usuarios;
 	}

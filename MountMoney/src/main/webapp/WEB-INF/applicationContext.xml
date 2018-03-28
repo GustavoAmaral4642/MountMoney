@@ -47,6 +47,9 @@
 		<intercept-url pattern="/ordens/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/notasCorretagens/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/movimentosBancos/**" access="hasAnyRole('ADMINISTRADOR')" />
+		<intercept-url pattern="/listasAmigos/**" access="hasAnyRole('ADMINISTRADOR')" />
+		<intercept-url pattern="/pessoas/**" access="hasAnyRole('ADMINISTRADOR')" />
+		<intercept-url pattern="/usuarios/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/**" access="denyAll" />
 
 		<form-login login-page="/login.xhtml"

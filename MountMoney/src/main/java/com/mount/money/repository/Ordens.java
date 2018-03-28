@@ -125,6 +125,5 @@ public class Ordens implements Serializable {
 		} catch (NoResultException e) {
 			return null;
 		}		
-	}	
-	
+	}		
 }

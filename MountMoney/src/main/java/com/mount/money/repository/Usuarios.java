@@ -41,7 +41,7 @@ public class Usuarios implements Serializable {
 	// remove registros de usuario
 	@Transactional
 	public void remover(Usuario usuario) {
-		System.out.println(usuario.getNome());
+		
 		try {
 			// pesquisa usuario pelo ID
 			usuario = porId(usuario.getId());
