@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">PESQUISA DE PESSOAS</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Pesquisa</li>
+		<li>/</li>
+		<li><p:link outcome="/pessoas/PesquisaPessoas">Pesquisa de Pessoas</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+					<div class="card">
+						<h1>Pesquisa de Pessoas</h1>
+						<h:form id="frmBotoesCampos">
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:button outcome="/pessoas/CadastroPessoa" type="button"
+									value="Incluir" icon="fa fa-plus" />
+
+								<p:commandButton action="#{pesquisaPessoasBean.limpar}"
+									value="Limpar" update="formTable:pessoasTable frmBotoesCampos"
+									icon="fa fa-rotate-left" />
+
+								<p:commandButton id="botaoPesquisar"
+									action="#{pesquisaPessoasBean.pesquisar}" value="Pesquisar"
+									update="formTable:pessoasTable frmBotoesCampos:nome"
+									process="@this frmBotoesCampos:apelido frmBotoesCampos:nome"
+									icon="fa fa-search" />
+
+							</p:panelGrid>
+
+							<p:panelGrid id="painelCampos" columns="1" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:inputText placeholder="Pesquisar por Apelido"
+									id="apelido" size="60"
+									value="#{pesquisaPessoasBean.filtro.apelido}" />
+
+								<p:inputText placeholder="Pesquisar por Nome"
+									id="nome" size="60"
+									value="#{pesquisaPessoasBean.filtro.nome}" />
+
+							</p:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:form id="formTable">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<div class="card no-margin">
+						<p:dataTable id="pessoasTable" var="pessoa"
+							value="#{pesquisaPessoasBean.pessoasFiltradas}" reflow="true"
+							paginator="true" rows="25" emptyMessage="NENHUMA PESSOA ENCONTRADA">
+							<f:facet name="header">
+                                Pessoas
+                            </f:facet>
+							<p:column headerText="Apelido da Pessoa" sortBy="#{pessoa.apelido}">
+								<h:outputText value="#{pessoa.apelido}" />
+							</p:column>
+
+							<p:column headerText="Nome da Pessoa" sortBy="#{pessoa.nome}">
+								<h:outputText value="#{pessoa.nome}" />
+							</p:column>
+
+							<p:column>
+								<p:button icon="ui-icon-pencil" outcome="/pessoas/CadastroPessoa"
+									title="Editar">
+									<f:param name="pessoa" value="#{pessoa.id}" />
+								</p:button>
+								<p:commandButton icon="ui-icon-trash" title="Excluir"
+									id="botaoExcluirPessoa" update="pessoasTable"
+									actionListener="#{pesquisaPessoasBean.excluir(pessoa)}">
+									<p:confirm header="Exclusão de Pessoa"
+										message="Tem certeza que deseja excluir a pessoa #{pessoa.apelido} - #{pessoa.nome}?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

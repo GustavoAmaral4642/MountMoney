@@ -2,13 +2,13 @@ package com.mount.money.repository.filter;
 
 import java.io.Serializable;
 
-// método usuado para filtro do Usuarios.java
-public class UsuarioFilter implements Serializable {
+// método usado para filtro do ListasAmigos.java
+public class ListaAmigoFilter implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String nome;
-
+	
 	public String getNome() {
 		return nome;
 	}

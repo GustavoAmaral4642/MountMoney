@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">PESQUISA DE USUARIOS</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Pesquisa</li>
+		<li>/</li>
+		<li><p:link outcome="/usuarios/PesquisaUsuarios">Pesquisa de Usuários</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+					<div class="card">
+						<h1>Pesquisa de Usuários</h1>
+						<h:form id="frmBotoesCampos">
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:button outcome="/usuarios/CadastroUsuario" type="button"
+									value="Incluir" icon="fa fa-plus" />
+
+								<p:commandButton action="#{pesquisaUsuariosBean.limpar}"
+									value="Limpar" update="formTable:usuariosTable frmBotoesCampos"
+									icon="fa fa-rotate-left" />
+
+								<p:commandButton id="botaoPesquisar"
+									action="#{pesquisaUsuariosBean.pesquisar}" value="Pesquisar"
+									update="formTable:usuariosTable frmBotoesCampos:nome"
+									process="@this frmBotoesCampos:nome"
+									icon="fa fa-search" />
+
+							</p:panelGrid>
+
+							<p:panelGrid id="painelCampos" columns="1" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:inputText placeholder="Pesquisar por Nome"
+									id="nome" size="60"
+									value="#{pesquisaUsuariosBean.filtro.nome}" />
+
+							</p:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:form id="formTable">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<div class="card no-margin">
+						<p:dataTable id="usuariosTable" var="usuario"
+							value="#{pesquisaUsuariosBean.usuariosFiltrados}" reflow="true"
+							paginator="true" rows="25" emptyMessage="NENHUM USUARIO ENCONTRADO">
+							<f:facet name="header">
+                                Usuários
+                            </f:facet>
+
+							<p:column headerText="Nome" sortBy="#{usuario.nome}">
+								<h:outputText value="#{usuario.nome}" />
+							</p:column>
+
+							<p:column>
+								<p:button icon="ui-icon-pencil" outcome="/usuarios/CadastroUsuario"
+									title="Editar">
+									<f:param name="usuario" value="#{usuario.id}" />
+								</p:button>
+								<p:commandButton icon="ui-icon-trash" title="Excluir"
+									id="botaoExcluirUsuario" update="usuariosTable"
+									actionListener="#{pesquisaUsuariosBean.excluir(usuario)}">
+									<p:confirm header="Exclusão de Usuario"
+										message="Tem certeza que deseja excluir o usuario #{usuario.nome}?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

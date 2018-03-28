@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
 	xmlns:o="http://omnifaces.org/ui">
 
-	<ui:define name="title">CADASTRO DE USUÁRIO</ui:define>
+	<ui:define name="title">CADASTRO DE PESSOA</ui:define>
 
 	<ui:define name="head">
 		<style type="text/css">
@@ -18,14 +18,14 @@
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/usuarios/CadastroUsuario">Cadastro de Usuário</p:link></li>
+		<li><p:link outcome="/pessoas/CadastroPessoa">Cadastro de Pessoa</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<f:metadata>
-			<o:viewParam name="usuario" value="#{cadastroUsuarioBean.usuario}" />
-			<f:event listener="#{cadastroUsuarioBean.inicializar}"
+			<o:viewParam name="pessoa" value="#{cadastroPessoaBean.pessoa}" />
+			<f:event listener="#{cadastroPessoaBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
 
@@ -34,8 +34,7 @@
 				<div id="div2" class="ui-g-12 ui-lg-6">
 					<!-- Left Side -->
 					<div id="div3" class="card no-margin">
-
-						<h1>Cadastro de Usuário</h1>
+						<h1>Cadastro de Pessoa</h1>
 
 						<p:growl id="growl" autoUpdate="true" />
 
@@ -43,28 +42,21 @@
 							style="border:0px !important; background:none;"
 							styleClass="ui-panelgrid-blank">
 
-							<p:inputText id="nomeUsuario" label="Nome do Usuário"
-								placeholder="Nome do Usuário" size="60" maxlength="80"
-								value="#{cadastroUsuarioBean.usuario.nome}" />
+							<p:inputText id="apelido" label="Apelido" placeholder="Apelido"
+								size="60" maxlength="60"
+								value="#{cadastroPessoaBean.pessoa.apelido}" />
 
-							<p:inputText id="email" label="E-Mail" placeholder="E-Mail"
-								size="60" maxlength="255"
-								value="#{cadastroUsuarioBean.usuario.email}" />
+							<p:inputText id="nome" label="Nome" placeholder="Nome" size="100"
+								maxlength="200" value="#{cadastroPessoaBean.pessoa.nome}" />
 
-							<p:password id="senha" label="Senha" placeholder="Senha"
-								size="60" maxlength="20"
-								value="#{cadastroUsuarioBean.usuario.senha}" />
-
-							<p:inputText id="apelido" label="Apelido"
-								placeholder="Apelido" size="60" maxlength="60"
-								value="#{cadastroUsuarioBean.usuario.pessoa.apelido}" />
-
-							<p:inputText id="nome" label="Nome Completo"
-								placeholder="Nome Completo" size="60" maxlength="200"
-								value="#{cadastroUsuarioBean.usuario.pessoa.nome}" />
-
+							<p:selectOneRadio id="genero" label="Gênero"
+								value="#{cadastroPessoaBean.pessoa.sexo}">
+								<f:selectItem itemLabel="Masculino" itemValue="MASCULINO" />
+								<f:selectItem itemLabel="Feminino" itemValue="FEMININO" />
+							</p:selectOneRadio>
 
 						</p:panelGrid>
+
 					</div>
 				</div>
 
@@ -72,18 +64,18 @@
 					<div id="div5" class="ui-g-12 ui-lg-6" style="padding-top: 0">
 						<div id="div6" class="card">
 
-							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+							<p:panelGrid columns="3" layout="grid" id="panelBotoes"
 								styleClass="ui-panelgrid-blank grid-pad">
 
 								<p:commandButton id="botaoSalvar" value="Salvar"
-									icon="fa fa-check" action="#{cadastroUsuarioBean.salvar}"
+									icon="fa fa-check" action="#{cadastroPessoaBean.salvar}"
 									process="@this painelCampos growl" update="painelCampos growl" />
 
 								<p:button type="button" value="Limpar"
-									outcome="/usuarios/CadastroUsuario" icon="fa fa-rotate-left" />
+									outcome="/pessoas/CadastroPessoa" icon="fa fa-rotate-left" />
 
-								<p:button type="button" value="Pesquisar" 
-									outcome="/usuarios/PesquisaUsuarios" icon="fa fa-search" />
+								<p:button type="button" value="Pesquisar"
+									outcome="/pessoas/PesquisaPessoas" icon="fa fa-search" />
 
 							</p:panelGrid>
 
@@ -92,8 +84,6 @@
 				</div>
 			</h:form>
 		</div>
-
-
 	</ui:define>
 
 </ui:composition>
