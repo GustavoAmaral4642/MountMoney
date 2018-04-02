@@ -2,15 +2,12 @@ package com.mount.money.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -26,8 +23,7 @@ public class Pessoa implements Serializable {
 	private String apelido;
 	private String nome;
 	private Genero sexo;
-	private Usuario usuario;
-
+	
 	@Id
 	@GeneratedValue
 	public Long getId() {

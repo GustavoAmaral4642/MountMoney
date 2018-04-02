@@ -9,12 +9,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.mount.money.model.ListaAmigo;
-import com.mount.money.model.Ocorrencia;
-import com.mount.money.model.Usuario;
-import com.mount.money.repository.Usuarios;
-import com.mount.money.util.jsf.FacesUtil;
+import com.mount.money.model.Pessoa;
+import com.mount.money.repository.Pessoas;
+import com.mount.money.repository.filter.PessoaFilter;
 import com.mount.money.service.CadastroListaAmigoService;
-import com.mount.money.service.CadastroOcorrenciaService;
 
 @Named
 @ViewScoped
@@ -26,17 +24,19 @@ public class ListaAmigosBean implements Serializable {
 	private CadastroListaAmigoService cadastroListaAmigoService;
 
 	@Inject
-	private Usuarios usuarios;
+	private Pessoas pessoas;
 	/*
 	 * @Inject private CadastroOcorrenciaService cadastroOcorrenciaService;
 	 * 
 	 * private Ocorrencia ocorrencia;
 	 */
-	private List<Usuario> todosUsuarios;
-	private List<Usuario> usuariosFiltrados;
 
+	private List<Pessoa> listasFiltrados;
+	
 	private ListaAmigo lista;
-
+	
+	private PessoaFilter filtro;
+	
 	// construtor
 	public ListaAmigosBean() {
 		limpar();
@@ -45,32 +45,24 @@ public class ListaAmigosBean implements Serializable {
 
 	// metodo para limpar os dados na tela
 	public void limpar() {
-		todosUsuarios = new ArrayList<>();
 		lista = new ListaAmigo();
-
+		filtro = new PessoaFilter();
+		listasFiltrados = new ArrayList<>();	
 	}
 
 	// iniciar coleções
 	public void inicializar() {
-		todosUsuarios = usuarios.usuariosTodos();
+	
 	}
 
-	public void salvar() {
+	public void enviarConvite() {
 
-		
-		
-		this.lista = cadastroListaAmigoService.salvar(this.lista);
-
-		/*
-		 * // tratar e salvar ocorrencia this.ocorrencia =
-		 * cadastroOcorrenciaService.logAtivoI(ativo); this.ocorrencia =
-		 * cadastroOcorrenciaService.salvar(ocorrencia);
-		 */
-
-		limpar();
-		FacesUtil.addInfoMessage("Convite para amizade enviado com sucesso!");
 	}
 
+	public void pesquisar(){
+		listasFiltrados = pessoas.filtradas(filtro);
+	}
+	
 	public ListaAmigo getListaAmigo() {
 		return lista;
 	}
@@ -79,16 +71,20 @@ public class ListaAmigosBean implements Serializable {
 		this.lista = lista;
 	}
 
-	public List<Usuario> getTodosUsuarios() {
-		return todosUsuarios;
+	public PessoaFilter getFiltro() {
+		return filtro;
 	}
 
-	public List<Usuario> getUsuariosFiltrados() {
-		return usuariosFiltrados;
+	public void setFiltro(PessoaFilter filtro) {
+		this.filtro = filtro;
 	}
 
-	public void setUsuariosFiltrados(List<Usuario> usuariosFiltrados) {
-		this.usuariosFiltrados = usuariosFiltrados;
+	public List<Pessoa> getListasFiltrados() {
+		return listasFiltrados;
+	}
+
+	public void setListasFiltrados(List<Pessoa> listasFiltrados) {
+		this.listasFiltrados = listasFiltrados;
 	}
 
 	// se o id da lista de amigo não for nulo, está editando

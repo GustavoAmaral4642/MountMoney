@@ -27,8 +27,9 @@ public class ListaAmigo implements Serializable {
 
 	private Long id;
 	private List<Usuario> usuarios = new ArrayList<>();
+
 	private Usuario usuario;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "am_id")

@@ -31,6 +31,7 @@ public class Usuario implements Serializable {
 	private String email;
 	private String senha;
 	private Pessoa pessoa;
+	private ListaAmigo listaAmigo;
 	private List<Grupo> grupos = new ArrayList<>();
 
 	@Id
@@ -85,6 +86,16 @@ public class Usuario implements Serializable {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_lista_amigo")
+	public ListaAmigo getListaAmigo() {
+		return listaAmigo;
+	}
+
+	public void setListaAmigo(ListaAmigo listaAmigo) {
+		this.listaAmigo = listaAmigo;
 	}
 
 	@NotNull

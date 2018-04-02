@@ -18,15 +18,14 @@
 	<ui:define name="breadcrumb">
 		<li>Cadastros</li>
 		<li>/</li>
-		<li><p:link outcome="/listasAmigos/CadastroListaAmigo">Lista de Amigo</p:link></li>
+		<li><p:link outcome="/listasAmigos/ListaAmigos">Lista de Amigo</p:link></li>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<f:metadata>
-			<o:viewParam name="listaAmigo"
-				value="#{cadastroListaAmigoBean.listaAmigo}" />
-			<f:event listener="#{cadastroListaAmigoBean.inicializar}"
+			<o:viewParam name="listaAmigo" value="#{listaAmigosBean.listaAmigo}" />
+			<f:event listener="#{listaAmigosBean.inicializar}"
 				type="preRenderView" />
 		</f:metadata>
 
@@ -42,9 +41,13 @@
 								styleClass="ui-panelgrid-blank grid-pad">
 
 								<p:commandButton id="botaoPesquisar" value="Pesquisar"
-									icon="fa fa-search" />
+									action="#{listaAmigosBean.pesquisar}"
+									update="formTable:listasTable frmBotoesCampos:apelido frmBotoesCampos:nomePessoa"
+									process="@this frmBotoesCampos:apelido frmBotoesCampos:nomePessoa" icon="fa fa-search" />
 
-								<p:button type="button" value="Adicionar" icon="fa fa-plus" />
+								<p:commandButton action="#{listaAmigosBean.limpar}"
+									value="Limpar" update="formTable:listasTable frmBotoesCampos"
+									icon="fa fa-rotate-left" />
 
 							</p:panelGrid>
 
@@ -52,8 +55,11 @@
 								style="border:0px !important; background:none;"
 								styleClass="ui-panelgrid-blank">
 
-								<p:inputText placeholder="Pesquisar por Usuário"
-									id="nomeUsuario" size="60"  />
+								<p:inputText placeholder="Pesquisar por Apelido" id="apelido"
+									size="60" value="#{listaAmigosBean.filtro.apelido}" />
+
+								<p:inputText placeholder="Pesquisar por Pessoa" id="nomePessoa"
+									size="60" value="#{listaAmigosBean.filtro.nome}" />
 
 							</p:panelGrid>
 						</h:form>
@@ -66,30 +72,19 @@
 			<div class="ui-g">
 				<div class="ui-g-12">
 					<div class="card no-margin">
-						<p:dataTable id="listasTable" var="lista"
-							value="#{cadastraoListaAmigo.listasFiltrados}" reflow="true"
-							paginator="true" rows="25" emptyMessage="NENHUM USUARIO ENCONTRADO">
+						<p:dataTable id="listasTable" var="pessoa"
+							value="#{listaAmigosBean.listasFiltrados}" reflow="true"
+							paginator="true" rows="25"
+							emptyMessage="NENHUMA PESSOA ENCONTRADA">
 							<f:facet name="header">
                                 Amigos
                             </f:facet>
-							<p:column headerText="Nome do Usuário"
-								sortBy="#{lista.nome}">
-								<h:outputText value="#{lista.nome}" />
+							<p:column headerText="Apelido" sortBy="#{pessoa.apelido}">
+								<h:outputText value="#{pessoa.apelido}" />
 							</p:column>
 
-							<p:column headerText="E-mail"
-								sortBy="#{lista.email}">
-								<h:outputText value="#{lista.email}" />
-							</p:column>
-
-							<p:column>
-								<p:commandButton icon="ui-icon-trash" title="Excluir"
-									id="botaoExcluirAtivo" update="listasTable"
-									actionListener="#{cadastroListaAmigoBean.excluir(lista)}">
-									<p:confirm header="Exclusão de Amigo"
-										message="Tem certeza que deseja excluir o amigo #{lista.nome} - #{lista.email}?"
-										icon="ui-icon-alert" />
-								</p:commandButton>
+							<p:column headerText="Nome" sortBy="#{pessoa.nome}">
+								<h:outputText value="#{pessoa.nome}" />
 							</p:column>
 
 						</p:dataTable>
