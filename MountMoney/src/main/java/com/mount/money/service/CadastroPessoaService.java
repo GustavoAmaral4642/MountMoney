@@ -18,7 +18,8 @@ public class CadastroPessoaService implements Serializable {
 	// metodo para chamar o outro para salvar
 	@Transactional
 	public Pessoa salvar(Pessoa pessoa) {
-		
+
 		return pessoas.guardar(pessoa);
 	}
+
 }

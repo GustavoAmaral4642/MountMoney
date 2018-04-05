@@ -43,12 +43,16 @@
 							style="border:0px !important; background:none;"
 							styleClass="ui-panelgrid-blank">
 
+							<p:spacer />
+							<p:outputLabel value="Data do Movimento" for="dataMovimento" />
 							<p:calendar id="dataMovimento" label="Data do Movimento"
 								placeholder="Data da Movimento" pattern="dd/MM/yyyy"
 								title="Data" size="10"
 								value="#{cadastroMovimentoBancoBean.movimentoBanco.dataMovimento}"
 								mask="99/99/9999" />
 
+							<p:spacer />
+							<p:outputLabel value="Tipo do Movimento" for="movimentoDe" />
 							<p:selectOneRadio id="movimentoDe" label="Tipo de Movimento"
 								value="#{cadastroMovimentoBancoBean.movimentoBanco.tipoMovimento}"
 								layout="responsive" columns="2">
@@ -56,15 +60,19 @@
 								<f:selectItem itemLabel="Saída" itemValue="S" />
 							</p:selectOneRadio>
 
+							<p:spacer />
+							<p:outputLabel value="Selecione o Banco" for="banco" />
 							<p:selectOneMenu id="banco" style="margin-bottom:10px;"
 								value="#{cadastroMovimentoBancoBean.movimentoBanco.banco}"
 								label="Banco" filter="true" filterMatchMode="contains">
-								<f:selectItem itemLabel="Selecione um Banco" />
+								<f:selectItem itemLabel="Selecione" />
 								<f:selectItems value="#{cadastroMovimentoBancoBean.todosBancos}"
 									var="todosBancos" itemValue="#{todosBancos}"
 									itemLabel="#{todosBancos.nomeBanco} - #{todosBancos.numeroConta}" />
 							</p:selectOneMenu>
 
+							<p:spacer />
+							<p:outputLabel value="Valor do Movimento" for="valorMovimento" />
 							<p:inputText id="valorMovimento" label="Valor do Movimento"
 								placeholder="Valor do Movimento" size="10" maxlength="10"
 								value="#{cadastroMovimentoBancoBean.movimentoBanco.valorMovimento}"
@@ -72,12 +80,11 @@
 								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 							</p:inputText>
 
-
+							<p:spacer />
+							<p:outputLabel value="Histórico do Movimento" for="historico" />
 							<p:inputText id="historico" label="Histórico"
 								placeholder="Histórico" size="100" maxlength="150"
 								value="#{cadastroMovimentoBancoBean.movimentoBanco.historico}" />
-
-
 						</p:panelGrid>
 					</div>
 				</div>
@@ -90,15 +97,18 @@
 								styleClass="ui-panelgrid-blank grid-pad">
 
 								<p:commandButton id="botaoSalvar" value="Salvar"
-									icon="fa fa-check" action="#{cadastroMovimentoBancoBean.salvar}"
+									icon="fa fa-check"
+									action="#{cadastroMovimentoBancoBean.salvar}"
 									process="@this panelCampos growl" update="panelCampos growl"
 									onclick="/movimentosBancos/CadastroMovimentoBanco.xhtml" />
 
 								<p:button type="button" value="Limpar"
-									outcome="/movimentosBancos/CadastroMovimentoBanco" icon="fa fa-rotate-left" />
+									outcome="/movimentosBancos/CadastroMovimentoBanco"
+									icon="fa fa-rotate-left" />
 
 								<p:button type="button" value="Pesquisar"
-									outcome="/movimentosBancos/PesquisaMovimentosBancos" icon="fa fa-search" />
+									outcome="/movimentosBancos/PesquisaMovimentosBancos"
+									icon="fa fa-search" />
 							</p:panelGrid>
 
 						</div>

@@ -1,6 +1,7 @@
 package com.mount.money.repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,7 +16,9 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.mount.money.model.Pessoa;
+import com.mount.money.model.SimNao;
 import com.mount.money.repository.filter.PessoaFilter;
+import com.mount.money.security.Seguranca;
 import com.mount.money.service.NegocioException;
 import com.mount.money.util.jpa.Transactional;
 
@@ -25,12 +28,12 @@ public class Pessoas implements Serializable {
 
 	@Inject
 	private EntityManager manager;
-
+	
 	// grava registros de pessoas
 	public Pessoa guardar(Pessoa pessoa) {
 		return pessoa = manager.merge(pessoa);
 	}
-
+	
 	// busca Pessoa por id
 	public Pessoa porId(Long id) {
 		return manager.find(Pessoa.class, id);
@@ -77,7 +80,7 @@ public class Pessoas implements Serializable {
 			// MATCHMODE é para colocar o % utilizado no like.
 			criteria.add(Restrictions.ilike("nome", filtro.getNome(), MatchMode.ANYWHERE));
 		}
-
+		
 		return criteria.addOrder(Order.asc("apelido")).list();
 	}
 }

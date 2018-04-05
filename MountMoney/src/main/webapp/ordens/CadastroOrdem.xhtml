@@ -1,3 +1,4 @@
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -38,31 +39,72 @@
 
 						<p:growl id="growl" autoUpdate="true" />
 
+						<p:spacer />
+						<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+							styleClass="ui-panelgrid-blank grid-pad">
+
+							<p:commandButton id="botaoSalvar" value="Salvar"
+								icon="fa fa-check" action="#{cadastroOrdemBean.salvar}"
+								process="@this panelCampos panelCamposDireito growl growl-2"
+								update="panelCampos panelCamposDireito growl growl-2"
+								onclick="/ordens/CadastroOrdem.xhtml" />
+
+							<p:button type="button" value="Limpar"
+								outcome="/ordens/CadastroOrdem" icon="fa fa-rotate-left" />
+
+							<p:button type="button" value="Pesquisar"
+								outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
+
+						</p:panelGrid>
+
 						<p:panelGrid id="panelCampos" columns="1" layout="grid"
 							style="border:0px !important; background:none;"
 							styleClass="ui-panelgrid-blank">
 
+							<p:spacer />
+							<p:outputLabel value="Conta Corretora" for="contaCorretora" />
 							<p:selectOneMenu id="contaCorretora" style="margin-bottom:10px;"
 								value="#{cadastroOrdemBean.ordem.contaCorretora}"
-								label="Conta de Corretora" filter="true" filterMatchMode="contains">
-								<f:selectItem itemLabel="Selecione uma Conta de Corretora" />
+								label="Conta de Corretora" filter="true"
+								filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione " />
 								<f:selectItems
 									value="#{cadastroOrdemBean.todasContasCorretoras}"
 									var="todasContas" itemValue="#{todasContas}"
 									itemLabel="#{todasContas.nomeContaCorretora}" />
 							</p:selectOneMenu>
 
+							<p:spacer />
+							<p:outputLabel value="Data da Ordem" for="dataMovimento" />
 							<p:calendar id="dataMovimento" label="Data da Ordem"
 								placeholder="Data da Ordem" pattern="dd/MM/yyyy" title="Data"
 								size="10" value="#{cadastroOrdemBean.ordem.dtMovimento}"
 								mask="99/99/9999" />
 
+							<p:spacer />
+							<p:outputLabel value="Tipo da Ordem" for="ordemDe" />
 							<p:selectOneRadio id="ordemDe" label="Tipo de Ordem"
 								value="#{cadastroOrdemBean.ordem.tpOrdem}">
 								<f:selectItem itemLabel="Compra" itemValue="COMPRA" />
 								<f:selectItem itemLabel="Venda" itemValue="VENDA" />
 							</p:selectOneRadio>
 
+						</p:panelGrid>
+
+					</div>
+				</div>
+
+				<div class="ui-g-12 ui-lg-6">
+					<!-- Right Side -->
+					<div class="card no-margin">
+						<p:growl id="growl-2" autoUpdate="true" />
+
+						<p:panelGrid id="panelCamposDireito" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:spacer />
+							<p:outputLabel value="Ativo" for="ativo" />
 							<p:selectOneMenu id="ativo" filter="true" label="Ativo"
 								filterMatchMode="contains" style="margin-bottom:10px;"
 								value="#{cadastroOrdemBean.ordem.ativo}">
@@ -72,14 +114,21 @@
 									itemLabel="#{todosAtivos.siglaAtivo}" />
 							</p:selectOneMenu>
 
+							<p:spacer />
+							<p:outputLabel value="Número da Ordem" for="numOrdem" />
 							<p:inputText id="numOrdem" label="Número da Ordem"
 								placeholder="Número da Ordem" size="100" maxlength="20"
 								value="#{cadastroOrdemBean.ordem.numeroOrdem}" />
 
-							<p:inputMask id="quantidade" label="Quantidade" size="20" maxlength="20"
-								mask="9?999999999999999" placeHolder="Quantidade" title="Quantidade"
+							<p:spacer />
+							<p:outputLabel value="Quantidade" for="quantidade" />
+							<p:inputMask id="quantidade" label="Quantidade" size="20"
+								maxlength="20" mask="9?999999999999999" placeHolder="Quantidade"
+								title="Quantidade"
 								value="#{cadastroOrdemBean.ordem.qtMovimentada}" />
 
+							<p:spacer />
+							<p:outputLabel value="Valor da Operação" for="valorOperacao" />
 							<p:inputText id="valorOperacao" label="Valor Unitário"
 								placeholder="Valor Unitário" size="20" maxlength="20"
 								value="#{cadastroOrdemBean.ordem.vrOperacao}"
@@ -88,32 +137,27 @@
 							</p:inputText>
 
 						</p:panelGrid>
+						
+						<p:spacer />
+						<p:panelGrid id="panelBotoes-2" columns="3" layout="grid"
+							styleClass="ui-panelgrid-blank grid-pad">
+
+							<p:commandButton id="botaoSalvar-2" value="Salvar"
+								icon="fa fa-check" action="#{cadastroOrdemBean.salvar}"
+								process="@this panelCampos panelCamposDireito growl growl-2"
+								update="panelCampos panelCamposDireito growl growl-2"
+								onclick="/ordens/CadastroOrdem.xhtml" />
+
+							<p:button type="button" value="Limpar"
+								outcome="/ordens/CadastroOrdem" icon="fa fa-rotate-left" />
+
+							<p:button type="button" value="Pesquisar"
+								outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
+
+						</p:panelGrid>
 					</div>
 				</div>
 
-				<div class="ui-g-12 ui-g-nopad">
-					<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
-						<div class="card">
-
-							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
-								styleClass="ui-panelgrid-blank grid-pad">
-
-								<p:commandButton id="botaoSalvar" value="Salvar"
-									icon="fa fa-check" action="#{cadastroOrdemBean.salvar}"
-									process="@this panelCampos growl" update="panelCampos growl"
-									onclick="/ordens/CadastroOrdem.xhtml" />
-
-								<p:button type="button" value="Limpar"
-									outcome="/ordens/CadastroOrdem" icon="fa fa-rotate-left" />
-
-								<p:button type="button" value="Pesquisar"
-									outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
-
-							</p:panelGrid>
-
-						</div>
-					</div>
-				</div>
 			</h:form>
 		</div>
 
