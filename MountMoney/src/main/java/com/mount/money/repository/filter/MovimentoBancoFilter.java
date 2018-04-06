@@ -14,6 +14,7 @@ public class MovimentoBancoFilter implements Serializable {
 	private Date dataMovimentoAte;
 	private String tipoMovimento;
 	private Banco banco;
+	private String historico;
 
 	public Date getDataMovimentoDe() {
 		return dataMovimentoDe;
@@ -30,7 +31,7 @@ public class MovimentoBancoFilter implements Serializable {
 	public void setDataMovimentoAte(Date dataMovimentoAte) {
 		this.dataMovimentoAte = dataMovimentoAte;
 	}
-	
+
 	public String getTipoMovimento() {
 		return tipoMovimento;
 	}
@@ -39,11 +40,19 @@ public class MovimentoBancoFilter implements Serializable {
 		this.tipoMovimento = tipoMovimento;
 	}
 
-	public Banco getBanco() {		
+	public Banco getBanco() {
 		return banco;
 	}
 
 	public void setBanco(Banco banco) {
-		this.banco= banco;
+		this.banco = banco;
+	}
+
+	public String getHistorico() {
+		return historico;
+	}
+
+	public void setHistorico(String historico) {
+		this.historico = historico;
 	}
 }

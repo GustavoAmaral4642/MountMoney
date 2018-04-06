@@ -89,6 +89,7 @@
 								<f:selectItem itemLabel="Venda" itemValue="VENDA" />
 							</p:selectOneRadio>
 
+							<p:spacer/>
 						</p:panelGrid>
 
 					</div>
@@ -139,22 +140,7 @@
 						</p:panelGrid>
 						
 						<p:spacer />
-						<p:panelGrid id="panelBotoes-2" columns="3" layout="grid"
-							styleClass="ui-panelgrid-blank grid-pad">
-
-							<p:commandButton id="botaoSalvar-2" value="Salvar"
-								icon="fa fa-check" action="#{cadastroOrdemBean.salvar}"
-								process="@this panelCampos panelCamposDireito growl growl-2"
-								update="panelCampos panelCamposDireito growl growl-2"
-								onclick="/ordens/CadastroOrdem.xhtml" />
-
-							<p:button type="button" value="Limpar"
-								outcome="/ordens/CadastroOrdem" icon="fa fa-rotate-left" />
-
-							<p:button type="button" value="Pesquisar"
-								outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
-
-						</p:panelGrid>
+						
 					</div>
 				</div>
 

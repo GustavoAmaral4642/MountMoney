@@ -39,6 +39,23 @@
 
 						<p:growl id="growl" autoUpdate="true" />
 
+						<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+							styleClass="ui-panelgrid-blank grid-pad">
+
+							<p:commandButton id="botaoSalvar" value="Salvar"
+								icon="fa fa-check" action="#{cadastroMovimentoBancoBean.salvar}"
+								process="@this panelCampos growl" update="panelCampos growl"
+								onclick="/movimentosBancos/CadastroMovimentoBanco.xhtml" />
+
+							<p:button type="button" value="Limpar"
+								outcome="/movimentosBancos/CadastroMovimentoBanco"
+								icon="fa fa-rotate-left" />
+
+							<p:button type="button" value="Pesquisar"
+								outcome="/movimentosBancos/PesquisaMovimentosBancos"
+								icon="fa fa-search" />
+						</p:panelGrid>
+
 						<p:panelGrid id="panelCampos" columns="1" layout="grid"
 							style="border:0px !important; background:none;"
 							styleClass="ui-panelgrid-blank">
@@ -83,37 +100,12 @@
 							<p:spacer />
 							<p:outputLabel value="Histórico do Movimento" for="historico" />
 							<p:inputText id="historico" label="Histórico"
-								placeholder="Histórico" size="100" maxlength="150"
+								placeholder="Histórico" size="150" maxlength="150"
 								value="#{cadastroMovimentoBancoBean.movimentoBanco.historico}" />
 						</p:panelGrid>
 					</div>
 				</div>
 
-				<div class="ui-g-12 ui-g-nopad">
-					<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
-						<div class="card">
-
-							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
-								styleClass="ui-panelgrid-blank grid-pad">
-
-								<p:commandButton id="botaoSalvar" value="Salvar"
-									icon="fa fa-check"
-									action="#{cadastroMovimentoBancoBean.salvar}"
-									process="@this panelCampos growl" update="panelCampos growl"
-									onclick="/movimentosBancos/CadastroMovimentoBanco.xhtml" />
-
-								<p:button type="button" value="Limpar"
-									outcome="/movimentosBancos/CadastroMovimentoBanco"
-									icon="fa fa-rotate-left" />
-
-								<p:button type="button" value="Pesquisar"
-									outcome="/movimentosBancos/PesquisaMovimentosBancos"
-									icon="fa fa-search" />
-							</p:panelGrid>
-
-						</div>
-					</div>
-				</div>
 			</h:form>
 		</div>
 

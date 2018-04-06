@@ -11,6 +11,7 @@ import javax.persistence.PersistenceException;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
@@ -77,29 +78,28 @@ public class MovimentosBancos implements Serializable {
 		Session session = manager.unwrap(Session.class);
 		Criteria criteria = session.createCriteria(MovimentoBanco.class);
 
-		// se o numeroConta não estiver vazio. Importacao da ferramenta pelo
-		// pom.xml
-		
-		if (filtro.getBanco() != null ) {
-			// adicionando restricao de igualdade 'ilike' é case insensitive
-			// MATCHMODE é para colocar o % utilizado no like.
+		if (filtro.getBanco() != null) {
 			criteria.add(Restrictions.eq("banco", filtro.getBanco()));
 		}
-		
+
 		if (filtro.getDataMovimentoDe() != null) {
 			criteria.add(Restrictions.ge("dataMovimento", filtro.getDataMovimentoDe()));
 		}
-		
+
 		if (filtro.getDataMovimentoAte() != null) {
 			criteria.add(Restrictions.le("dataMovimento", filtro.getDataMovimentoAte()));
 		}
-		
+
+		if (StringUtils.isNotBlank(filtro.getHistorico())) {
+			criteria.add(Restrictions.ilike("historico", filtro.getHistorico(), MatchMode.ANYWHERE));
+		}
+
 		// apenas pode ver registros do proprio usuario
 		if (StringUtils.isNotBlank(segUsuario.getUsuario().getNome())) {
 
 			criteria.add(Restrictions.eq("usuario", segUsuario.getUsuario()));
 		}
-		
+
 		return criteria.addOrder(Order.asc("dataMovimento")).list();
 	}
 

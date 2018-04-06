@@ -39,37 +39,75 @@
 
 						<p:growl id="growl" autoUpdate="true" />
 
+						<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+							styleClass="ui-panelgrid-blank grid-pad">
+
+							<p:commandButton id="botaoSalvar" value="Salvar"
+								icon="fa fa-check" action="#{cadastroNotaCorretagemBean.salvar}"
+								process="@this panelCampos growl" update="panelCampos growl"
+								onclick="/ordens/CadastroOrdem.xhtml" />
+
+							<p:button type="button" value="Limpar"
+								outcome="/notasCorretagens/CadastroNotaCorretagem"
+								icon="fa fa-rotate-left" />
+
+							<p:button type="button" value="Pesquisar"
+								outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
+
+						</p:panelGrid>
+
 						<p:panelGrid id="panelCampos" columns="1" layout="grid"
 							style="border:0px !important; background:none;"
 							styleClass="ui-panelgrid-blank">
 
+							<p:outputLabel value="Número da Nota" for="numeroNota" />
 							<p:inputText id="numeroNota" label="Número da Nota"
 								placeholder="Número da Nota" size="100" maxlength="25"
 								value="#{cadastroNotaCorretagemBean.nota.numeroNota}" />
 
+
+							<p:outputLabel value="Data do Pregão" for="dataPregao" />
 							<p:calendar id="dataPregao" label="Data do Pregão"
 								placeholder="Data da Pregão" pattern="dd/MM/yyyy" title="Data"
 								size="10" value="#{cadastroNotaCorretagemBean.nota.dataPregao}"
 								mask="99/99/9999" />
 
+
+							<p:outputLabel value="Selecione a Conta de Corretora"
+								for="contaCorretora" />
 							<p:selectOneMenu id="contaCorretora" style="margin-bottom:10px;"
 								value="#{cadastroNotaCorretagemBean.nota.contaCorretora}"
 								label="Conta de Corretora" filter="true"
 								filterMatchMode="contains">
-								<f:selectItem itemLabel="Selecione uma Conta de Corretora" />
+								<f:selectItem itemLabel="Selecione " />
 								<f:selectItems
 									value="#{cadastroNotaCorretagemBean.todasContasCorretoras}"
 									var="todasContas" itemValue="#{todasContas}"
 									itemLabel="#{todasContas.nomeContaCorretora}" />
 							</p:selectOneMenu>
 
+							<p:outputLabel value="Seleciona uma Conta Bancária"
+								for="contaBanco" />
 							<p:inputText id="contaBanco" label="Conta Bancária"
 								placeholder="Conta Bancária" size="100" maxlength="25"
 								value="#{cadastroNotaCorretagemBean.nota.contaBancaria}" />
+						</p:panelGrid>
+					</div>
+				</div>
 
-							<p:separator />
-							<p:separator />
+				<div class="ui-g-12 ui-lg-6">
+					<!-- Right Side -->
+					<div class="card no-margin">
 
+						<p:growl id="growl-2" autoUpdate="true" />
+
+						<p:panelGrid id="panelCampos-2" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:spacer />
+							<p:outputLabel value="Valor Líquido das Operações"
+								for="valorLiqOperacao" />
 							<p:inputText id="valorLiqOperacao"
 								label="Valor Líquido das Operações"
 								placeholder="Valor Líquido das Operações" size="20"
@@ -79,6 +117,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Taxa de Liquidação" for="taxaLiquidacao" />
 							<p:inputText id="taxaLiquidacao" label="Taxa de Liquidação"
 								placeholder="Taxa de Liquidação" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrTaxaLiquidacao}"
@@ -86,6 +126,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Taxa de Registro" for="taxaRegistro" />
 							<p:inputText id="taxaRegistro" label="Taxa de Registro"
 								placeholder="Taxa de Registro" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrTaxaRegistro}"
@@ -93,6 +135,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Valor Total CBLC" for="vlrTotalCblc" />
 							<p:inputText id="vlrTotalCblc" label="Valor Total CBLC"
 								placeholder="Valor Total CBLC" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrTotalCblc}"
@@ -100,9 +144,22 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
-							<p:separator />
-							<p:separator />
+						</p:panelGrid>
+					</div>
+				</div>
 
+				<div class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div class="card no-margin">
+
+						<p:growl id="growl-3" autoUpdate="true" />
+
+						<p:panelGrid id="panelCampos-3" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:spacer />
+							<p:outputLabel value="Taxa de Termo/Opções" for="taxaTermoOpoes" />
 							<p:inputText id="taxaTermoOpoes" label="Taxa de Termo/Opções"
 								placeholder="Taxa de Termo/Opções" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrTaxaTermoOpcoes}"
@@ -110,6 +167,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Taxa A.N.A." for="taxaAna" />
 							<p:inputText id="taxaAna" label="Taxa A.N.A."
 								placeholder="Taxa A.N.A." size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrTaxaAna}"
@@ -117,6 +176,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Taxa Emolumentos" for="taxaEmolumentos" />
 							<p:inputText id="taxaEmolumentos" label="Taxa Emolumentos"
 								placeholder="Taxa Emolumentos" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrTaxaEmolumentos}"
@@ -124,6 +185,9 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Valor Total Bovespa/Soma"
+								for="vlrTotalBovespaSoma" />
 							<p:inputText id="vlrTotalBovespaSoma"
 								label="Valor Total Bovespa/Soma"
 								placeholder="Valor Total Bovespa/Soma" size="20" maxlength="20"
@@ -131,10 +195,26 @@
 								styleClass="moedaTresDecimais">
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
+							
+							<p:spacer/>
+							<p:spacer/>
+							
+						</p:panelGrid>
+					</div>
+				</div>
 
-							<p:separator />
-							<p:separator />
+				<div class="ui-g-12 ui-lg-6">
+					<!-- Right Side -->
+					<div class="card no-margin">
 
+						<p:growl id="growl-4" autoUpdate="true" />
+
+						<p:panelGrid id="panelCampos-4" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:spacer />
+							<p:outputLabel value="Valor de Corretagem" for="valorCorretagem" />
 							<p:inputText id="valorCorretagem" label="Valor de Corretagem"
 								placeholder="Valor de Corretagem" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrCorretagem}"
@@ -142,6 +222,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Valor de ISS" for="valorIss" />
 							<p:inputText id="valorIss" label="Valor de ISS"
 								placeholder="Valor de ISS" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrIss}"
@@ -149,6 +231,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Valor de IRRF" for="valorIrrf" />
 							<p:inputText id="valorIrrf" label="Valor de IRRF"
 								placeholder="Valor de IRRF" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrIrrf}"
@@ -156,6 +240,8 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Valor Outras" for="valorOutras" />
 							<p:inputText id="valorOutras" label="Valor Outras"
 								placeholder="Valor Outras" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrOutras}"
@@ -163,6 +249,9 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
+							<p:spacer />
+							<p:outputLabel value="Valor Total Corretagem e Despesas"
+								for="vlrTotalCorretagemDesp" />
 							<p:inputText id="vlrTotalCorretagemDesp"
 								label="Valor Total Corretagem e Despesas"
 								placeholder="Valor Total Corretagem e Despesas" size="20"
@@ -172,9 +261,23 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
-							<p:separator />
-							<p:separator />
+						</p:panelGrid>
+					</div>
+				</div>
 
+				<div class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div class="card no-margin">
+
+						<p:growl id="growl-5" autoUpdate="true" />
+
+						<p:panelGrid id="panelCampos-5" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+
+							<p:spacer />
+							<p:outputLabel value="Valor Total Líquido" for="vlrTotalLiquido" />
 							<p:inputText id="vlrTotalLiquido" label="Valor Total Líquido"
 								placeholder="Valor Total Líquido" size="20" maxlength="20"
 								value="#{cadastroNotaCorretagemBean.nota.vlrTotalLiquido}"
@@ -182,40 +285,12 @@
 								<f:convertNumber maxFractionDigits="3" minFractionDigits="3" />
 							</p:inputText>
 
-							<p:separator />
-							<p:separator />
-
 						</p:panelGrid>
 
 						<ui:include src="/WEB-INF/template/notas/OrdensNota.xhtml" />
 					</div>
 				</div>
 
-				<div class="ui-g-12 ui-g-nopad">
-					<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
-						<div class="card">
-
-							<p:panelGrid id="panelBotoes" columns="3" layout="grid"
-								styleClass="ui-panelgrid-blank grid-pad">
-
-								<p:commandButton id="botaoSalvar" value="Salvar"
-									icon="fa fa-check"
-									action="#{cadastroNotaCorretagemBean.salvar}"
-									process="@this panelCampos growl" update="panelCampos growl"
-									onclick="/ordens/CadastroOrdem.xhtml" />
-
-								<p:button type="button" value="Limpar"
-									outcome="/notasCorretagens/CadastroNotaCorretagem"
-									icon="fa fa-rotate-left" />
-
-								<p:button type="button" value="Pesquisar"
-									outcome="/ordens/PesquisaOrdens" icon="fa fa-search" />
-
-							</p:panelGrid>
-
-						</div>
-					</div>
-				</div>
 			</h:form>
 		</div>
 
