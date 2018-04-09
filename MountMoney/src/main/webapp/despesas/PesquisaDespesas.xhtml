@@ -1,0 +1,202 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">PESQUISA DE DESPESAS</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Pesquisa</li>
+		<li>/</li>
+		<li><p:link outcome="/despesas/PesquisaDespesas">Pesquisa Despesas</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<f:event listener="#{pesquisaDespesasBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+					<div class="card">
+						<h1>Pesquisa Despesas</h1>
+						<h:form id="frmBotoesCampos">
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:button outcome="/despesas/CadastroDespesa" type="button"
+									value="Incluir" icon="fa fa-plus" />
+
+								<p:commandButton action="#{pesquisaDespesasBean.limpar}"
+									value="Limpar" update="formTable:despesasTable frmBotoesCampos"
+									icon="fa fa-rotate-left" />
+
+								<p:commandButton id="botaoPesquisar"
+									action="#{pesquisaDespesasBean.pesquisar}" value="Pesquisar"
+									update="formTable:despesasTable"
+									process="@this frmBotoesCampos:banco
+													frmBotoesCampos:dataInicial
+													frmBotoesCampos:dataFinal
+													frmBotoesCampos:historico"
+									icon="fa fa-search" />
+
+							</p:panelGrid>
+
+							<p:spacer />
+
+							<p:panelGrid id="painelCampos" columns="1" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:spacer />
+								<p:outputLabel value="Selecione um Banco" for="banco" />
+								<p:selectOneMenu id="banco" style="margin-bottom:10px;"
+									value="#{pesquisaDespesasBean.filtro.banco}" label="Banco"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="Selecione" />
+									<f:selectItems value="#{pesquisaDespesasBean.todosBancos}"
+										var="todosBancos" itemValue="#{todosBancos}"
+										itemLabel="#{todosBancos.nomeBanco} - #{todosBancos.numeroConta}" />
+								</p:selectOneMenu>
+
+								<p:spacer />
+								<p:outputLabel value="Informe a Data Inicial" for="dataInicial" />
+								<p:calendar id="dataInicial" size="10" pattern="dd/MM/yyyy"
+									mask="99/99/9999" placeholder="Data Inicial"
+									value="#{pesquisaDespesasBean.filtro.dataDespesaDe}" />
+
+								<p:spacer />
+								<p:outputLabel value="Informe a Data Final" for="dataFinal" />
+								<p:calendar id="dataFinal" size="10" pattern="dd/MM/yyyy"
+									mask="99/99/9999" placeholder="Data Final"
+									value="#{pesquisaDespesasBean.filtro.dataDespesaAte}" />
+
+								<p:spacer />
+								<p:outputLabel value="Informe a Data de Pagamento Inicial"
+									for="dataPagamentoInicial" />
+								<p:calendar id="dataPagamentoInicial" size="10"
+									pattern="dd/MM/yyyy" mask="99/99/9999"
+									placeholder="Data Pagamento Inicial"
+									value="#{pesquisaDespesasBean.filtro.dataPagamentoDe}" />
+
+								<p:spacer />
+								<p:outputLabel value="Informe a Data de Pagamento Final"
+									for="dataPagamentoFinal" />
+								<p:calendar id="dataPagamentoFinal" size="10"
+									pattern="dd/MM/yyyy" mask="99/99/9999"
+									placeholder="Data Pagamento Final"
+									value="#{pesquisaDespesasBean.filtro.dataPagamentoAte}" />
+
+								<p:spacer />
+								<p:outputLabel value="Pesquisar Pelo Histórico" for="historico" />
+								<p:inputText placeholder="Pesquisar Histórico" id="historico"
+									size="100" maxlength="100"
+									value="#{pesquisaDespesasBean.filtro.historico}" />
+
+							</p:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:form id="formTable">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<div class="card no-margin">
+						<p:dataTable id="despesasTable" var="despesa"
+							value="#{pesquisaDespesasBean.despesasFiltradas}" reflow="true"
+							paginator="true" rows="25"
+							emptyMessage="NENHUMA DESPESA ENCONTRADA">
+							<f:facet name="header">
+                                Despesas
+                            </f:facet>
+							<p:column headerText="Banco" sortBy="#{despesa.banco.nomeBanco}"
+								style="text-align: center; width: 150px">
+								<h:outputText value="#{despesa.banco.nomeBanco}" />
+							</p:column>
+							<p:column headerText="Data de Registro"
+								sortBy="#{despesa.dataDespesa}"
+								style="text-align: center; width: 100px">
+								<h:outputText value="#{despesa.dataDespesa}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Data de Vencimento"
+								sortBy="#{despesa.dataVencimento}"
+								style="text-align: center; width: 100px">
+								<h:outputText value="#{despesa.dataVencimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Valor da Despesa"
+								sortBy="#{despesa.valorDespesa}"
+								style="text-align: center; width: 150px">
+								<h:outputText value="#{despesa.valorDespesa}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Data de Pagamento"
+								sortBy="#{despesa.dataPagamento}"
+								style="text-align: center; width: 100px">
+								<h:outputText value="#{despesa.dataPagamento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Valor da Pagamento"
+								sortBy="#{despesa.valorPagamento}"
+								style="text-align: center; width: 150px">
+								<h:outputText value="#{despesa.valorPagamento}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Histórico" style="text-align: center"
+								sortBy="#{despesa.historico}">
+								<h:outputText value="#{despesa.historico}" />
+							</p:column>
+
+							<p:column style="text-align: center; width: 100px">
+								<p:button outcome="/despesas/CadastroDespesa"
+									icon="ui-icon-pencil" title="Editar">
+									<f:param name="despesa" value="#{despesa.id}" />
+								</p:button>
+								<p:commandButton icon="ui-icon-trash" title="Excluir"
+									update="despesasTable" id="botaoExcluirDespesa"
+									actionListener="#{pesquisaDespesasBean.excluir(despesa)}">
+									<p:confirm header="Exclusão de Despesa"
+										message="Tem certeza que deseja excluir a despesa do banco`#{despesa.banco.nomeBanco}`, 
+										valor `#{despesa.valorDespesa}`?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+
+
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
