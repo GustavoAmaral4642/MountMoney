@@ -1,0 +1,246 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">CADASTRO TITULO</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/titulos/CadastroTitulo">Cadastro Titulo</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="titulo" value="#{cadastroTituloBean.titulo}" />
+			<f:event listener="#{cadastroTituloBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div id="div1" class="ui-g ui-fluid">
+
+			<div id="div2" class="ui-g-12 ui-lg-6">
+				<!-- Left Side -->
+				<div class="card no-margin">
+					<h:form id="frmPainel">
+						<h1>Cadastro Titulo</h1>
+
+						<p:growl id="growl" autoUpdate="true" />
+
+						<p:panelGrid id="panelBotoes" columns="3" layout="grid"
+							styleClass="ui-panelgrid-blank grid-pad">
+
+							<p:commandButton id="botaoSalvar" value="Salvar"
+								icon="fa fa-check" action="#{cadastroTituloBean.salvar}"
+								process="@this panelCampos growl" update="panelCampos growl"
+								onclick="/titulos/CadastroTitulo.xhtml" />
+
+							<p:button type="button" value="Limpar"
+								outcome="/titulos/CadastroTitulo" icon="fa fa-rotate-left" />
+
+							<p:button type="button" value="Pesquisar"
+								outcome="/titulos/PesquisaTitulos" icon="fa fa-search" />
+						</p:panelGrid>
+
+						<p:panelGrid id="panelCampos" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:spacer />
+							<p:outputLabel value="Data de Emissão" for="dataEmissao" />
+							<p:calendar id="dataEmissao" label="Data de Emissão"
+								placeholder="Data de Emissão" pattern="dd/MM/yyyy" title="Data"
+								size="10" value="#{cadastroTituloBean.titulo.dataEmissao}"
+								mask="99/99/9999" />
+
+							<p:spacer />
+							<p:outputLabel value="Valor do Título" for="valorTitulo" />
+							<p:inputText id="valorTitulo" label="Valor do Título"
+								placeholder="Valor do Título" size="10" maxlength="10"
+								value="#{cadastroTituloBean.titulo.valorTitulo}"
+								styleClass="moeda">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</p:inputText>
+
+							<p:spacer />
+							<p:outputLabel value="Histórico do Título" for="historicoTitulo" />
+							<p:inputText id="historicoTitulo" label="Histórico"
+								placeholder="Histórico" size="150" maxlength="150"
+								value="#{cadastroTituloBean.titulo.historico}" />
+
+						</p:panelGrid>
+					</h:form>
+				</div>
+			</div>
+
+			<div class="ui-g-12 ui-lg-6">
+				<!-- Right Side -->
+				<div class="card no-margin">
+					<h:form id="frmPainel2">
+						<h1>Parcelas do Titulo</h1>
+						<p:growl id="growl-2" autoUpdate="true" />
+
+						<p:panelGrid id="panelCamposDireito" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:commandButton id="addParcela" value="Adicionar Parcela"
+								icon="fa fa-plus" process="@this"
+								onclick="PF('digitacao_parcelas').show();"
+								styleClass="NavyButton" />
+
+							<p:dataTable id="parcelasTable" var="parcela"
+								value="#{cadastroTituloBean.parcelas}" reflow="true"
+								rowKey="#{parcela.id}" editable="true" paginator="true"
+								rows="10" emptyMessage="Nenhuma Parcela Encontrada">
+								<f:facet name="header">
+                                	Parcelas
+                            	</f:facet>
+								<p:column headerText="Numero" sortBy="#{parcela.numeroParcela}">
+									<h:outputText value="#{parcela.numeroParcela}" />
+								</p:column>
+
+								<p:column headerText="Data de Vencimento"
+									sortBy="#{parcela.dataVencimento}">
+									<h:outputText value="#{parcela.dataVencimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Valor da Parcela"
+									sortBy="#{parcela.valorParcela}">
+									<h:outputText value="#{parcela.valorParcela}">
+										<f:convertNumber type="currency" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Data de Pagamento"
+									sortBy="#{parcela.dataPagamento}">
+									<h:outputText value="#{parcela.dataPagamento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Valor de Pagamento"
+									sortBy="#{parcela.valorPagamento}">
+									<h:outputText value="#{parcela.valorPagamento}">
+										<f:convertNumber type="currency" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="Valor de Pagamento"
+									sortBy="#{parcela.valorPagamento}">
+									<h:outputText value="#{parcela.valorPagamento}">
+										<f:convertNumber type="currency" />
+									</h:outputText>
+								</p:column>
+
+								<p:column>
+									<p:commandButton icon="ui-icon-trash" title="Excluir"
+										id="botaoExcluiriParcela" update="parcelasTable"
+										actionListener="#{cadastroTituloBean.excluirParcela(parcela)}">
+										<p:confirm header="Exclusão de Parcela"
+											message="Tem certeza que deseja excluir a parcela #{parcela.numeroParcela}?"
+											icon="ui-icon-alert" />
+									</p:commandButton>
+								</p:column>
+
+							</p:dataTable>
+						</p:panelGrid>
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Sim" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Não" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+					</h:form>
+
+					<h:form id="frmPainel3">
+						<p:dialog id="dialogParcela" header="Parcela"
+							widgetVar="digitacao_parcelas" minHeight="40" responsive="true"
+							closeOnEscape="true">
+
+							<p:panelGrid id="panelBotoesDialog" columns="2" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:outputLabel value="Valor da Parcela" for="valorParcela" />
+								<p:inputText id="valorParcela" label="Valor da Parcela"
+									placeholder="Valor da Parcela" size="10" maxlength="10"
+									value="#{cadastroTituloBean.ttParcela.valorParcela}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+
+								<p:outputLabel value="Data de Vencimento" for="dataVencimento" />
+								<p:calendar id="dataVencimento" label="Data de Vencimento"
+									placeholder="Data de Vencimento" pattern="dd/MM/yyyy"
+									title="Data" size="10"
+									value="#{cadastroTituloBean.ttParcela.dataVencimento}"
+									mask="99/99/9999" />
+
+								<p:outputLabel value="Valor do Pagamento" for="valorPagamento" />
+								<p:inputText id="valorPagamento" label="Valor do Pagamento"
+									placeholder="Valor do Pagamento" size="10" maxlength="10"
+									value="#{cadastroTituloBean.ttParcela.valorPagamento}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+
+								<p:outputLabel value="Data de Pagamento" for="dataPagamento" />
+								<p:calendar id="dataPagamento" label="Data de Pagamento"
+									placeholder="Data de Pagamento" pattern="dd/MM/yyyy"
+									title="Data" size="10"
+									value="#{cadastroTituloBean.ttParcela.dataPagamento}"
+									mask="99/99/9999" />
+
+								<p:outputLabel value="Histórico de Pagamento"
+									for="historicoPagamento" />
+								<p:inputText id="historicoPagamento"
+									label="Histórico do Pagamento"
+									placeholder="Histórico do Pagamento" size="150" maxlength="150"
+									value="#{cadastroTituloBean.ttParcela.historicoPagamento}" />
+
+								<p:commandButton id="incluir"
+									action="#{cadastroTituloBean.adicionarParcela}"
+									onclick="PF('digitacao_parcelas').hide();" value="Incluir"
+									oncomplete="configurarMoeda()" icon="fa fa-plus"
+									styleClass="NavyButton"
+									process="@this 
+											:frmPainel2:parcelasTable
+											:frmPainel3:dataVencimento
+											:frmPainel3:dataPagamento
+											:frmPainel3:valorParcela
+											:frmPainel3:valorPagamento
+											:frmPainel3:historicoPagamento"
+									update=":frmPainel2:parcelasTable
+											:frmPainel3:dialogParcela
+											:frmPainel3:panelBotoesDialog
+											:frmPainel3:valorParcela" />
+
+								<p:commandButton id="cancelar" value="Cancelar"
+									onclick="PF('digitacao_parcelas').hide(); configurarMoeda()"
+									icon="fa fa-close" type="button" styleClass="NavyButton" />
+							</p:panelGrid>
+						</p:dialog>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

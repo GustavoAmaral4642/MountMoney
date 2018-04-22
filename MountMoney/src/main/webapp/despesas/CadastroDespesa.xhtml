@@ -63,15 +63,7 @@
 								placeholder="Data da Despesa" pattern="dd/MM/yyyy" title="Data"
 								size="10" value="#{cadastroDespesaBean.despesa.dataDespesa}"
 								mask="99/99/9999" />
-								
-							<p:spacer />
-							<p:outputLabel value="Data de Vencimento" for="dataVencimento" />
-							<p:calendar id="dataVencimento" label="Data de Vencimento"
-								placeholder="Data de Vencimento" pattern="dd/MM/yyyy"
-								title="Data" size="10"
-								value="#{cadastroDespesaBean.despesa.dataVencimento}"
-								mask="99/99/9999" />
-
+							
 							<p:spacer />
 							<p:outputLabel value="Selecione o Banco" for="banco" />
 							<p:selectOneMenu id="banco" style="margin-bottom:10px;"
@@ -99,22 +91,6 @@
 								placeholder="Histórico" size="150" maxlength="150"
 								value="#{cadastroDespesaBean.despesa.historico}" />
 
-							<p:spacer />
-							<p:outputLabel value="Data de Pagamento" for="dataPagamento" />
-							<p:calendar id="dataPagamento" label="Data de Pagamento"
-								placeholder="Data de Pagamento" pattern="dd/MM/yyyy"
-								title="Data" size="10"
-								value="#{cadastroDespesaBean.despesa.dataPagamento}"
-								mask="99/99/9999" />
-
-							<p:spacer />
-							<p:outputLabel value="Valor de Pagamento" for="valorPagamento" />
-							<p:inputText id="valorPagamento" label="Valor da Pagamento"
-								placeholder="Valor da Pagamento" size="10" maxlength="10"
-								value="#{cadastroDespesaBean.despesa.valorPagamento}"
-								styleClass="moeda">
-								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
-							</p:inputText>
 						</p:panelGrid>
 					</div>
 				</div>

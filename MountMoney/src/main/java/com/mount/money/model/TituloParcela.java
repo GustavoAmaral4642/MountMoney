@@ -17,8 +17,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "despesa")
-public class Despesa implements Serializable {
+@Table(name = "titulo_parcela")
+public class TituloParcela implements Serializable {
 
 	/**
 	 * 
@@ -26,15 +26,17 @@ public class Despesa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Date dataDespesa;
-	private Banco banco;
-	private BigDecimal valorDespesa = BigDecimal.ZERO;
-	private String historico;
-	private Usuario usuario;
-
+	private Titulo titulo;
+	private Long numeroParcela;
+	private Date dataVencimento;
+	private Date dataPagamento;
+	private BigDecimal valorParcela = BigDecimal.ZERO;
+	private BigDecimal valorPagamento = BigDecimal.ZERO;
+	private String historicoPagamento;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "dsp_id")
+	@Column(name = "ttp_id")
 	public Long getId() {
 		return id;
 	}
@@ -43,19 +45,28 @@ public class Despesa implements Serializable {
 		this.id = id;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "titulo_id")
+	public Titulo getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(Titulo titulo) {
+		this.titulo = titulo;
+	}
+
+	@Column(name = "ttp_numero_parcela")
+	public Long getNumeroParcela() {
+		return numeroParcela;
+	}
+
+	public void setNumeroParcela(Long numeroParcela) {
+		this.numeroParcela = numeroParcela;
+	}
+
 	@NotNull
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dsp_data_despesa", nullable = false)
-	public Date getDataDespesa() {
-		return dataDespesa;
-	}
-
-	public void setDataDespesa(Date dataDespesa) {
-		this.dataDespesa = dataDespesa;
-	}
-
-/*	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dsp_data_vencimento")
+	@Column(name = "ttp_data_vencimento", nullable = false)
 	public Date getDataVencimento() {
 		return dataVencimento;
 	}
@@ -65,7 +76,7 @@ public class Despesa implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dsp_data_pagamento")
+	@Column(name = "ttp_data_pagamento")
 	public Date getDataPagamento() {
 		return dataPagamento;
 	}
@@ -73,28 +84,18 @@ public class Despesa implements Serializable {
 	public void setDataPagamento(Date dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}
-*/
-	@ManyToOne
-	@JoinColumn(name = "dsp_banco_id")
-	public Banco getBanco() {
-		return banco;
-	}
-
-	public void setBanco(Banco banco) {
-		this.banco = banco;
-	}
 
 	@NotNull
-	@Column(name = "dsp_valor_despesa", precision = 10, scale = 2)
-	public BigDecimal getValorDespesa() {
-		return valorDespesa;
+	@Column(name = "ttp_valor_parcela", precision = 10, scale = 2)
+	public BigDecimal getValorParcela() {
+		return valorParcela;
 	}
 
-	public void setValorDespesa(BigDecimal valorDespesa) {
-		this.valorDespesa = valorDespesa;
+	public void setValorParcela(BigDecimal valorParcela) {
+		this.valorParcela = valorParcela;
 	}
-/*
-	@Column(name = "dsp_valor_pagamento", precision = 10, scale = 2)
+
+	@Column(name = "ttp_valor_pagamento", precision = 10, scale = 2)
 	public BigDecimal getValorPagamento() {
 		return valorPagamento;
 	}
@@ -102,24 +103,14 @@ public class Despesa implements Serializable {
 	public void setValorPagamento(BigDecimal valorPagamento) {
 		this.valorPagamento = valorPagamento;
 	}
-*/
-	@Column(name = "dsp_historico", columnDefinition = "text")
-	public String getHistorico() {
-		return historico;
+
+	@Column(name = "ttp_historico", columnDefinition = "text")
+	public String getHistoricoPagamento() {
+		return historicoPagamento;
 	}
 
-	public void setHistorico(String historico) {
-		this.historico = historico;
-	}
-
-	@ManyToOne
-	@JoinColumn(name = "id_usuario")
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setHistoricoPagamento(String historicoPagamento) {
+		this.historicoPagamento = historicoPagamento;
 	}
 
 	@Override
@@ -136,9 +127,9 @@ public class Despesa implements Serializable {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Despesa))
+		if (!(obj instanceof TituloParcela))
 			return false;
-		Despesa other = (Despesa) obj;
+		TituloParcela other = (TituloParcela) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

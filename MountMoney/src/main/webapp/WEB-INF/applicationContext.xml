@@ -49,6 +49,7 @@
 		<intercept-url pattern="/movimentosBancos/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/pessoas/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/despesas/**" access="hasAnyRole('ADMINISTRADOR')" />
+		<intercept-url pattern="/titulos/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/usuarios/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/**" access="denyAll" />
 
