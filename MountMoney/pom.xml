@@ -5,7 +5,7 @@
 
 	<groupId>com.mount.money</groupId>
 	<artifactId>MountMoney</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.6-SNAPSHOT</version>
 	<packaging>war</packaging>
 
 	<name>MountMoney</name>
@@ -212,11 +212,12 @@
 							<!-- <source> <directory>${project.basedir}/src/main/webapp/resources/primefaces-apollo-blue-dark</directory> 
 								</source> <destination>${project.basedir}/src/main/webapp/resources/primefaces-apollo-blue-dark</destination> -->
 							<!-- Set source and destination dirs <source> <directory>${project.basedir}/src/main/webapp/resources/apollo-layout/css</directory> 
-								</source> <destination>${project.basedir}/src/main/webapp/resources/apollo-alyout/css</destination>-->
+								</source> <destination>${project.basedir}/src/main/webapp/resources/apollo-alyout/css</destination> -->
 						</resource>
 					</resources>
 				</configuration>
-			</plugin> 
+			</plugin>
+
 		</plugins>
 	</build>
 	<!-- * * * * -->

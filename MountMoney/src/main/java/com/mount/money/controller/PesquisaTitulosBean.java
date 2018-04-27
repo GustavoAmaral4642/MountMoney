@@ -35,7 +35,7 @@ public class PesquisaTitulosBean implements Serializable {
 		
 		titulosFiltrados.remove(tituloSelecionado);
 
-		FacesUtil.addInfoMessage("Título "+ tituloSelecionado.getNumeroTitulo() +" excluído com sucesso.");
+		FacesUtil.addInfoMessage("Título "+ tituloSelecionado.getHistorico() +" excluído com sucesso.");
 	}
 
 	// iniciar coleções

@@ -54,26 +54,6 @@ public class Despesa implements Serializable {
 		this.dataDespesa = dataDespesa;
 	}
 
-/*	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dsp_data_vencimento")
-	public Date getDataVencimento() {
-		return dataVencimento;
-	}
-
-	public void setDataVencimento(Date dataVencimento) {
-		this.dataVencimento = dataVencimento;
-	}
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "dsp_data_pagamento")
-	public Date getDataPagamento() {
-		return dataPagamento;
-	}
-
-	public void setDataPagamento(Date dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
-*/
 	@ManyToOne
 	@JoinColumn(name = "dsp_banco_id")
 	public Banco getBanco() {
@@ -93,16 +73,7 @@ public class Despesa implements Serializable {
 	public void setValorDespesa(BigDecimal valorDespesa) {
 		this.valorDespesa = valorDespesa;
 	}
-/*
-	@Column(name = "dsp_valor_pagamento", precision = 10, scale = 2)
-	public BigDecimal getValorPagamento() {
-		return valorPagamento;
-	}
 
-	public void setValorPagamento(BigDecimal valorPagamento) {
-		this.valorPagamento = valorPagamento;
-	}
-*/
 	@Column(name = "dsp_historico", columnDefinition = "text")
 	public String getHistorico() {
 		return historico;

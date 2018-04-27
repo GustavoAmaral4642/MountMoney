@@ -27,13 +27,14 @@ public class TituloParcela implements Serializable {
 
 	private Long id;
 	private Titulo titulo;
+	private Banco banco;
 	private Long numeroParcela;
 	private Date dataVencimento;
 	private Date dataPagamento;
 	private BigDecimal valorParcela = BigDecimal.ZERO;
 	private BigDecimal valorPagamento = BigDecimal.ZERO;
 	private String historicoPagamento;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ttp_id")
@@ -53,6 +54,16 @@ public class TituloParcela implements Serializable {
 
 	public void setTitulo(Titulo titulo) {
 		this.titulo = titulo;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "ttp_banco_id")
+	public Banco getBanco() {
+		return banco;
+	}
+
+	public void setBanco(Banco banco) {
+		this.banco = banco;
 	}
 
 	@Column(name = "ttp_numero_parcela")

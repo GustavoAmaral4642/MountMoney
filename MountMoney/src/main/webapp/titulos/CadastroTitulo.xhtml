@@ -126,13 +126,6 @@
 									</h:outputText>
 								</p:column>
 
-								<p:column headerText="Data de Pagamento"
-									sortBy="#{parcela.dataPagamento}">
-									<h:outputText value="#{parcela.dataPagamento}">
-										<f:convertDateTime pattern="dd/MM/yyyy" />
-									</h:outputText>
-								</p:column>
-
 								<p:column headerText="Valor de Pagamento"
 									sortBy="#{parcela.valorPagamento}">
 									<h:outputText value="#{parcela.valorPagamento}">
@@ -148,6 +141,20 @@
 								</p:column>
 
 								<p:column>
+									<p:commandButton id="addParcela" title="Pagar"
+										icon="fa fa-check" process="@this"
+										oncomplete="configurarMoeda()"
+										actionListener="#{cadastroTituloBean.pagarParcela(parcela)}"
+										update=":frmPainel4:valorParcela2
+										:frmPainel4:dataVencimento2
+										:frmPainel4:valorPagamento2
+										:frmPainel4:dataPagamento2
+										:frmPainel4:historicoPagamento2"
+										onclick="PF('pagamento_parcelas').show();"
+										styleClass="NavyButton" />
+								</p:column>
+
+								<p:column>
 									<p:commandButton icon="ui-icon-trash" title="Excluir"
 										id="botaoExcluiriParcela" update="parcelasTable"
 										actionListener="#{cadastroTituloBean.excluirParcela(parcela)}">
@@ -159,7 +166,7 @@
 
 							</p:dataTable>
 						</p:panelGrid>
-						
+
 						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 							<p:commandButton value="Sim" type="button"
 								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -207,6 +214,16 @@
 									value="#{cadastroTituloBean.ttParcela.dataPagamento}"
 									mask="99/99/9999" />
 
+								<p:outputLabel value="Selecione o Banco" for="banco" />
+								<p:selectOneMenu id="banco" style="margin-bottom:10px;"
+									value="#{cadastroTituloBean.ttParcela.banco}" label="Banco"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="Selecione" />
+									<f:selectItems value="#{cadastroTituloBean.todosBancos}"
+										var="todosBancos" itemValue="#{todosBancos}"
+										itemLabel="#{todosBancos.nomeBanco} - #{todosBancos.numeroConta}" />
+								</p:selectOneMenu>
+
 								<p:outputLabel value="Histórico de Pagamento"
 									for="historicoPagamento" />
 								<p:inputText id="historicoPagamento"
@@ -233,6 +250,84 @@
 
 								<p:commandButton id="cancelar" value="Cancelar"
 									onclick="PF('digitacao_parcelas').hide(); configurarMoeda()"
+									icon="fa fa-close" type="button" styleClass="NavyButton" />
+							</p:panelGrid>
+						</p:dialog>
+					</h:form>
+
+					<h:form id="frmPainel4">
+						<p:dialog id="dialogParcelaPagamento" header="ParcelaPagamento"
+							widgetVar="pagamento_parcelas" minHeight="40" responsive="true"
+							closeOnEscape="true">
+
+							<p:panelGrid id="panelBotoesDialog2" columns="2" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:outputLabel value="Valor da Parcela" for="valorParcela2" />
+								<p:inputText id="valorParcela2" label="Valor da Parcela"
+									placeholder="Valor da Parcela" size="10" maxlength="10"
+									value="#{cadastroTituloBean.ttParcela.valorParcela}"
+									styleClass="moeda" disabled="true">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+
+								<p:outputLabel value="Data de Vencimento" for="dataVencimento2" />
+								<p:calendar id="dataVencimento2" label="Data de Vencimento"
+									placeholder="Data de Vencimento" pattern="dd/MM/yyyy"
+									title="Data" size="10" disabled="true"
+									value="#{cadastroTituloBean.ttParcela.dataVencimento}"
+									mask="99/99/9999" />
+
+								<p:outputLabel value="Valor do Pagamento" for="valorPagamento2" />
+								<p:inputText id="valorPagamento2" label="Valor do Pagamento"
+									placeholder="Valor do Pagamento" size="10" maxlength="10"
+									value="#{cadastroTituloBean.ttParcela.valorPagamento}"
+									styleClass="moeda">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</p:inputText>
+
+								<p:outputLabel value="Data de Pagamento" for="dataPagamento2" />
+								<p:calendar id="dataPagamento2" label="Data de Pagamento"
+									placeholder="Data de Pagamento" pattern="dd/MM/yyyy"
+									title="Data" size="10"
+									value="#{cadastroTituloBean.ttParcela.dataPagamento}"
+									mask="99/99/9999" />
+
+								<p:outputLabel value="Selecione o Banco" for="banco2" />
+								<p:selectOneMenu id="banco2" style="margin-bottom:10px;"
+									value="#{cadastroTituloBean.ttParcela.banco}" label="Banco"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="Selecione" />
+									<f:selectItems value="#{cadastroTituloBean.todosBancos}"
+										var="todosBancos" itemValue="#{todosBancos}"
+										itemLabel="#{todosBancos.nomeBanco} - #{todosBancos.numeroConta}" />
+								</p:selectOneMenu>
+
+								<p:outputLabel value="Histórico de Pagamento"
+									for="historicoPagamento2" />
+								<p:inputText id="historicoPagamento2"
+									label="Histórico do Pagamento"
+									placeholder="Histórico do Pagamento" size="150" maxlength="150"
+									value="#{cadastroTituloBean.ttParcela.historicoPagamento}" />
+
+								<p:commandButton id="pagar"
+									action="#{cadastroTituloBean.pagando}"
+									onclick="PF('pagamento_parcelas').hide();" value="Pagar"
+									oncomplete="configurarMoeda()" icon="fa fa-check"
+									styleClass="NavyButton"
+									process="@this 
+											:frmPainel2:parcelasTable
+											:frmPainel4:dataVencimento2
+											:frmPainel4:dataPagamento2
+											:frmPainel4:valorParcela2
+											:frmPainel4:valorPagamento2
+											:frmPainel4:banco2
+											:frmPainel4:historicoPagamento2"
+									update="frmPainel2" />
+
+								<p:commandButton id="cancelar2" value="Cancelar"
+									onclick="PF('pagamento_parcelas').hide(); configurarMoeda()"
 									icon="fa fa-close" type="button" styleClass="NavyButton" />
 							</p:panelGrid>
 						</p:dialog>

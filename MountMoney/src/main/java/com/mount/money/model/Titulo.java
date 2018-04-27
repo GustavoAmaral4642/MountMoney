@@ -30,7 +30,6 @@ public class Titulo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private Long numeroTitulo;
 	private List<TituloParcela> titulosParcelas;
 	private Date dataEmissao;
 	private Date dataVencimento;
@@ -49,16 +48,10 @@ public class Titulo implements Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "tt_numero")
-	public Long getNumeroTitulo() {
-		return numeroTitulo;
-	}
-
-	public void setNumeroTitulo(Long numeroTitulo) {
-		this.numeroTitulo = numeroTitulo;
-	}
-
-	@OneToMany(mappedBy = "titulo", targetEntity = TituloParcela.class ,cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "titulo", 
+			cascade = CascadeType.ALL, 
+			orphanRemoval = true, 
+			fetch = FetchType.LAZY)
 	public List<TituloParcela> getTitulosParcelas() {
 		return titulosParcelas;
 	}

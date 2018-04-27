@@ -42,14 +42,14 @@
 		<intercept-url pattern="/dashboard.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/access.xhtml" access="isAuthenticated()" />
 		<intercept-url pattern="/ativos/**" access="hasAnyRole('ADMINISTRADOR')" />
-		<intercept-url pattern="/bancos/**" access="hasAnyRole('ADMINISTRADOR')" />
-		<intercept-url pattern="/contasCorretoras/**" access="hasAnyRole('ADMINISTRADOR')" />
-		<intercept-url pattern="/ordens/**" access="hasAnyRole('ADMINISTRADOR')" />
-		<intercept-url pattern="/notasCorretagens/**" access="hasAnyRole('ADMINISTRADOR')" />
-		<intercept-url pattern="/movimentosBancos/**" access="hasAnyRole('ADMINISTRADOR')" />
+		<intercept-url pattern="/bancos/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
+		<intercept-url pattern="/contasCorretoras/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
+		<intercept-url pattern="/ordens/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
+		<intercept-url pattern="/notasCorretagens/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
+		<intercept-url pattern="/movimentosBancos/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
 		<intercept-url pattern="/pessoas/**" access="hasAnyRole('ADMINISTRADOR')" />
-		<intercept-url pattern="/despesas/**" access="hasAnyRole('ADMINISTRADOR')" />
-		<intercept-url pattern="/titulos/**" access="hasAnyRole('ADMINISTRADOR')" />
+		<intercept-url pattern="/despesas/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
+		<intercept-url pattern="/titulos/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
 		<intercept-url pattern="/usuarios/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/**" access="denyAll" />
 

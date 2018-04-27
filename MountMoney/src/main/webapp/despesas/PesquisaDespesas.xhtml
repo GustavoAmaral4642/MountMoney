@@ -86,22 +86,6 @@
 									value="#{pesquisaDespesasBean.filtro.dataDespesaAte}" />
 
 								<p:spacer />
-								<p:outputLabel value="Informe a Data de Pagamento Inicial"
-									for="dataPagamentoInicial" />
-								<p:calendar id="dataPagamentoInicial" size="10"
-									pattern="dd/MM/yyyy" mask="99/99/9999"
-									placeholder="Data Pagamento Inicial"
-									value="#{pesquisaDespesasBean.filtro.dataPagamentoDe}" />
-
-								<p:spacer />
-								<p:outputLabel value="Informe a Data de Pagamento Final"
-									for="dataPagamentoFinal" />
-								<p:calendar id="dataPagamentoFinal" size="10"
-									pattern="dd/MM/yyyy" mask="99/99/9999"
-									placeholder="Data Pagamento Final"
-									value="#{pesquisaDespesasBean.filtro.dataPagamentoAte}" />
-
-								<p:spacer />
 								<p:outputLabel value="Pesquisar Pelo Histórico" for="historico" />
 								<p:inputText placeholder="Pesquisar Histórico" id="historico"
 									size="100" maxlength="100"
@@ -135,13 +119,6 @@
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Data de Vencimento"
-								sortBy="#{despesa.dataVencimento}"
-								style="text-align: center; width: 100px">
-								<h:outputText value="#{despesa.dataVencimento}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-							</p:column>
 							<p:column headerText="Valor da Despesa"
 								sortBy="#{despesa.valorDespesa}"
 								style="text-align: center; width: 150px">
@@ -149,20 +126,7 @@
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Data de Pagamento"
-								sortBy="#{despesa.dataPagamento}"
-								style="text-align: center; width: 100px">
-								<h:outputText value="#{despesa.dataPagamento}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-							</p:column>
-							<p:column headerText="Valor da Pagamento"
-								sortBy="#{despesa.valorPagamento}"
-								style="text-align: center; width: 150px">
-								<h:outputText value="#{despesa.valorPagamento}">
-									<f:convertNumber type="currency" />
-								</h:outputText>
-							</p:column>
+						
 							<p:column headerText="Histórico" style="text-align: center"
 								sortBy="#{despesa.historico}">
 								<h:outputText value="#{despesa.historico}" />

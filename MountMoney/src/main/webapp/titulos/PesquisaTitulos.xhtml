@@ -97,21 +97,17 @@
 							<f:facet name="header">
                                 Títulos a Pagar
                             </f:facet>
-                            
-                            <p:column headerText="Número do Título" sortBy="#{titulo.numeroTitulo}">
-                            	<h:outputText value="#{titulo.numeroTitulo}"/>
-                            </p:column>
-                            
+
 							<p:column headerText="Data de Emissão"
 								sortBy="#{titulo.dataEmissao}"
-								style="text-align: center; width: 100px">
+								style="text-align: center">
 								<h:outputText value="#{titulo.dataEmissao}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Valor do Título"
 								sortBy="#{titulo.valorTitulo}"
-								style="text-align: center; width: 150px">
+								style="text-align: center">
 								<h:outputText value="#{titulo.valorTitulo}">
 									<f:convertNumber type="currency" />
 								</h:outputText>
@@ -130,12 +126,10 @@
 									update="titulosTable" id="botaoExcluirTitulo"
 									actionListener="#{pesquisaTitulosBean.excluir(titulo)}">
 									<p:confirm header="Exclusão de Título"
-										message="Tem certeza que deseja excluir o título #{titulo.numeroTitulo}?"
+										message="Tem certeza que deseja excluir o título?"
 										icon="ui-icon-alert" />
 								</p:commandButton>
 							</p:column>
-
-
 						</p:dataTable>
 					</div>
 				</div>

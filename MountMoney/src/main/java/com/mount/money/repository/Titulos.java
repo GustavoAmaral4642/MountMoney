@@ -93,13 +93,14 @@ public class Titulos implements Serializable {
 		if (StringUtils.isNotBlank(filtro.getHistorico())) {
 			criteria.add(Restrictions.ilike("historico", filtro.getHistorico(), MatchMode.ANYWHERE));
 		}
-
+		
 		// apenas pode ver registros do proprio usuario
 		if (StringUtils.isNotBlank(segUsuario.getUsuario().getNome())) {
 
 			criteria.add(Restrictions.eq("usuario", segUsuario.getUsuario()));
 		}
 
+		
 		return criteria.addOrder(Order.asc("dataEmissao")).list();
 	}
 

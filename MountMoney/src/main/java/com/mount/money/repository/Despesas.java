@@ -31,10 +31,10 @@ public class Despesas implements Serializable {
 	private EntityManager manager;
 
 	public Despesa guardar(Despesa despesa) {
-
+		
 		// registra o usuário
 		despesa.setUsuario(segUsuario.getUsuario());
-
+		
 		return despesa = manager.merge(despesa);
 	}
 
@@ -89,14 +89,6 @@ public class Despesas implements Serializable {
 			criteria.add(Restrictions.le("dataDespesa", filtro.getDataDespesaAte()));
 		}
 
-		if (filtro.getDataPagamentoDe() != null) {
-			criteria.add(Restrictions.ge("dataPagamento", filtro.getDataPagamentoDe()));
-		}
-
-		if (filtro.getDataPagamentoAte() != null) {
-			criteria.add(Restrictions.le("dataPagamento", filtro.getDataPagamentoAte()));
-		}
-		
 		if (StringUtils.isNotBlank(filtro.getHistorico())) {
 			criteria.add(Restrictions.ilike("historico", filtro.getHistorico(), MatchMode.ANYWHERE));
 		}

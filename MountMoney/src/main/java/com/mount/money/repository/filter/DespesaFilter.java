@@ -12,8 +12,6 @@ public class DespesaFilter implements Serializable {
 
 	private Date dataDespesaDe;
 	private Date dataDespesaAte;
-	private Date dataPagamentoDe;
-	private Date dataPagamentoAte;
 	private Banco banco;
 	private String historico;
 
@@ -31,22 +29,6 @@ public class DespesaFilter implements Serializable {
 
 	public void setDataDespesaAte(Date dataDespesaAte) {
 		this.dataDespesaAte = dataDespesaAte;
-	}
-
-	public Date getDataPagamentoDe() {
-		return dataPagamentoDe;
-	}
-
-	public void setDataPagamentoDe(Date dataPagamentoDe) {
-		this.dataPagamentoDe = dataPagamentoDe;
-	}
-
-	public Date getDataPagamentoAte() {
-		return dataPagamentoAte;
-	}
-
-	public void setDataPagamentoAte(Date dataPagamentoAte) {
-		this.dataPagamentoAte = dataPagamentoAte;
 	}
 
 	public Banco getBanco() {
