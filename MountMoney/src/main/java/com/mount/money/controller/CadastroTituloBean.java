@@ -43,7 +43,7 @@ public class CadastroTituloBean implements Serializable {
 
 	private List<TituloParcela> parcelas = new ArrayList<>();
 	private List<Banco> todosBancos = new ArrayList<>();
-	
+
 	private Titulo titulo;
 	private TituloParcela ttParcela;
 	private Despesa despesa;
@@ -53,7 +53,6 @@ public class CadastroTituloBean implements Serializable {
 	private Long numeroParcela;
 	private boolean adicionou = false;
 	private boolean editou = false;
-
 
 	// construtor
 	public CadastroTituloBean() {
@@ -67,7 +66,7 @@ public class CadastroTituloBean implements Serializable {
 		despesa = new Despesa();
 		numeroParcela = new Long(0);
 		banco = new Banco();
-		movimento = new MovimentoBanco ();
+		movimento = new MovimentoBanco();
 		parcelas = new ArrayList<>();
 	}
 
@@ -83,8 +82,6 @@ public class CadastroTituloBean implements Serializable {
 	public void salvar() {
 
 		try {
-			titulo.setTitulosParcelas(parcelas);
-			this.titulo = cadastroTituloService.salvar(this.titulo);
 
 			// salvando despesa
 			for (TituloParcela p : parcelas) {
@@ -93,21 +90,16 @@ public class CadastroTituloBean implements Serializable {
 				} else if (p.getValorPagamento().equals(BigDecimal.ZERO)) {
 
 				} else {
-					despesa.setDataDespesa(p.getDataPagamento());
-					despesa.setHistorico(p.getHistoricoPagamento());
-					despesa.setValorDespesa(p.getValorPagamento());
-					despesa.setBanco(p.getBanco());
+
+					despesa = cadastroDespesaService.alimentaTituloParcela(p);
+					movimento = cadastroMovimentoService.alimentaTituloParcela(p);
 					
-					movimento.setBanco(p.getBanco());
-					movimento.setDataMovimento(p.getDataPagamento());
-					movimento.setHistorico("Titulo Pago: " + p.getHistoricoPagamento());
-					movimento.setValorMovimento(p.getValorPagamento());
-					movimento.setTipoMovimento("S");
-					
-					cadastroDespesaService.salvar(despesa);
-					cadastroMovimentoService.salvar(movimento);
+					p.setDespesa(despesa);
+					p.setMovimento(movimento);
 				}
 			}
+
+			this.titulo = cadastroTituloService.salvar(this.titulo, parcelas);
 
 			limpar();
 			FacesUtil.addInfoMessage("Titulo registrado com sucesso!");
@@ -127,7 +119,7 @@ public class CadastroTituloBean implements Serializable {
 			}
 
 			adicionou = true;
-			editou = true;			
+			editou = true;
 		}
 
 		// metodo controla numero da parcela

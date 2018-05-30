@@ -136,37 +136,33 @@
                                 Movimentos Bancários
                             </f:facet>
 							<p:column headerText="Banco"
-								sortBy="#{movimento.banco.nomeBanco}"
-								style="text-align: center; width: 150px">
+								sortBy="#{movimento.banco.nomeBanco}">
 								<h:outputText value="#{movimento.banco.nomeBanco}" />
 							</p:column>
 							<p:column headerText="Tipo de Movimento"
-								sortBy="#{movimento.tipoMovimento}"
-								style="text-align: center; width: 100px">
+								sortBy="#{movimento.tipoMovimento}">
 								<h:outputText rendered="#{movimento.tipoMovimento eq 'S'}"
 									value="Saída" />
 								<h:outputText rendered="#{movimento.tipoMovimento eq 'E'}"
 									value="Entrada" />
 							</p:column>
-							<p:column headerText="Data" sortBy="#{movimento.dataMovimento}"
-								style="text-align: center; width: 100px">
+							<p:column headerText="Data" sortBy="#{movimento.dataMovimento}">
 								<h:outputText value="#{movimento.dataMovimento}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Valor do movimento"
-								sortBy="#{movimento.valorMovimento}"
-								style="text-align: center; width: 150px">
+								sortBy="#{movimento.valorMovimento}">
 								<h:outputText value="#{movimento.valorMovimento}">
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Histórico" style="text-align: center"
+							<p:column headerText="Histórico" 
 								sortBy="#{movimento.historico}">
 								<h:outputText value="#{movimento.historico}" />
 							</p:column>
 
-							<p:column style="text-align: center; width: 100px">
+							<p:column >
 								<p:button outcome="/movimentosBancos/CadastroMovimentoBanco"
 									icon="ui-icon-pencil" title="Editar">
 									<f:param name="movimento" value="#{movimento.id}" />

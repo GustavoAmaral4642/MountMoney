@@ -37,9 +37,7 @@ public class CadastroAtivoBean implements Serializable {
 
 	// metodo para limpar os dados na tela
 	public void limpar() {
-
 		ativo = new Ativo();
-
 	}
 
 	// iniciar coleções

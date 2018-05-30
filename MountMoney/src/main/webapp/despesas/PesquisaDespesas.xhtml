@@ -108,31 +108,28 @@
 							<f:facet name="header">
                                 Despesas
                             </f:facet>
-							<p:column headerText="Banco" sortBy="#{despesa.banco.nomeBanco}"
-								style="text-align: center; width: 150px">
+							<p:column headerText="Banco" sortBy="#{despesa.banco.nomeBanco}">
 								<h:outputText value="#{despesa.banco.nomeBanco}" />
 							</p:column>
 							<p:column headerText="Data de Registro"
-								sortBy="#{despesa.dataDespesa}"
-								style="text-align: center; width: 100px">
+								sortBy="#{despesa.dataDespesa}">
 								<h:outputText value="#{despesa.dataDespesa}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Valor da Despesa"
-								sortBy="#{despesa.valorDespesa}"
-								style="text-align: center; width: 150px">
+								sortBy="#{despesa.valorDespesa}">
 								<h:outputText value="#{despesa.valorDespesa}">
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</p:column>
 						
-							<p:column headerText="Histórico" style="text-align: center"
+							<p:column headerText="Histórico" 
 								sortBy="#{despesa.historico}">
 								<h:outputText value="#{despesa.historico}" />
 							</p:column>
 
-							<p:column style="text-align: center; width: 100px">
+							<p:column >
 								<p:button outcome="/despesas/CadastroDespesa"
 									icon="ui-icon-pencil" title="Editar">
 									<f:param name="despesa" value="#{despesa.id}" />

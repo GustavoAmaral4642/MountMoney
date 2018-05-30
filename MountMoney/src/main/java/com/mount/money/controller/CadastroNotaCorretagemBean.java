@@ -10,11 +10,13 @@ import javax.inject.Named;
 
 import com.mount.money.model.ContaCorretora;
 import com.mount.money.model.NotaCorretagem;
+import com.mount.money.model.Ocorrencia;
 import com.mount.money.model.Ordem;
 import com.mount.money.repository.ContasCorretoras;
 import com.mount.money.repository.NotasCorretagens;
 import com.mount.money.repository.Ordens;
 import com.mount.money.service.CadastroNotaCorretagemService;
+import com.mount.money.service.CadastroOcorrenciaService;
 import com.mount.money.util.jsf.FacesUtil;
 
 @Named
@@ -36,6 +38,11 @@ public class CadastroNotaCorretagemBean implements Serializable {
 	@Inject
 	private NotasCorretagens notas;
 
+	@Inject
+	private CadastroOcorrenciaService cadastroOcorrenciaService;
+
+	private Ocorrencia ocorrencia;
+
 	private NotaCorretagem nota;
 	private Ordem ordem;
 	private Ordem ordemSelecionada;
@@ -46,7 +53,7 @@ public class CadastroNotaCorretagemBean implements Serializable {
 	private List<ContaCorretora> todasContasCorretoras = new ArrayList<>();
 
 	private boolean carregaNotas = false;
-	
+
 	// construtor
 	public CadastroNotaCorretagemBean() {
 		limpar();
@@ -77,10 +84,10 @@ public class CadastroNotaCorretagemBean implements Serializable {
 
 	// metodo é chamado para carregar listagem das ordens na edição de registros
 	public void carregarOrdensNotas() {
-		
+
 		nota = notas.carregarOrdens(nota);
 		incluidas = nota.getOrdens();
-		
+
 		carregaNotas = true;
 	}
 
@@ -92,14 +99,20 @@ public class CadastroNotaCorretagemBean implements Serializable {
 		}
 
 		this.nota = cadastroNotaCorretagemService.salvar(this.nota);
+
+		// tratar e salvar ocorrencia
+		this.ocorrencia = cadastroOcorrenciaService.logNotaCorretagemI(nota);
+		this.ocorrencia = cadastroOcorrenciaService.salvar(ocorrencia);
+
 		limpar();
 		FacesUtil.addInfoMessage("Nota de Corretagem gravada com sucesso!");
-		
+
 		carregaNotas = false;
 	}
 
 	// metodo para adicionar uma ordem dentro da table do cadastro de nota
 	public void adicionaOrdem() {
+		
 		boolean valida = true;
 
 		// percorre o array de incluidas, para verificar se um determinada

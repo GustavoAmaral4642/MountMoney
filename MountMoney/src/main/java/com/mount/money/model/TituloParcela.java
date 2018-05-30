@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,6 +36,8 @@ public class TituloParcela implements Serializable {
 	private BigDecimal valorParcela = BigDecimal.ZERO;
 	private BigDecimal valorPagamento = BigDecimal.ZERO;
 	private String historicoPagamento;
+	private Despesa despesa;
+	private MovimentoBanco movimento;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -122,6 +126,26 @@ public class TituloParcela implements Serializable {
 
 	public void setHistoricoPagamento(String historicoPagamento) {
 		this.historicoPagamento = historicoPagamento;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ttp_despesa")
+	public Despesa getDespesa() {
+		return despesa;
+	}
+
+	public void setDespesa(Despesa despesa) {
+		this.despesa = despesa;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ttp_movimento_banco")
+	public MovimentoBanco getMovimento() {
+		return movimento;
+	}
+
+	public void setMovimento(MovimentoBanco movimento) {
+		this.movimento = movimento;
 	}
 
 	@Override

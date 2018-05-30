@@ -42,7 +42,7 @@ public class PesquisaDespesasBean implements Serializable {
 		
 		despesasFiltradas.remove(despesaSelecionada);
 
-		FacesUtil.addInfoMessage("Despesa de valor R$ " + despesaSelecionada.getValorDespesa() + " excluído com sucesso.");
+		FacesUtil.addInfoMessage("Despesa de valor R$ " + despesaSelecionada.getValorDespesa() + " excluída com sucesso.");
 	}
 
 	// iniciar coleções

@@ -99,25 +99,23 @@
                             </f:facet>
 
 							<p:column headerText="Data de Emissão"
-								sortBy="#{titulo.dataEmissao}"
-								style="text-align: center">
+								sortBy="#{titulo.dataEmissao}">
 								<h:outputText value="#{titulo.dataEmissao}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
 							<p:column headerText="Valor do Título"
-								sortBy="#{titulo.valorTitulo}"
-								style="text-align: center">
+								sortBy="#{titulo.valorTitulo}">
 								<h:outputText value="#{titulo.valorTitulo}">
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Histórico" style="text-align: center"
+							<p:column headerText="Histórico" 
 								sortBy="#{titulo.historico}">
 								<h:outputText value="#{titulo.historico}" />
 							</p:column>
 
-							<p:column style="text-align: center; width: 100px">
+							<p:column >
 								<p:button outcome="/titulos/CadastroTitulo"
 									icon="ui-icon-pencil" title="Editar">
 									<f:param name="titulo" value="#{titulo.id}" />

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +32,7 @@ public class Despesa implements Serializable {
 	private Banco banco;
 	private BigDecimal valorDespesa = BigDecimal.ZERO;
 	private String historico;
+	private MovimentoBanco movimento;
 	private Usuario usuario;
 
 	@Id
@@ -81,6 +84,16 @@ public class Despesa implements Serializable {
 
 	public void setHistorico(String historico) {
 		this.historico = historico;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "dsp_movimento_banco")
+	public MovimentoBanco getMovimento() {
+		return movimento;
+	}
+
+	public void setMovimento(MovimentoBanco movimento) {
+		this.movimento = movimento;
 	}
 
 	@ManyToOne

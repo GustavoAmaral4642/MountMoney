@@ -10,8 +10,10 @@ import javax.inject.Named;
 
 import com.mount.money.model.Banco;
 import com.mount.money.model.MovimentoBanco;
+import com.mount.money.model.Ocorrencia;
 import com.mount.money.repository.Bancos;
 import com.mount.money.service.CadastroMovimentoBancoService;
+import com.mount.money.service.CadastroOcorrenciaService;
 import com.mount.money.util.jsf.FacesUtil;
 
 @Named
@@ -24,14 +26,19 @@ public class CadastroMovimentoBancoBean implements Serializable {
 	@Inject
 	private CadastroMovimentoBancoService cadastroMovimentoBancoService;
 
+	@Inject
+	private CadastroOcorrenciaService cadastroOcorrenciaService;
+
 	// injetando classe bancos
 	@Inject
 	private Bancos bancos;
 
 	private MovimentoBanco movimentoBanco;
 
+	private Ocorrencia ocorrencia;
+
 	private Banco banco;
-	
+
 	// carregar os bancos na tela
 	private List<Banco> todosBancos = new ArrayList<>();
 
@@ -48,11 +55,16 @@ public class CadastroMovimentoBancoBean implements Serializable {
 
 	// iniciar coleções
 	public void inicializar() {
-		todosBancos = bancos.todosBancos();		
+		todosBancos = bancos.todosBancos();
 	}
 
 	public void salvar() {
 		this.movimentoBanco = cadastroMovimentoBancoService.salvar(this.movimentoBanco);
+
+		// tratar e salvar ocorrencia
+		this.ocorrencia = cadastroOcorrenciaService.logMovimentoBancoI(movimentoBanco);
+		this.ocorrencia = cadastroOcorrenciaService.salvar(ocorrencia);
+
 		limpar();
 		FacesUtil.addInfoMessage("Movimento registrado com sucesso!");
 	}
@@ -68,7 +80,6 @@ public class CadastroMovimentoBancoBean implements Serializable {
 	public List<Banco> getTodosBancos() {
 		return todosBancos;
 	}
-
 
 	public MovimentoBanco getMovimentoBanco() {
 		return movimentoBanco;
