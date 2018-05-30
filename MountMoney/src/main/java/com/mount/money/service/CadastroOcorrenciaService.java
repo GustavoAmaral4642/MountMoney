@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import com.mount.money.model.Ativo;
 import com.mount.money.model.Banco;
+import com.mount.money.model.Categoria;
 import com.mount.money.model.ContaCorretora;
 import com.mount.money.model.Despesa;
 import com.mount.money.model.MovimentoBanco;
@@ -215,4 +216,33 @@ public class CadastroOcorrenciaService implements Serializable {
 		return ocorrencia;
 	}
 
+	/**** Categoria ****/
+
+	// recebe Categoria para inclusão de ocorrencias
+	public Ocorrencia logCategoriaI(Categoria categoria) {
+
+		Ocorrencia ocorrencia = new Ocorrencia();
+
+		ocorrencia.setTipo("Categoria");
+		ocorrencia.setDescricao("Inclusão de Categoria Sigla: " + categoria.getSiglaCategoria()
+				+ "; Nome: " + categoria.getNomeCategoria());
+		ocorrencia.setDtOcorrencia(new java.sql.Date(System.currentTimeMillis()));
+
+		return ocorrencia;
+	}
+
+	// recebe Categoria para inclusão de ocorrencias
+	public Ocorrencia logCategoriaD(Categoria categoria) {
+
+		Ocorrencia ocorrencia = new Ocorrencia();
+
+		ocorrencia.setTipo("Categoria");
+		ocorrencia.setDescricao("Exclusão da Categoria Sigla: " + categoria.getSiglaCategoria()
+				+ "; Nome: " + categoria.getNomeCategoria());
+		ocorrencia.setDtOcorrencia(new java.sql.Date(System.currentTimeMillis()));
+
+		return ocorrencia;
+	}
+
+	
 }

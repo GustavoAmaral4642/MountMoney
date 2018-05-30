@@ -50,6 +50,7 @@
 		<intercept-url pattern="/pessoas/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/despesas/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
 		<intercept-url pattern="/titulos/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
+		<intercept-url pattern="/categorias/**" access="hasAnyRole('ADMINISTRADOR','USUARIO')" />
 		<intercept-url pattern="/usuarios/**" access="hasAnyRole('ADMINISTRADOR')" />
 		<intercept-url pattern="/**" access="denyAll" />
 

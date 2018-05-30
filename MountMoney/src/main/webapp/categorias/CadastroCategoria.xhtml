@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	template="/WEB-INF/template.xhtml"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="title">CADASTRO DE CATEGORIA</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Cadastros</li>
+		<li>/</li>
+		<li><p:link outcome="/categorias/CadastroCategoria">Cadastro de Categoria</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<f:metadata>
+			<o:viewParam name="categoria" value="#{cadastroCategoriaBean.categoria}" />
+			<f:event listener="#{cadastroCategoriaBean.inicializar}"
+				type="preRenderView" />
+		</f:metadata>
+
+		<div id="div1" class="ui-g ui-fluid">
+			<h:form id="frmPainel">
+				<div id="div2" class="ui-g-12 ui-lg-6">
+					<!-- Left Side -->
+					<div id="div3" class="card no-margin">
+						<h1>Cadastro de Categoria</h1>
+
+						<p:growl id="growl" autoUpdate="true"/>
+						
+						<p:panelGrid id="painelCampos" columns="1" layout="grid"
+							style="border:0px !important; background:none;"
+							styleClass="ui-panelgrid-blank">
+
+							<p:inputText id="siglaCategoria" label="Sigla da Categoria" placeholder="Sigla da Categoria" size="20"
+								maxlength="20" value="#{cadastroCategoriaBean.categoria.siglaCategoria}" />
+								
+							<p:inputText id="nomeCategoria" label="Nome da Categoria" placeholder="Nome da Categoria" size="100"
+								maxlength="100" value="#{cadastroCategoriaBean.categoria.nomeCategoria}" />
+
+						</p:panelGrid>
+
+					</div>
+				</div>
+
+				<div id="div4" class="ui-g-12 ui-g-nopad">
+					<div id="div5" class="ui-g-12 ui-lg-6" style="padding-top: 0">
+						<div id="div6" class="card">
+
+							<p:panelGrid columns="3" layout="grid" id="panelBotoes"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:commandButton id="botaoSalvar" value="Salvar"
+									icon="fa fa-check" action="#{cadastroCategoriaBean.salvar}"
+									process="@this painelCampos growl" update="painelCampos growl" />
+
+								<p:button type="button" value="Limpar"
+									outcome="/categorias/CadastroCategoria" icon="fa fa-rotate-left" />
+
+								<p:button type="button" value="Pesquisar"
+									outcome="/categorias/PesquisaCategorias" icon="fa fa-search" />
+
+							</p:panelGrid>
+
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

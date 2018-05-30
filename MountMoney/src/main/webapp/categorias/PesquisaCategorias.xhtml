@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">PESQUISA DE CATEGORIAS</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.grid-pad .ui-panelgrid-content .ui-panelgrid-cell.ui-grid-col-12 {
+	padding-bottom: 10px;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li>Pesquisa</li>
+		<li>/</li>
+		<li><p:link outcome="/categorias/PesquisaCategorias">Pesquisa de Categorias</p:link></li>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12 ui-g-nopad">
+				<div class="ui-g-12 ui-lg-6" style="padding-top: 0">
+					<div class="card">
+						<h1>Pesquisa de Categorias</h1>
+						<h:form id="frmBotoesCampos">
+							<p:growl id="growl" autoUpdate="true" />
+
+							<p:panelGrid columns="3" layout="grid"
+								styleClass="ui-panelgrid-blank grid-pad">
+
+								<p:button outcome="/categorias/CadastroCategoria" type="button"
+									value="Incluir" icon="fa fa-plus" />
+
+								<p:commandButton action="#{pesquisaCategoriasBean.limpar}"
+									value="Limpar" update="formTable:categoriasTable frmBotoesCampos"
+									icon="fa fa-rotate-left" />
+
+								<p:commandButton id="botaoPesquisar"
+									action="#{pesquisaCategoriasBean.pesquisar}" value="Pesquisar"
+									update="formTable:categoriasTable frmBotoesCampos:nomeCategoria"
+									process="@this frmBotoesCampos:siglaCategoria frmBotoesCampos:nomeCategoria"
+									icon="fa fa-search" />
+
+							</p:panelGrid>
+
+							<p:panelGrid id="painelCampos" columns="1" layout="grid"
+								style="border:0px !important; background:none;"
+								styleClass="ui-panelgrid-blank">
+
+								<p:inputText placeholder="Pesquisar por Sigla da Categoria"
+									id="siglaCategoria" size="60"
+									value="#{pesquisaCategoriasBean.filtro.siglaCategoria}" />
+
+								<p:inputText placeholder="Pesquisar por Nome da Categoria"
+									id="nomeCategoria" size="60"
+									value="#{pesquisaCategoriasBean.filtro.nomeCategoria}" />
+
+							</p:panelGrid>
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h:form id="formTable">
+			<div class="ui-g">
+				<div class="ui-g-12">
+					<div class="card no-margin">
+						<p:dataTable id="categoriasTable" var="categoria"
+							value="#{pesquisaCategoriasBean.categoriasFiltradas}" reflow="true"
+							paginator="true" rows="25" emptyMessage="NENHUMA CATEGORIA ENCONTRADA">
+							<f:facet name="header">
+                                Categorias
+                            </f:facet>
+							<p:column headerText="Sigla da Categoria" sortBy="#{categoria.siglaCategoria}">
+								<h:outputText value="#{categoria.siglaCategoria}" />
+							</p:column>
+
+							<p:column headerText="Nome da Categoria" sortBy="#{categoria.nomeCategoria}">
+								<h:outputText value="#{categoria.nomeCategoria}" />
+							</p:column>
+
+							<p:column>
+								<p:button icon="ui-icon-pencil" outcome="/categorias/CadastroCategoria"
+									title="Editar">
+									<f:param name="categoria" value="#{categoria.id}" />
+								</p:button>
+								<p:commandButton icon="ui-icon-trash" title="Excluir"
+									id="botaoExcluirCategoria" update="categoriasTable"
+									actionListener="#{pesquisaCategoriasBean.excluir(categoria)}">
+									<p:confirm header="Exclusão de Categoria"
+										message="Tem certeza que deseja excluir a categoria #{categoria.siglaCategoria} - #{categoria.nomeCategoria}?"
+										icon="ui-icon-alert" />
+								</p:commandButton>
+							</p:column>
+
+						</p:dataTable>
+					</div>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
