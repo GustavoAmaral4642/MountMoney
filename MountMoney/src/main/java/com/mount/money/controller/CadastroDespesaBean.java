@@ -9,9 +9,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.mount.money.model.Banco;
+import com.mount.money.model.Categoria;
 import com.mount.money.model.Despesa;
 import com.mount.money.model.Ocorrencia;
 import com.mount.money.repository.Bancos;
+import com.mount.money.repository.Categorias;
 import com.mount.money.service.CadastroDespesaService;
 import com.mount.money.service.CadastroOcorrenciaService;
 import com.mount.money.util.jsf.FacesUtil;
@@ -33,6 +35,9 @@ public class CadastroDespesaBean implements Serializable {
 	@Inject
 	private Bancos bancos;
 
+	@Inject
+	private Categorias categorias;
+
 	private Ocorrencia ocorrencia;
 
 	private Despesa despesa;
@@ -40,6 +45,7 @@ public class CadastroDespesaBean implements Serializable {
 
 	// carregar os bancos na tela
 	private List<Banco> todosBancos = new ArrayList<>();
+	private List<Categoria> todasCategorias = new ArrayList<>();
 
 	// construtor
 	public CadastroDespesaBean() {
@@ -54,6 +60,7 @@ public class CadastroDespesaBean implements Serializable {
 	// iniciar coleções
 	public void inicializar() {
 		todosBancos = bancos.todosBancos();
+		todasCategorias = categorias.todosCategorias();
 	}
 
 	public void salvar() {
@@ -79,6 +86,10 @@ public class CadastroDespesaBean implements Serializable {
 
 	public List<Banco> getTodosBancos() {
 		return todosBancos;
+	}
+
+	public List<Categoria> getTodasCartegorias() {
+		return todasCategorias;
 	}
 
 	public Despesa getDespesa() {

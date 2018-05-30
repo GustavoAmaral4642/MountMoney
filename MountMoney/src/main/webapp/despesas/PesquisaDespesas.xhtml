@@ -111,6 +111,11 @@
 							<p:column headerText="Banco" sortBy="#{despesa.banco.nomeBanco}">
 								<h:outputText value="#{despesa.banco.nomeBanco}" />
 							</p:column>
+
+							<p:column headerText="Categoria" sortBy="#{despesa.categoria.nomeCategoria}">
+								<h:outputText value="#{despesa.categoria.nomeCategoria}" />
+							</p:column>
+
 							<p:column headerText="Data de Registro"
 								sortBy="#{despesa.dataDespesa}">
 								<h:outputText value="#{despesa.dataDespesa}">
@@ -123,13 +128,12 @@
 									<f:convertNumber type="currency" />
 								</h:outputText>
 							</p:column>
-						
-							<p:column headerText="Histórico" 
-								sortBy="#{despesa.historico}">
+
+							<p:column headerText="Histórico" sortBy="#{despesa.historico}">
 								<h:outputText value="#{despesa.historico}" />
 							</p:column>
 
-							<p:column >
+							<p:column>
 								<p:button outcome="/despesas/CadastroDespesa"
 									icon="ui-icon-pencil" title="Editar">
 									<f:param name="despesa" value="#{despesa.id}" />

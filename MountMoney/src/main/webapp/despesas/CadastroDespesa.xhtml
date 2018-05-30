@@ -76,6 +76,17 @@
 							</p:selectOneMenu>
 
 							<p:spacer />
+							<p:outputLabel value="Selecione a Categoria" for="categoria" />
+							<p:selectOneMenu id="categoria" style="margin-bottom:10px;"
+								value="#{cadastroDespesaBean.despesa.categoria}" label="Categoria"
+								filter="true" filterMatchMode="contains">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{cadastroDespesaBean.todasCartegorias}"
+									var="todasCategorias" itemValue="#{todasCategorias}"
+									itemLabel="#{todasCategorias.siglaCategoria} - #{todasCategorias.nomeCategoria}" />
+							</p:selectOneMenu>
+
+							<p:spacer />
 							<p:outputLabel value="Valor da Despesa" for="valorDepesa" />
 							<p:inputText id="valorDepesa" label="Valor da Despesa"
 								placeholder="Valor da Despesa" size="10" maxlength="10"

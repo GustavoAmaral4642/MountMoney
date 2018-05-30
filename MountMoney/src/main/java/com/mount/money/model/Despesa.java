@@ -33,6 +33,7 @@ public class Despesa implements Serializable {
 	private BigDecimal valorDespesa = BigDecimal.ZERO;
 	private String historico;
 	private MovimentoBanco movimento;
+	private Categoria categoria;
 	private Usuario usuario;
 
 	@Id
@@ -94,6 +95,16 @@ public class Despesa implements Serializable {
 
 	public void setMovimento(MovimentoBanco movimento) {
 		this.movimento = movimento;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "dsp_categoria_id")
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 	@ManyToOne
