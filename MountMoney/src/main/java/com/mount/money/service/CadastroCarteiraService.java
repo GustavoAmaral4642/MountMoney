@@ -1,5 +1,6 @@
 package com.mount.money.service;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -96,6 +97,10 @@ public class CadastroCarteiraService implements Serializable {
 			} catch (RuntimeException e) {
 				FacesUtil.addErrorMessage(
 						"Ocorreram problemas ao tentar consultar o valor dos ativos! \n" + "Erro: " + e.getMessage());
+			} catch(FileNotFoundException e){
+				FacesUtil.addErrorMessage(
+						"Ocorreram problemas ao tentar consultar o ativo " + odConsulta.getAtivo() +
+						". Verifique se ele ainda está listado na BMF!");
 			}
 
 			odConsulta.setQntTotal(aux3compra);

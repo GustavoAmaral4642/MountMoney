@@ -31,8 +31,6 @@ public class Carteiras implements Serializable {
 
 	private Seguranca segUsuario = new Seguranca();
 
-	private CadastroCarteiraService cadastroCarteiraService;
-
 	public List<String> somenteAtivos(CarteiraFilter filtro) {
 
 		List<String> atvs = new ArrayList<>();

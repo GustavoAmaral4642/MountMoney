@@ -80,11 +80,11 @@ public class CadastroOrdemService implements Serializable {
 	}
 
 	// pesquisar se a ordem já foi cadastrada
-	public Ordem pesquisaOrdemCadastrada(Ordem ordem) {
+	public Ordem pesquisaOrdemCadastrada(Ordem ordem, boolean editando) {
 
 		ordem = ordens.porNumero(ordem.getNumeroOrdem());
 
-		if (ordem != null) {
+		if (ordem != null && !editando) {
 			throw new NegocioException("Já existe uma ordem com esta numeração cadastrada!");
 		}
 
