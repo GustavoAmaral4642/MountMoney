@@ -2,6 +2,8 @@ package com.mount.money.service;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -82,12 +84,13 @@ public class CadastroOrdemService implements Serializable {
 	// pesquisar se a ordem já foi cadastrada
 	public Ordem pesquisaOrdemCadastrada(Ordem ordem, boolean editando) {
 
-		ordem = ordens.porNumero(ordem.getNumeroOrdem());
+		List<Ordem> ods = new ArrayList<>();
 
-		if (ordem != null && !editando) {
+		ods = ordens.porNumero(ordem.getNumeroOrdem());
+
+		if (ods.size() != 0 && !editando) {
 			throw new NegocioException("Já existe uma ordem com esta numeração cadastrada!");
 		}
-
 		return ordem;
 	}
 

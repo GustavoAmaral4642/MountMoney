@@ -114,16 +114,17 @@ public class Ordens implements Serializable {
 	}
 	
 	//Buscar ordem por número
-	public Ordem porNumero(String od){
+	public List<Ordem> porNumero(String od){
 		
 		try {
 			return manager.createQuery("from Ordem where upper(numeroOrdem) = :numOrdem"
 					+ " and usuario = :us", Ordem.class)
 					.setParameter("numOrdem", od.toUpperCase())
 					.setParameter("us", segUsuario.getUsuario())
-					.getSingleResult();
+					.getResultList();
 		} catch (NoResultException e) {
-			return null;
-		}		
+			throw new NegocioException("Ocorreu um erro na consulta do registro! Entre em contato com Administrador do Sistema!");
+		
+		}
 	}		
 }
