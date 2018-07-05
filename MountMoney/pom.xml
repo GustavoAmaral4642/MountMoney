@@ -213,7 +213,7 @@
 								</source> <destination>${project.basedir}/src/main/webapp/resources/primefaces-apollo-blue-dark</destination> -->
 							<!-- Set source and destination dirs <source> <directory>${project.basedir}/src/main/webapp/resources/apollo-layout/css</directory> 
 								</source> <destination>${project.basedir}/src/main/webapp/resources/apollo-alyout/css</destination> -->
-						</resource>
+			z			</resource>
 					</resources>
 				</configuration>
 			</plugin>
