@@ -156,7 +156,9 @@
 							<h:outputText value="#{dspCat.categoria.nomeCategoria}" />
 						</p:column>
 						<p:column headerText="Valor Total" sortBy="#{dspCat.valorDespesa}">
-							<h:outputText value="#{dspCat.valorDespesa}" />
+							<h:outputText value="#{dspCat.valorDespesa}">
+								<f:convertNumber type="currency" />
+							</h:outputText>
 						</p:column>
 						<p:column headerText="Quantidade de Lançamentos"
 							sortBy="#{dspCat.qntDespesa}">

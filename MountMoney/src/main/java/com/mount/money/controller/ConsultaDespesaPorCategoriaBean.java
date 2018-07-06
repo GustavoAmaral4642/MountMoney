@@ -26,7 +26,7 @@ public class ConsultaDespesaPorCategoriaBean implements Serializable {
 	private Despesas despesas;
 
 	private DespesaFilter filtro;
-
+	
 	private List<DespesaPorCategoria> despesasPorCategorias;
 
 	public ConsultaDespesaPorCategoriaBean() {
@@ -35,19 +35,25 @@ public class ConsultaDespesaPorCategoriaBean implements Serializable {
 
 	public void limpar() {
 		despesasPorCategorias = new ArrayList<>();
-		
 		filtro = new DespesaFilter();
-		Calendar c = Calendar.getInstance();
-		
-		c.set(Calendar.DAY_OF_MONTH, c.getActualMinimum(Calendar.DAY_OF_MONTH));
-		filtro.setDataDespesaDe(c.getTime());
-		
-		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-		filtro.setDataDespesaAte(c.getTime());
 	}
 
 	@PostConstruct
 	public void init() {
+		Calendar c = Calendar.getInstance();
+		Date d = new Date();
+		d = c.getTime();
+
+		c.set(2018, 6, 1, 0, 0);
+		// seta primeiro dia do mês
+		d = c.getTime();
+		filtro.setDataDespesaDe(d);
+
+		// seta ultimo dia do mês
+		c.set(2018, 6, 31, 0, 0);
+		d = c.getTime();
+		filtro.setDataDespesaAte(d);
+
 		pesquisar();
 	}
 
@@ -68,6 +74,4 @@ public class ConsultaDespesaPorCategoriaBean implements Serializable {
 		this.filtro = filtro;
 	}
 
-	
-	
 }
