@@ -1,7 +1,7 @@
 package com.mount.money.controller;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,7 +26,8 @@ public class ConsultaDespesaPorCategoriaBean implements Serializable {
 	private Despesas despesas;
 
 	private DespesaFilter filtro;
-	
+	private BigDecimal vlrTotal;
+
 	private List<DespesaPorCategoria> despesasPorCategorias;
 
 	public ConsultaDespesaPorCategoriaBean() {
@@ -36,6 +37,7 @@ public class ConsultaDespesaPorCategoriaBean implements Serializable {
 	public void limpar() {
 		despesasPorCategorias = new ArrayList<>();
 		filtro = new DespesaFilter();
+		vlrTotal = BigDecimal.ZERO;
 	}
 
 	@PostConstruct
@@ -60,6 +62,10 @@ public class ConsultaDespesaPorCategoriaBean implements Serializable {
 	// realizar pesquisa da tela.
 	public void pesquisar() {
 		despesasPorCategorias = despesas.despesasPorCategoria(filtro);
+
+		for(DespesaPorCategoria dsp : despesasPorCategorias){
+			vlrTotal = vlrTotal.add(dsp.getValorDespesa());
+		}
 	}
 
 	public List<DespesaPorCategoria> getDespesasPorCategorias() {
@@ -72,6 +78,14 @@ public class ConsultaDespesaPorCategoriaBean implements Serializable {
 
 	public void setFiltro(DespesaFilter filtro) {
 		this.filtro = filtro;
+	}
+
+	public BigDecimal getVlrTotal() {
+		return vlrTotal;
+	}
+
+	public void setVlrTotal(BigDecimal vlrTotal) {
+		this.vlrTotal = vlrTotal;
 	}
 
 }

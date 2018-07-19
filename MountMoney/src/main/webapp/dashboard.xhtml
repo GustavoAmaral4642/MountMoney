@@ -145,27 +145,70 @@
 				<div class="card no-margin">
 					<h1>Despesas Por Categoria Mensal</h1>
 
-					<p:dataTable var="dspCat"
-						value="#{consultaDespesaPorCategoriaBean.despesasPorCategorias}"
-						reflow="true" paginator="true" rows="10">
-						<f:facet name="header">
+					<h:form id="frmBotoesCampos1">
+						<p:panelGrid id="panelDespesas" columns="3" layout="grid"
+							styleClass="ui-panelgrid-blank grid-pad">
+
+							<p:calendar id="dataInicial" label="Data Inicial"
+								placeholder="Data Inicial" title="Data Inicial"
+								value="#{consultaDespesaPorCategoriaBean.filtro.dataDespesaDe}" />
+							<p:calendar id="dataFinal" label="Data Final"
+								placeholder="Data Final" title="Data Final"
+								value="#{consultaDespesaPorCategoriaBean.filtro.dataDespesaAte}" />
+
+							<p:commandButton id="botaoAplicar" value="Aplicar"
+								action="#{consultaDespesaPorCategoriaBean.pesquisar}"
+								update="frmDespesasTable:despesasTable"
+								process="@this frmBotoesCampos1:dataInicial
+									frmBotoesCampos1:dataFinal"
+								icon="fa fa-search" />
+
+						</p:panelGrid>
+					</h:form>
+
+					<h:form id="frmDespesasTable">
+						<p:separator/>
+						<p:dataTable var="dspCat" id="despesasTable"
+							value="#{consultaDespesaPorCategoriaBean.despesasPorCategorias}"
+							reflow="true" paginator="true" rows="10">
+							<f:facet name="header">
                                 Despesas Por Categorias
                             </f:facet>
-						<p:column headerText="Categoria"
-							sortBy="#{dspCat.Categoria.nomeCategoria}">
-							<h:outputText value="#{dspCat.categoria.nomeCategoria}" />
-						</p:column>
-						<p:column headerText="Valor Total" sortBy="#{dspCat.valorDespesa}">
-							<h:outputText value="#{dspCat.valorDespesa}">
-								<f:convertNumber type="currency" />
-							</h:outputText>
-						</p:column>
-						<p:column headerText="Quantidade de Lançamentos"
-							sortBy="#{dspCat.qntDespesa}">
-							<h:outputText value="#{dspCat.qntDespesa}" />
-						</p:column>
+							<p:column headerText="Categoria"
+								sortBy="#{dspCat.Categoria.nomeCategoria}">
+								<h:outputText value="#{dspCat.categoria.nomeCategoria}" />
+							</p:column>
+							<p:column headerText="Valor Total"
+								sortBy="#{dspCat.valorDespesa}">
+								<h:outputText value="#{dspCat.valorDespesa}">
+									<f:convertNumber type="currency" />
+								</h:outputText>
+							</p:column>
+							<p:column headerText="Quantidade de Lançamentos"
+								sortBy="#{dspCat.qntDespesa}">
+								<h:outputText value="#{dspCat.qntDespesa}" />
+							</p:column>
 
-					</p:dataTable>
+						</p:dataTable>
+						<p:separator/>
+					</h:form>
+
+					<h:form id="frmBotoesCampos2">
+						<p:panelGrid id="panelDespesasResultados" columns="4"
+							layout="grid" styleClass="ui-panelgrid-blank grid-pad">
+
+							<p:spacer/>
+							<p:spacer/>
+							<p:outputLabel id="labelVlrTotal1" value="Valor Total:"/>
+							<p:outputLabel id="labelVlrTotal2"
+								value="#{consultaDespesaPorCategoriaBean.vlrTotal}"
+								styleClass="moeda">
+								<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+							</p:outputLabel>
+							
+						</p:panelGrid>
+					</h:form>
+
 				</div>
 			</div>
 			<div class="ui-g-12 ui-md-6"></div>
